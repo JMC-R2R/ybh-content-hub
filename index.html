@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Your Body Hub — Content Hub</title>
+<link rel="icon" href="assets/ybh-logo.png">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Nunito:wght@400;600;700;800&display=swap');
+:root{
+  --purple:#90278e; --purple-deep:#6c2766; --teal:#62c4bb; --slate:#779b9f;
+  --lilac:#f3e9f3; --lilac-2:#e8d3e8; --paper:#f6f4f3; --ink:#2a2530; --ink-soft:#6a6470; --white:#fff;
+  --head:"Lato",Helvetica,Arial,sans-serif; --body:"Nunito","Segoe UI",Arial,sans-serif;
+  --shadow:0 8px 30px rgba(108,39,102,.10);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--body);color:var(--ink);background:var(--white);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--purple);text-decoration:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 22px}
+header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--lilac-2)}
+.nav{display:flex;align-items:center;gap:16px;height:68px}
+.nav img{height:38px}
+.nav .htext{font-family:var(--head);font-weight:900;color:var(--purple);font-size:15px;line-height:1}
+.nav .htext span{display:block;font-family:var(--body);font-weight:700;color:var(--slate);font-size:10px;letter-spacing:2px;text-transform:uppercase}
+.nav .spacer{margin-left:auto}
+.nav .book{background:var(--purple);color:#fff;font-family:var(--head);font-weight:800;font-size:13px;padding:9px 18px;border-radius:30px}
+.hero{background:linear-gradient(160deg,var(--lilac) 0%,#fff 70%);padding:56px 0 40px;border-bottom:1px solid var(--lilac-2)}
+.hero .kick{font-family:var(--head);font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--slate);font-size:12px}
+.hero h1{font-family:var(--head);font-weight:900;color:var(--purple);font-size:44px;line-height:1.08;margin:10px 0 12px}
+.hero h1 .t{color:var(--teal)}
+.hero p{font-size:17px;color:var(--ink-soft);max-width:680px}
+.stats{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
+.stat{background:#fff;border:1px solid var(--lilac-2);border-radius:14px;padding:12px 18px;box-shadow:var(--shadow)}
+.stat b{font-family:var(--head);font-weight:900;color:var(--purple);font-size:22px;display:block;line-height:1}
+.stat span{font-size:12px;color:var(--ink-soft)}
+.herowrap{display:flex;align-items:center;gap:34px}
+.hero-text{flex:1;min-width:0}
+.social-cloud{position:relative;width:340px;height:300px;flex-shrink:0}
+.social-cloud::before{content:"";position:absolute;inset:8% 4%;background:radial-gradient(circle,rgba(98,196,187,.30),transparent 68%);border-radius:50%;z-index:0}
+.social-cloud .ic{position:absolute;z-index:1;border-radius:21px;display:flex;align-items:center;justify-content:center;box-shadow:0 16px 32px rgba(108,39,102,.22);animation:floaty 4s ease-in-out infinite;cursor:pointer}
+.social-cloud .ic svg{width:52%;height:52%;fill:#fff}
+.social-cloud .ic:hover{animation-play-state:paused}
+.social-cloud .ig{width:72px;height:72px;top:3%;left:33%;background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);animation-duration:4.2s}
+.social-cloud .tt{width:60px;height:60px;top:1%;left:69%;background:#0b0b0b;animation-duration:3.6s;animation-delay:.3s}
+.social-cloud .fb{width:62px;height:62px;top:41%;left:5%;background:#1877F2;animation-duration:4.7s;animation-delay:.15s}
+.social-cloud .yt{width:76px;height:76px;top:47%;left:43%;background:#FF0000;animation-duration:3.9s;animation-delay:.5s}
+.social-cloud .li{width:60px;height:60px;top:66%;left:74%;background:#0A66C2;animation-duration:4.4s;animation-delay:.2s}
+@keyframes floaty{0%,100%{transform:translateY(0) rotate(-2.5deg)}50%{transform:translateY(-14px) rotate(2.5deg)}}
+@media(max-width:880px){.herowrap{display:block}.social-cloud{display:none}}
+@media(prefers-reduced-motion:reduce){.social-cloud .ic{animation:none}}
+section{padding:42px 0}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:8px;flex-wrap:wrap}
+.sec-head h2{font-family:var(--head);font-weight:900;color:var(--purple);font-size:26px}
+.sec-head p{color:var(--ink-soft);font-size:14px}
+.rule{width:54px;height:5px;background:var(--teal);border-radius:3px;margin:6px 0 18px}
+.legend{display:flex;gap:18px;flex-wrap:wrap;align-items:center;margin-bottom:14px;font-size:13px;color:var(--ink-soft)}
+.legend .k{display:inline-flex;align-items:center;gap:7px}
+.dot{width:12px;height:12px;border-radius:50%;display:inline-block}
+.dot.pub{background:var(--teal)} .dot.plan{background:var(--purple)} .dot.up{background:#c9c2cd}
+.engine{background:var(--purple);color:#fff;border-radius:18px;padding:24px 26px;display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.engine .e .n{font-family:var(--head);font-weight:900;color:var(--teal);font-size:13px;letter-spacing:1px;text-transform:uppercase}
+.engine .e p{font-size:13.5px;color:#f0e6f0;margin-top:4px}
+@media(max-width:820px){.engine{grid-template-columns:1fr 1fr}}
+.vol-lab{font-family:var(--head);font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(--slate);font-size:11px;margin:22px 0 10px}
+.volume{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.vcard{background:#fff;border:1px solid var(--lilac-2);border-top:5px solid var(--teal);border-radius:16px;padding:18px 20px;box-shadow:var(--shadow);text-align:center}
+.vcard:nth-child(2){border-top-color:var(--purple)} .vcard:nth-child(3){border-top-color:var(--slate)}
+.vcard .n{font-family:var(--head);font-weight:900;color:var(--purple);font-size:38px;line-height:1}
+.vcard .lab{font-family:var(--head);font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--slate);font-size:11.5px;margin-top:5px}
+.vcard .sub{font-size:11.5px;color:var(--ink-soft);margin-top:7px;line-height:1.45}
+@media(max-width:700px){.volume{grid-template-columns:1fr}}
+.vol-note{text-align:center;color:var(--ink-soft);font-size:13.5px;max-width:780px;margin:16px auto 0;line-height:1.55}
+.vol-note b{color:var(--purple);font-weight:800}
+/* toolbar */
+.toolbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:#faf6fa;border:1px solid var(--lilac-2);border-radius:12px;padding:10px 14px;margin-bottom:16px}
+.toolbar .hint{font-size:13px;color:var(--ink-soft)}
+.toolbar .hint b{color:var(--purple)}
+.toolbar .sp{margin-left:auto}
+.btn-sm{font-family:var(--head);font-weight:800;font-size:12px;border:none;cursor:pointer;border-radius:20px;padding:8px 14px;background:#fff;color:var(--purple);border:2px solid var(--lilac-2)}
+.btn-sm:hover{filter:brightness(.98)}
+.saved{font-size:12px;color:var(--slate);font-weight:700;opacity:0;transition:opacity .3s}
+.saved.show{opacity:1}
+/* timeline */
+.timeline{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+.tl{position:relative;background:#fff;border:1px solid var(--lilac-2);border-left:5px solid var(--slate);border-radius:11px;padding:11px 12px 30px;box-shadow:var(--shadow);cursor:grab;transition:transform .1s,box-shadow .1s}
+.tl:active{cursor:grabbing}
+.tl.dragging{opacity:.45;transform:scale(.98)}
+.tl.over{outline:2px dashed var(--purple);outline-offset:2px}
+.tl.pub{border-left-color:var(--teal)} .tl.plan{border-left-color:var(--purple)} .tl.up{border-left-color:#c9c2cd}
+.tl .grip{position:absolute;top:9px;right:10px;color:var(--lilac-2);font-size:13px;letter-spacing:-2px}
+.tl .m{font-family:var(--head);font-weight:900;color:var(--purple-deep);font-size:12px}
+.tl .mo{font-size:10.5px;color:var(--slate);font-weight:700}
+.tl .d{font-size:12.5px;color:var(--ink);font-weight:700;margin-top:3px;line-height:1.25}
+.tl .st{display:inline-block;margin-top:6px;font-size:9px;font-family:var(--head);font-weight:800;letter-spacing:.4px;text-transform:uppercase;padding:2px 8px;border-radius:10px}
+.st.pub{background:#e4f5f3;color:#2c8077} .st.plan{background:var(--lilac);color:var(--purple)} .st.up{background:#f0eef1;color:var(--ink-soft)}
+.tl .nudge{position:absolute;bottom:7px;left:10px;display:flex;gap:6px}
+.tl .nudge button{width:22px;height:22px;border-radius:7px;border:1px solid var(--lilac-2);background:#fff;color:var(--purple);font-weight:900;cursor:pointer;line-height:1;font-size:13px}
+.tl .nudge button:hover{background:var(--lilac)}
+.tl .nudge button:disabled{opacity:.3;cursor:default}
+@media(max-width:980px){.timeline{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:560px){.timeline{grid-template-columns:repeat(2,1fr)}}
+/* cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:22px}
+.card{background:#fff;border:1px solid var(--lilac-2);border-radius:18px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column}
+.card .bar{height:7px;background:var(--purple)}
+.card.pub .bar{background:var(--teal)} .card.plan .bar{background:var(--purple)} .card.up .bar{background:#c9c2cd}
+.card .body{padding:20px 22px;display:flex;flex-direction:column;flex:1}
+.card .mline{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.card .mlabel{font-family:var(--head);font-weight:800;color:var(--slate);font-size:11.5px;letter-spacing:1px;text-transform:uppercase}
+.badge{font-family:var(--head);font-weight:800;font-size:10px;letter-spacing:.5px;text-transform:uppercase;padding:3px 11px;border-radius:20px}
+.badge.pub{background:#e4f5f3;color:#2c8077} .badge.plan{background:var(--lilac);color:var(--purple)} .badge.up{background:#f0eef1;color:var(--ink-soft)}
+.card h3{font-family:var(--head);font-weight:900;color:var(--purple);font-size:22px;margin:8px 0 2px;line-height:1.1}
+.card .disc{font-size:12px;color:var(--slate);font-weight:700;margin-bottom:9px}
+.card .brief{font-size:13.5px;color:var(--ink-soft);flex:1}
+.pills{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 4px}
+.pill{background:var(--lilac);color:var(--purple);border-radius:20px;padding:3px 10px;font-size:10.5px;font-weight:700}
+.themes{margin:10px 0 2px}
+.themes .lab{font-family:var(--head);font-weight:800;color:var(--purple-deep);font-size:10.5px;letter-spacing:.5px;text-transform:uppercase;display:block;margin-bottom:5px}
+.themes ul{list-style:none;display:flex;flex-wrap:wrap;gap:5px}
+.themes li{background:#faf6fa;border:1px solid var(--lilac-2);border-radius:8px;padding:3px 9px;font-size:11px;color:var(--ink-soft)}
+.dl{display:flex;flex-direction:column;gap:8px;margin-top:16px}
+.btn{display:inline-flex;align-items:center;gap:9px;justify-content:center;background:var(--purple);color:#fff;font-family:var(--head);font-weight:800;font-size:13px;padding:11px 16px;border-radius:30px;transition:filter .12s}
+.btn:hover{filter:brightness(1.07)}
+.btn.teal{background:var(--teal)} .btn svg{width:15px;height:15px;fill:currentColor}
+.btn.ghost{background:#fff;color:var(--purple);border:2px solid var(--lilac-2);font-weight:700}
+.soon{margin-top:16px;background:#faf6fa;border:1px dashed var(--lilac-2);border-radius:12px;padding:11px 14px;font-size:12.5px;color:var(--ink-soft);text-align:center}
+.soon b{color:var(--purple);font-family:var(--head)}
+.notebar{background:#fff8fc;border:1px solid var(--lilac-2);border-left:4px solid var(--teal);border-radius:0 10px 10px 0;padding:11px 15px;font-size:12.5px;color:var(--ink-soft);margin-top:18px}
+.notebar b{color:var(--purple)}
+footer{background:var(--purple-deep);color:#e9d9e8;padding:30px 0;margin-top:30px;font-size:13px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+footer img{height:30px;filter:brightness(0) invert(1);opacity:.9}
+footer .sp{margin-left:auto}
+@media(max-width:600px){.hero h1{font-size:32px}.sec-head h2{font-size:22px}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <img src="assets/ybh-logo.png" alt="Your Body Hub">
+    <div class="htext">Content Hub<span>Your Body Hub</span></div>
+    <div class="spacer"></div>
+    <a class="book" href="https://yourbodyhub.com.au/" target="_blank" rel="noopener">yourbodyhub.com.au</a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap herowrap">
+    <div class="hero-text">
+      <div class="kick">Social &amp; LinkedIn Content Calendar</div>
+      <h1>Your 12-month <span class="t">content engine</span>,<br>all in one place.</h1>
+      <p>Every month spotlights one discipline so each team films in focused batches and we build genuine topical authority. Drag the calendar to plan the running order, download what's published, and preview what's planned.</p>
+      <div class="stats">
+        <div class="stat"><b>12</b><span>months planned</span></div>
+        <div class="stat"><b>6</b><span>disciplines</span></div>
+        <div class="stat"><b>5</b><span>platforms</span></div>
+        <div class="stat"><b>1</b><span>weekly referrer newsletter</span></div>
+      </div>
+    </div>
+    <div class="social-cloud" aria-hidden="true">
+      <span class="ic ig" title="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41 1.27-.06 1.65-.07 4.85-.07M12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63c-.79.31-1.46.72-2.13 1.38C1.35 2.68.94 3.35.63 4.14.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.31.79.72 1.46 1.38 2.13.67.66 1.34 1.07 2.13 1.38.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56a5.8 5.8 0 0 0 2.13-1.38 5.8 5.8 0 0 0 1.38-2.13c.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91a5.8 5.8 0 0 0-1.38-2.13A5.8 5.8 0 0 0 19.86.63c-.76-.3-1.64-.5-2.91-.56C15.67.01 15.26 0 12 0zm0 5.84A6.16 6.16 0 1 0 18.16 12 6.16 6.16 0 0 0 12 5.84zM12 16a4 4 0 1 1 4-4 4 4 0 0 1-4 4zm6.41-10.85a1.44 1.44 0 1 0 1.44 1.44 1.44 1.44 0 0 0-1.44-1.44z"/></svg></span>
+      <span class="ic tt" title="TikTok"><svg viewBox="0 0 24 24"><path d="M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.08-.14 1.62.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></span>
+      <span class="ic fb" title="Facebook"><svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></span>
+      <span class="ic yt" title="YouTube"><svg viewBox="0 0 24 24"><path d="M23.5 6.2a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.51A3.02 3.02 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3.02 3.02 0 0 0 2.12 2.14C4.5 20.45 12 20.45 12 20.45s7.5 0 9.38-.51a3.02 3.02 0 0 0 2.12-2.14A31.5 31.5 0 0 0 24 12a31.5 31.5 0 0 0-.5-5.8zM9.55 15.57V8.43L15.82 12z"/></svg></span>
+      <span class="ic li" title="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.66H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.8 0 0 .78 0 1.74v20.52C0 23.22.8 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.74V1.74C24 .78 23.2 0 22.22 0z"/></svg></span>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head"><h2>How the content engine works</h2></div>
+    <div class="rule"></div>
+    <div class="engine">
+      <div class="e"><div class="n">1 · One discipline / month</div><p>The spotlighted team films its content in focused batches, building topical authority.</p></div>
+      <div class="e"><div class="n">2 · Same video, every platform</div><p>Two talking-head reels each go to Instagram &amp; Facebook Reels, TikTok and YouTube Shorts.</p></div>
+      <div class="e"><div class="n">3 · A weekly referrer newsletter</div><p>On LinkedIn, Tara publishes a weekly clinical note to keep GPs and specialists engaged.</p></div>
+      <div class="e"><div class="n">4 · Every piece points somewhere</div><p>Educational → follow &amp; book. Direct-response → free assessment. Newsletter → subscribe.</p></div>
+    </div>
+    <div class="vol-lab">What gets published</div>
+    <div class="volume">
+      <div class="vcard"><div class="n">~2</div><div class="lab">Pieces / day</div><div class="sub">A steady, consistent presence right across the week</div></div>
+      <div class="vcard"><div class="n">12</div><div class="lab">Pieces / week</div><div class="sub">Instagram &amp; Facebook (same content): 3 posts + 2 stories · TikTok 2 · YouTube Shorts 2 · LinkedIn 3</div></div>
+      <div class="vcard"><div class="n">48+</div><div class="lab">Pieces / month</div><div class="sub">Across every major platform — Instagram, Facebook, TikTok, YouTube &amp; LinkedIn</div></div>
+    </div>
+    <p class="vol-note"><b>48+ pieces of content every month, across all platforms</b> — designed to create a strong, consistent presence across every major platform while repurposing content efficiently to maximise reach and visibility.</p>
+  </div>
+</section>
+
+<section style="padding-top:8px">
+  <div class="wrap">
+    <div class="sec-head"><h2>The 12-month calendar</h2><p>Drag a discipline to a new month — the schedule updates automatically.</p></div>
+    <div class="rule"></div>
+    <div class="legend">
+      <span class="k"><span class="dot pub"></span>Published — ready to download</span>
+      <span class="k"><span class="dot plan"></span>Planned — next in production</span>
+      <span class="k"><span class="dot up"></span>Upcoming — proposed (to confirm)</span>
+    </div>
+    <div class="toolbar">
+      <span class="hint">✋ <b>Drag to rearrange</b> the running order, or use the ‹ › buttons — changes save in your browser automatically.</span>
+      <span class="sp"></span>
+      <span class="saved" id="saved">✓ Saved</span>
+      <button class="btn-sm" id="reset">Reset order</button>
+    </div>
+    <div class="timeline" id="timeline"></div>
+    <div class="notebar"><b>Note:</b> Rearranging updates the schedule and month labels here, and saves to your browser. A published pack keeps its downloadable file — when you finalise the order, let us know and we'll align the calendar dates inside the PDF to match.</div>
+  </div>
+</section>
+
+<section style="padding-top:8px">
+  <div class="wrap">
+    <div class="sec-head"><h2>Monthly content packs</h2><p>In your chosen order. Download the published packs; preview what's coming.</p></div>
+    <div class="rule"></div>
+    <div class="cards" id="cards"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <img src="assets/ybh-logo.png" alt="Your Body Hub">
+    <span>Content Hub · prepared by Ready to Rank</span>
+    <span class="sp">Your Body Hub · Suite 26, 445 Princes Hwy, Officer VIC 3809 · <a href="https://yourbodyhub.com.au/" style="color:#fff" target="_blank" rel="noopener">yourbodyhub.com.au</a></span>
+  </div>
+</footer>
+
+<script>
+const DL_ICON='<svg viewBox="0 0 24 24"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 2h14v2H5v-2z"/></svg>';
+const BASE_YEAR=2026, BASE_MONTH=6; // July 2026 (0-indexed month)
+const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function dateLabel(i){const t=BASE_MONTH+i;return MONTHS[((t%12)+12)%12]+' '+(BASE_YEAR+Math.floor(t/12));}
+
+const DATA={
+ physio:{name:'Physiotherapy',sub:'Back, knee, sports &amp; workplace, older adults',status:'pub',short:'Physiotherapy',
+   brief:'Two talking-head reels, two Point-of-Difference story videos and an educational carousel each week, plus a weekly referrer newsletter on LinkedIn. Filmed with the CHIEFS framework; every piece AHPRA-compliant.',
+   pills:['W1 Back &amp; Spine','W2 Knee &amp; Post-Surgical','W3 Sports &amp; Workplace','W4 Older Adults'],
+   downloads:[{l:'Social content pack (PDF)',h:'pdfs/YBH-Month-1-Physiotherapy-Content-Pack-Landscape.pdf',c:'teal'},{l:'LinkedIn pack (PDF)',h:'pdfs/YBH-Month-1-LinkedIn-Pack.pdf',c:''},{l:'Social publishing calendar (PDF)',h:'pdfs/YBH-Month-1-Calendar-July-2026.pdf',c:'ghost'},{l:'LinkedIn publishing calendar (PDF)',h:'pdfs/YBH-Month-1-LinkedIn-Calendar-July-2026.pdf',c:'ghost'}]},
+ dietitian:{name:'Dietitian',sub:'Stacey, APD · non-diet / Health at Every Size&reg;',status:'plan',short:'Dietitian',
+   brief:'A warm, non-diet take on eating well — gut health, sustainable habits over restriction, nutrition for chronic conditions, and food through different life stages.',
+   themes:['Gut health','Weight &amp; behaviour','Chronic disease nutrition','Life stages &amp; specialised'],note:'Lead magnet: <b>"Ditch the Diet"</b> · in production.'},
+ ep:{name:'Exercise Physiology',sub:'Exercise as medicine · funded pathways',status:'plan',short:'Exercise Physiology',
+   brief:'What an EP does and how it&rsquo;s funded, technique demos from the functional gym, special programs for youth and oncology, and active ageing.',
+   themes:['Exercise as medicine','Technique &amp; demos','Special programs','Active ageing &amp; the gym'],note:'Lead magnet: <b>"Move with Confidence"</b> · in production.'},
+ myo:{name:'Myotherapy &amp; Remedial Massage',sub:'Muscle pain, tension &amp; recovery',status:'plan',short:'Myotherapy',
+   brief:'Hands-on care for muscle pain and stiffness — the techniques explained, help for sports and desk-worker postural pain, and smart recovery.',
+   themes:['Muscle pain &amp; tension','Techniques (dry needling)','Sports &amp; postural pain','Recovery &amp; maintenance'],note:'Lead magnet: <b>"Beat the Tension"</b> · in production.'},
+ diabetes:{name:'Diabetes Education &amp; Care',sub:'Living well with diabetes',status:'up',short:'Diabetes Education',
+   brief:'Demystifying diabetes care — types and day-to-day management, the Medicare care-plan pathway, blood-glucose and lifestyle, and preventing complications.',
+   themes:['Types &amp; management','Medicare CDM / care plans','Glucose &amp; lifestyle','Complication prevention'],note:'<b>Proposed</b> — to confirm clinic detail.'},
+ classes:{name:'Classes',sub:'Reformer, Active Ageing, Little Legends &amp; more',status:'up',short:'Classes',
+   brief:'A spotlight on every class — who each is for, what to expect, and the funding options (NDIS, TAC, WorkCover, Private Health). Great community content.',
+   themes:['Reformer Pilates','Active Ageing','Little Legends (kids)','Movement With Cancer'],note:'<b>Proposed roadmap</b> — confirm to lock in.'},
+ physio2:{name:'Physiotherapy · Cycle II',sub:'New regions, deeper topics',status:'up',short:'Physiotherapy · II',
+   brief:'Round two for physio — the areas we didn&rsquo;t cover first time: shoulder, neck &amp; headaches, hip &amp; lower limb, and a return-to-sport focus.',
+   themes:['Shoulder','Neck &amp; headaches','Hip &amp; lower limb','Return-to-sport'],note:'<b>Proposed roadmap</b> — confirm to lock in.'},
+ dietitian2:{name:'Dietitian · Cycle II',sub:'Specialised nutrition',status:'up',short:'Dietitian · II',
+   brief:'Going deeper with Stacey — IBS and low-FODMAP done properly, heart health, women&rsquo;s health, and fuelling for sport.',
+   themes:['IBS &amp; low-FODMAP','Heart health','Women&rsquo;s health','Sports nutrition'],note:'<b>Proposed roadmap</b> — confirm to lock in.'},
+ ep2:{name:'Exercise Physiology · Cycle II',sub:'Chronic &amp; complex conditions',status:'up',short:'Exercise Physiology · II',
+   brief:'EP for the conditions where it&rsquo;s first-line care — cardiac and pulmonary, cancer recovery, bone health, and movement for mental health.',
+   themes:['Cardiac &amp; pulmonary','Cancer &amp; exercise','Osteoporosis','Mental health &amp; movement'],note:'<b>Proposed roadmap</b> — confirm to lock in.'},
+ myo2:{name:'Myotherapy · Cycle II',sub:'Tension, posture &amp; recovery',status:'up',short:'Myotherapy · II',
+   brief:'Round two for myotherapy — tension headaches and jaw, desk-worker postural pain, sports recovery, and the modalities explained (cupping, TENS).',
+   themes:['Headaches &amp; jaw','Desk-worker posture','Sports recovery','Cupping &amp; TENS'],note:'<b>Proposed roadmap</b> — confirm to lock in.'},
+ diabetes2:{name:'Diabetes Education · Cycle II',sub:'Prevention &amp; technology',status:'up',short:'Diabetes Education · II',
+   brief:'A second look at diabetes care — pre-diabetes and prevention, gestational diabetes, CGM and technology, and the role of the multidisciplinary team.',
+   themes:['Pre-diabetes &amp; prevention','Gestational diabetes','CGM &amp; technology','Multidisciplinary team'],note:'<b>Proposed roadmap</b> — confirm to lock in.'},
+ classes2:{name:'Classes &amp; Wellness · Cycle II',sub:'Community &amp; year wrap',status:'up',short:'Classes &amp; Wellness · II',
+   brief:'Closing the year — building a sustainable routine, community and member stories (with consent), a New-Year health reset, and a look back at the year&rsquo;s wins.',
+   themes:['Sustainable routines','Community stories','New-Year reset','Year in review'],note:'<b>Proposed roadmap</b> — confirm to lock in.'}
+};
+const DEFAULT_ORDER=['physio','dietitian','ep','myo','diabetes','classes','physio2','dietitian2','ep2','myo2','diabetes2','classes2'];
+const KEY='ybh-content-order-v1';
+let order=load();
+function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(Array.isArray(s)&&s.length===DEFAULT_ORDER.length&&s.every(id=>DATA[id]))return s;}catch(e){}return DEFAULT_ORDER.slice();}
+function save(){localStorage.setItem(KEY,JSON.stringify(order));flashSaved();}
+function flashSaved(){const el=document.getElementById('saved');el.classList.add('show');clearTimeout(flashSaved._t);flashSaved._t=setTimeout(()=>el.classList.remove('show'),1400);}
+
+function renderTimeline(){
+  const c=document.getElementById('timeline');c.innerHTML='';
+  order.forEach((id,i)=>{
+    const d=DATA[id];
+    const el=document.createElement('div');
+    el.className='tl '+d.status;el.draggable=true;el.dataset.id=id;
+    el.innerHTML=`<span class="grip">⠿</span><div class="m">Month ${i+1}</div><div class="mo">${dateLabel(i)}</div>
+      <div class="d">${d.short}</div><span class="st ${d.status}">${stLabel(d.status)}</span>
+      <div class="nudge"><button data-mv="-1" ${i===0?'disabled':''} title="Move earlier">‹</button><button data-mv="1" ${i===order.length-1?'disabled':''} title="Move later">›</button></div>`;
+    c.appendChild(el);
+  });
+  wireDnD();
+}
+function stLabel(s){return s==='pub'?'Published':s==='plan'?'Planned':'Upcoming';}
+
+function renderCards(){
+  const c=document.getElementById('cards');c.innerHTML='';
+  order.forEach((id,i)=>{
+    const d=DATA[id];
+    let inner='';
+    if(d.pills){inner+=`<div class="pills">${d.pills.map(p=>`<span class="pill">${p}</span>`).join('')}</div>`;}
+    else if(d.themes){inner+=`<div class="themes"><span class="lab">${d.status==='plan'?'Weekly themes':"We'll cover"}</span><ul>${d.themes.map(t=>`<li>${t}</li>`).join('')}</ul></div>`;}
+    if(d.downloads){inner+=`<div class="dl">${d.downloads.map(x=>`<a class="btn ${x.c}" href="${x.h}" download>${DL_ICON}${x.l}</a>`).join('')}</div>`;}
+    else if(d.note){inner+=`<div class="soon">${d.note}</div>`;}
+    const el=document.createElement('div');
+    el.className='card '+d.status;el.id='card-'+id;
+    el.innerHTML=`<div class="bar"></div><div class="body">
+      <div class="mline"><span class="mlabel">Month ${i+1} · ${dateLabel(i)}</span><span class="badge ${d.status}">${stLabel(d.status)}</span></div>
+      <h3>${d.name}</h3><div class="disc">${d.sub}</div>
+      <p class="brief">${d.brief}</p>${inner}</div>`;
+    c.appendChild(el);
+  });
+}
+function renderAll(){renderTimeline();renderCards();}
+
+// drag & drop
+let dragId=null;
+function wireDnD(){
+  document.querySelectorAll('.tl').forEach(el=>{
+    el.addEventListener('dragstart',e=>{dragId=el.dataset.id;el.classList.add('dragging');e.dataTransfer.effectAllowed='move';});
+    el.addEventListener('dragend',()=>{dragId=null;document.querySelectorAll('.tl').forEach(t=>t.classList.remove('dragging','over'));});
+    el.addEventListener('dragover',e=>{e.preventDefault();el.classList.add('over');});
+    el.addEventListener('dragleave',()=>el.classList.remove('over'));
+    el.addEventListener('drop',e=>{e.preventDefault();const targetId=el.dataset.id;moveTo(dragId,targetId);});
+    el.querySelectorAll('.nudge button').forEach(b=>{
+      b.addEventListener('click',ev=>{ev.stopPropagation();const id=el.dataset.id;const dir=parseInt(b.dataset.mv,10);nudge(id,dir);});
+    });
+  });
+}
+function moveTo(id,targetId){
+  if(!id||id===targetId)return;
+  const from=order.indexOf(id),to=order.indexOf(targetId);
+  order.splice(from,1);
+  order.splice(order.indexOf(targetId)+(from<to?1:0),0,id);
+  save();renderAll();
+}
+function nudge(id,dir){
+  const i=order.indexOf(id),j=i+dir;
+  if(j<0||j>=order.length)return;
+  [order[i],order[j]]=[order[j],order[i]];
+  save();renderAll();
+}
+document.getElementById('reset').addEventListener('click',()=>{order=DEFAULT_ORDER.slice();save();renderAll();});
+renderAll();
+</script>
+</body>
+</html>
