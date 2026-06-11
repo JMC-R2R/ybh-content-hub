@@ -120,6 +120,12 @@ section{padding:42px 0}
 .themes ul{list-style:none;display:flex;flex-wrap:wrap;gap:5px}
 .themes li{background:#faf6fa;border:1px solid var(--lilac-2);border-radius:8px;padding:3px 9px;font-size:11px;color:var(--ink-soft)}
 .dl{display:flex;flex-direction:column;gap:8px;margin-top:16px}
+.dlrow{display:flex;gap:8px}
+.dlrow .btn{flex:1;min-width:0}
+.btn-dl{display:inline-flex;align-items:center;justify-content:center;flex:0 0 46px;width:46px;border-radius:30px;background:#fff;border:2px solid var(--lilac-2);color:var(--purple);transition:background .12s}
+.btn-dl:hover{background:var(--lilac)}
+.btn-dl svg{width:17px;height:17px;fill:currentColor}
+.dl-hint{font-size:11px;color:var(--ink-soft);margin-top:2px;text-align:center}
 .btn{display:inline-flex;align-items:center;gap:9px;justify-content:center;background:var(--purple);color:#fff;font-family:var(--head);font-weight:800;font-size:13px;padding:11px 16px;border-radius:30px;transition:filter .12s}
 .btn:hover{filter:brightness(1.07)}
 .btn.teal{background:var(--teal)} .btn svg{width:15px;height:15px;fill:currentColor}
@@ -227,6 +233,7 @@ footer .sp{margin-left:auto}
 
 <script>
 const DL_ICON='<svg viewBox="0 0 24 24"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 2h14v2H5v-2z"/></svg>';
+const EYE_ICON='<svg viewBox="0 0 24 24"><path d="M12 5C5 5 2 12 2 12s3 7 10 7 10-7 10-7-3-7-10-7zm0 11.5A4.5 4.5 0 1 1 12 7a4.5 4.5 0 0 1 0 9.5zM12 9.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z"/></svg>';
 const BASE_YEAR=2026, BASE_MONTH=6; // July 2026 (0-indexed month)
 const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 function dateLabel(i){const t=BASE_MONTH+i;return MONTHS[((t%12)+12)%12]+' '+(BASE_YEAR+Math.floor(t/12));}
@@ -299,7 +306,7 @@ function renderCards(){
     let inner='';
     if(d.pills){inner+=`<div class="pills">${d.pills.map(p=>`<span class="pill">${p}</span>`).join('')}</div>`;}
     else if(d.themes){inner+=`<div class="themes"><span class="lab">${d.status==='plan'?'Weekly themes':"We'll cover"}</span><ul>${d.themes.map(t=>`<li>${t}</li>`).join('')}</ul></div>`;}
-    if(d.downloads){inner+=`<div class="dl">${d.downloads.map(x=>`<a class="btn ${x.c}" href="${x.h}" download>${DL_ICON}${x.l}</a>`).join('')}</div>`;}
+    if(d.downloads){inner+=`<div class="dl">${d.downloads.map(x=>`<div class="dlrow"><a class="btn ${x.c}" href="${x.h}" target="_blank" rel="noopener">${EYE_ICON}${x.l}</a><a class="btn-dl" href="${x.h}" download title="Download ${x.l}">${DL_ICON}</a></div>`).join('')}<div class="dl-hint">Tap to view in your browser · ⤓ to download</div></div>`;}
     else if(d.note){inner+=`<div class="soon">${d.note}</div>`;}
     const el=document.createElement('div');
     el.className='card '+d.status;el.id='card-'+id;
