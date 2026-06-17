@@ -165,6 +165,22 @@ section{padding:42px 0}
 .cm-post:hover{filter:brightness(1.07)}
 .cm-post:disabled{opacity:.5;cursor:default}
 .cm-err{color:#b3261e;font-size:12px;font-weight:700}
+.cm .cm-pill{display:inline-block;font-family:var(--head);font-weight:800;font-size:10px;letter-spacing:.3px;text-transform:uppercase;border-radius:20px;padding:2px 9px;margin-bottom:5px;color:#fff;background:var(--slate)}
+.cm-pill-reel{background:var(--purple)}
+.cm-pill-story{background:var(--teal)}
+.cm-pill-carousel{background:var(--purple-deep)}
+.cm-tags{display:flex;flex-direction:column;gap:7px;background:#faf6fa;border:1px solid var(--lilac-2);border-radius:10px;padding:10px 11px}
+.cm-tg{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.cm-tgl{font-family:var(--head);font-weight:800;color:var(--purple-deep);font-size:11px;min-width:54px}
+.cm-tgl em{font-style:normal;font-weight:700;color:var(--ink-soft);font-size:10px}
+.cm-chip{font-family:var(--body);font-weight:700;font-size:12px;color:var(--purple-deep);background:#fff;border:1px solid var(--lilac-2);border-radius:20px;padding:4px 13px;cursor:pointer}
+.cm-chip:hover{border-color:var(--purple)}
+.cm-chip.sel{background:var(--purple);border-color:var(--purple);color:#fff}
+.cm-filter{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:11px 0 2px}
+.cm-flab{font-family:var(--head);font-weight:800;color:var(--ink-soft);font-size:10.5px;text-transform:uppercase;letter-spacing:.5px}
+.cm-fx{font-family:var(--body);font-weight:700;font-size:11px;color:var(--ink-soft);background:#f0eef1;border:1px solid transparent;border-radius:20px;padding:3px 11px;cursor:pointer}
+.cm-fx:hover{color:var(--purple)}
+.cm-fx.sel{background:var(--purple);color:#fff}
 footer{background:var(--purple-deep);color:#e9d9e8;padding:30px 0;margin-top:30px;font-size:13px}
 footer .wrap{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
 footer img{height:30px;filter:brightness(0) invert(1);opacity:.9}
@@ -392,23 +408,41 @@ const SB_HEAD={apikey:SB_KEY,Authorization:'Bearer '+SB_KEY};
 let commentsByMonth={};
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function fmtWhen(iso){const d=new Date(iso);if(isNaN(d))return '';return d.toLocaleString('en-AU',{day:'numeric',month:'short',year:'numeric',hour:'numeric',minute:'2-digit',hour12:true});}
+function pillHtml(c){
+  if(!c.tag_week&&!c.tag_format)return '';
+  const p=[];
+  if(c.tag_week)p.push('Week '+c.tag_week);
+  if(c.tag_format)p.push(esc(c.tag_format));
+  if(c.tag_item)p.push('#'+c.tag_item);
+  return `<span class="cm-pill cm-pill-${(c.tag_format||'').toLowerCase()}">${p.join(' · ')}</span>`;
+}
+function chipRow(k,vals,lab){return vals.map(v=>`<button type="button" class="cm-chip" data-group="${k}" data-val="${v}">${lab?lab(v):v}</button>`).join('');}
 function commentsHtml(id){
   const list=commentsByMonth[id]||[];const n=list.length;
-  const items=n?list.map(c=>`<div class="cm"><div><span class="who">${esc(c.author)}</span><span class="when">${fmtWhen(c.created_at)}</span></div><div class="txt">${esc(c.body)}</div></div>`).join('')
+  const items=n?list.map(c=>`<div class="cm" data-week="${c.tag_week||''}" data-format="${c.tag_format||''}">${pillHtml(c)?`<div>${pillHtml(c)}</div>`:''}<div><span class="who">${esc(c.author)}</span><span class="when">${fmtWhen(c.created_at)}</span></div><div class="txt">${esc(c.body)}</div></div>`).join('')
     :`<div class="cm-empty">No comments yet — leave the first note for the team.</div>`;
+  const weeks=[...new Set(list.map(c=>c.tag_week).filter(Boolean))].sort((a,b)=>a-b);
+  const formats=['Reel','Story','Carousel'].filter(f=>list.some(c=>c.tag_format===f));
+  const filter=(n>1&&(weeks.length||formats.length))?`<div class="cm-filter"><span class="cm-flab">Filter</span><button type="button" class="cm-fx sel" data-fk="all" data-fv="">All</button>${weeks.map(w=>`<button type="button" class="cm-fx" data-fk="week" data-fv="${w}">Wk ${w}</button>`).join('')}${formats.map(f=>`<button type="button" class="cm-fx" data-fk="format" data-fv="${f}">${f}</button>`).join('')}</div>`:'';
   return `<div class="comments" data-month="${id}">
     <div class="cm-head"><span class="cm-title">💬 Comments <span class="cm-count ${n?'has':''}">${n}</span></span>
       <button type="button" class="cm-toggle">${n?'View &amp; add':'Add a comment'}</button></div>
+    ${filter}
     <div class="cm-list">${items}</div>
     <form class="cm-form" autocomplete="on">
       <input type="text" name="author" placeholder="Your name" maxlength="80" required>
+      <div class="cm-tags">
+        <div class="cm-tg"><span class="cm-tgl">Week</span>${chipRow('week',[1,2,3,4])}</div>
+        <div class="cm-tg"><span class="cm-tgl">Format</span>${chipRow('format',['Reel','Story','Carousel'])}</div>
+        <div class="cm-tg"><span class="cm-tgl">Piece <em>(optional)</em></span>${chipRow('item',[1,2,3],v=>'#'+v)}</div>
+      </div>
       <textarea name="body" placeholder="Add a comment for the team…" maxlength="2000" required></textarea>
-      <div class="row"><button type="submit" class="cm-post">Post comment</button><span class="cm-err"></span></div>
+      <div class="row"><button type="submit" class="cm-post">Add comment</button><span class="cm-err"></span></div>
     </form></div>`;
 }
 async function loadComments(){
   try{
-    const r=await fetch(SB_REST+'?select=month_id,author,body,created_at&order=created_at.asc',{headers:SB_HEAD});
+    const r=await fetch(SB_REST+'?select=month_id,author,body,created_at,tag_week,tag_format,tag_item&order=created_at.asc',{headers:SB_HEAD});
     if(!r.ok)throw 0;
     const rows=await r.json();const m={};
     rows.forEach(c=>{(m[c.month_id]=m[c.month_id]||[]).push(c);});
@@ -418,6 +452,10 @@ async function loadComments(){
 }
 const cardsEl=document.getElementById('cards');
 cardsEl.addEventListener('click',e=>{
+  const chip=e.target.closest('.cm-chip');
+  if(chip){const grp=chip.parentElement,was=chip.classList.contains('sel');grp.querySelectorAll('.cm-chip').forEach(c=>c.classList.remove('sel'));if(!was)chip.classList.add('sel');return;}
+  const fx=e.target.closest('.cm-fx');
+  if(fx){const fbox=fx.closest('.comments');fbox.querySelectorAll('.cm-fx').forEach(b=>b.classList.toggle('sel',b===fx));const k=fx.dataset.fk,v=fx.dataset.fv;fbox.querySelectorAll('.cm').forEach(el=>{el.style.display=(k==='all'||el.dataset[k]===v)?'':'none';});return;}
   const t=e.target.closest('.cm-toggle');if(!t)return;
   const box=t.closest('.comments');
   const open=box.querySelector('.cm-list').classList.toggle('open');
@@ -429,19 +467,22 @@ cardsEl.addEventListener('submit',async e=>{
   e.preventDefault();
   const form=e.target,box=form.closest('.comments'),id=box.dataset.month;
   const author=form.author.value.trim(),body=form.body.value.trim();
+  const wk=form.querySelector('.cm-chip.sel[data-group="week"]'),fmt=form.querySelector('.cm-chip.sel[data-group="format"]'),itm=form.querySelector('.cm-chip.sel[data-group="item"]');
   const err=form.querySelector('.cm-err'),btn=form.querySelector('.cm-post');
   err.textContent='';
   if(!author||!body){err.textContent='Please add your name and a comment.';return;}
-  btn.disabled=true;btn.textContent='Posting…';
+  if(!wk||!fmt){err.textContent='Please choose a week and a format so we know where to look.';return;}
+  btn.disabled=true;btn.textContent='Adding…';
+  const payload={month_id:id,author,body,tag_week:+wk.dataset.val,tag_format:fmt.dataset.val,tag_item:itm?+itm.dataset.val:null};
   try{
-    const r=await fetch(SB_REST,{method:'POST',headers:{...SB_HEAD,'Content-Type':'application/json',Prefer:'return=representation'},body:JSON.stringify({month_id:id,author,body})});
+    const r=await fetch(SB_REST,{method:'POST',headers:{...SB_HEAD,'Content-Type':'application/json',Prefer:'return=representation'},body:JSON.stringify(payload)});
     if(!r.ok)throw 0;
     const rows=await r.json();
     (commentsByMonth[id]=commentsByMonth[id]||[]).push(rows[0]);
     renderAll();
     const nb=document.querySelector('.comments[data-month="'+id+'"]');
     if(nb){nb.querySelector('.cm-list').classList.add('open');nb.querySelector('.cm-form').classList.add('open');nb.querySelector('.cm-toggle').innerHTML='Hide';}
-  }catch(err2){err.textContent='Sorry — couldn’t post just now. Please try again.';btn.disabled=false;btn.textContent='Post comment';}
+  }catch(err2){err.textContent='Sorry — couldn’t add just now. Please try again.';btn.disabled=false;btn.textContent='Add comment';}
 });
 
 renderAll();
