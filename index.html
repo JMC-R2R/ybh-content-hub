@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>Your Body Hub — Content Hub</title>
+<title>Your Body Hub — Client Hub</title>
 <link rel="icon" href="assets/ybh-logo.png">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Nunito:wght@400;600;700;800&display=swap');
@@ -13,6 +13,7 @@
   --lilac:#f3e9f3; --lilac-2:#e8d3e8; --paper:#f6f4f3; --ink:#2a2530; --ink-soft:#6a6470; --white:#fff;
   --head:"Lato",Helvetica,Arial,sans-serif; --body:"Nunito","Segoe UI",Arial,sans-serif;
   --shadow:0 8px 30px rgba(108,39,102,.10);
+  --good:#2c8077; --good-bg:#e4f5f3; --warn:#8a5a12; --warn-bg:#faedd4; --crit:#b3261e; --crit-bg:#f8e4e2;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--body);color:var(--ink);background:var(--white);line-height:1.6;-webkit-font-smoothing:antialiased}
@@ -25,6 +26,17 @@ header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.95);backdro
 .nav .htext span{display:block;font-family:var(--body);font-weight:700;color:var(--slate);font-size:10px;letter-spacing:2px;text-transform:uppercase}
 .nav .spacer{margin-left:auto}
 .nav .book{background:var(--purple);color:#fff;font-family:var(--head);font-weight:800;font-size:13px;padding:9px 18px;border-radius:30px}
+/* primary tabs */
+.tabstrip{position:sticky;top:68px;z-index:49;background:#fff;border-bottom:1px solid var(--lilac-2)}
+.tabstrip .wrap{display:flex;gap:6px}
+.tab{appearance:none;background:none;border:none;cursor:pointer;font-family:var(--head);font-weight:800;font-size:13.5px;
+  color:var(--ink-soft);padding:15px 6px;margin-right:22px;position:relative;letter-spacing:.2px;display:inline-flex;align-items:center;gap:8px}
+.tab:hover{color:var(--purple)}
+.tab[aria-selected="true"]{color:var(--purple)}
+.tab[aria-selected="true"]::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:3px;background:var(--teal);border-radius:3px 3px 0 0}
+.tab svg{width:16px;height:16px;fill:currentColor}
+.view[hidden]{display:none}
+@media(max-width:600px){.tabstrip{top:60px}}
 .hero{background:linear-gradient(160deg,var(--lilac) 0%,#fff 70%);padding:56px 0 40px;border-bottom:1px solid var(--lilac-2)}
 .hero .kick{font-family:var(--head);font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--slate);font-size:12px}
 .hero h1{font-family:var(--head);font-weight:900;color:var(--purple);font-size:44px;line-height:1.08;margin:10px 0 12px}
@@ -181,11 +193,82 @@ section{padding:42px 0}
 .cm-fx{font-family:var(--body);font-weight:700;font-size:11px;color:var(--ink-soft);background:#f0eef1;border:1px solid transparent;border-radius:20px;padding:3px 11px;cursor:pointer}
 .cm-fx:hover{color:var(--purple)}
 .cm-fx.sel{background:var(--purple);color:#fff}
+
+/* ============ Google Ads view ============ */
+.ads-top{background:linear-gradient(160deg,var(--lilac) 0%,#fff 72%);border-bottom:1px solid var(--lilac-2);padding:34px 0 26px}
+.ads-top .kick{font-family:var(--head);font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--slate);font-size:12px}
+.ads-toprow{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.ads-top h1{font-family:var(--head);font-weight:900;color:var(--purple);font-size:34px;line-height:1.1;margin:8px 0 4px}
+.ads-top .win{color:var(--ink-soft);font-size:14px}
+.ads-top .win b{color:var(--ink)}
+.msel{display:flex;align-items:center;gap:9px}
+.msel label{font-family:var(--head);font-weight:800;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--slate)}
+.msel select{font-family:var(--head);font-weight:800;font-size:14px;color:var(--purple);background:#fff;border:2px solid var(--lilac-2);border-radius:30px;padding:9px 16px;cursor:pointer}
+.msel select:focus{outline:none;border-color:var(--purple)}
+.ad-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px}
+@media(max-width:640px){.ad-kpis{grid-template-columns:repeat(2,1fr)}}
+.ad-kpi{background:#fff;border:1px solid var(--lilac-2);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow)}
+.ad-kpi .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--ink-soft);font-weight:800;font-family:var(--head)}
+.ad-kpi .val{font-family:var(--head);font-weight:900;color:var(--ink);font-size:29px;letter-spacing:-.5px;margin-top:6px;line-height:1;font-variant-numeric:tabular-nums}
+.ad-kpi .sub{font-size:12px;color:var(--ink-soft);margin-top:7px;line-height:1.35}
+.ad-kpi.hero{background:linear-gradient(150deg,var(--purple),var(--purple-deep));border:none}
+.ad-kpi.hero .lbl{color:rgba(255,255,255,.82)}
+.ad-kpi.hero .val{color:#fff}
+.ad-kpi.hero .sub{color:rgba(255,255,255,.82)}
+.ad-card{background:#fff;border:1px solid var(--lilac-2);border-radius:18px;padding:22px 24px 20px;box-shadow:var(--shadow)}
+.ad-card+.ad-card{margin-top:18px}
+.ad-card h3{font-family:var(--head);font-weight:900;color:var(--purple);font-size:18px;margin-bottom:2px}
+.ad-card .cap{color:var(--ink-soft);font-size:13px;margin-bottom:16px}
+.ad-chart-wrap{overflow-x:auto}
+svg.ad-chart{display:block;width:100%;min-width:560px;height:auto}
+.ad-legend{display:flex;gap:20px;flex-wrap:wrap;margin-top:12px;font-size:12.5px;color:var(--ink-soft)}
+.ad-legend span{display:inline-flex;align-items:center;gap:7px}
+.ad-sw{width:12px;height:12px;border-radius:3px;display:inline-block}
+.ad-sw.line{height:3px;width:16px;border-radius:2px}
+.ad-tbl-wrap{overflow-x:auto}
+table.ad-tbl{border-collapse:collapse;width:100%;font-size:13.5px;min-width:560px;font-variant-numeric:tabular-nums}
+.ad-tbl th,.ad-tbl td{text-align:right;padding:11px 12px;border-bottom:1px solid var(--lilac-2);white-space:nowrap}
+.ad-tbl th:first-child,.ad-tbl td:first-child{text-align:left}
+.ad-tbl thead th{font-family:var(--head);font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--ink-soft);font-weight:800;border-bottom:2px solid var(--lilac-2)}
+.ad-tbl tbody tr:last-child td{border-bottom:none}
+.ad-tbl tfoot td{font-family:var(--head);font-weight:900;border-top:2px solid var(--lilac-2);border-bottom:none;color:var(--ink)}
+.ad-tbl .cn{font-weight:800;color:var(--ink)}
+.ad-st{display:inline-block;font-family:var(--head);font-size:10px;font-weight:800;padding:2px 9px;border-radius:20px;letter-spacing:.3px;text-transform:uppercase}
+.ad-st.on{background:var(--good-bg);color:var(--good)}
+.ad-st.paused{background:var(--warn-bg);color:var(--warn)}
+.ad-type{display:inline-block;font-family:var(--head);font-size:10px;font-weight:800;padding:2px 9px;border-radius:20px;background:var(--lilac);color:var(--purple);text-transform:uppercase;letter-spacing:.3px}
+.ad-minibar{height:6px;border-radius:4px;background:var(--teal);margin-top:5px}
+.ad-two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:760px){.ad-two{grid-template-columns:1fr}.ad-card+.ad-card{margin-top:0}.ad-two .ad-card{margin-bottom:0}}
+.ad-terms{list-style:none;display:flex;flex-direction:column;gap:2px}
+.ad-terms li{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:9px 0;border-bottom:1px solid var(--lilac-2);font-size:13.5px}
+.ad-terms li:last-child{border-bottom:none}
+.ad-terms .t{font-weight:700;color:var(--ink)}
+.ad-terms .t small{font-weight:600;color:var(--ink-soft)}
+.ad-terms .d{color:var(--ink-soft);font-size:12px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.ad-terms .d b{color:var(--ink)}
+.ad-callout{display:flex;gap:11px;align-items:flex-start;background:var(--warn-bg);border:1px solid #eacf92;border-radius:12px;padding:12px 15px;font-size:13px;color:var(--ink);margin-top:16px;line-height:1.5}
+.ad-callout .ic{font-weight:900;color:var(--warn);flex:0 0 auto}
+.ad-callout.good{background:var(--good-bg);border-color:#a6ddd6}
+.ad-callout.good .ic{color:var(--good)}
+.ad-recs{display:flex;flex-direction:column;gap:12px}
+.ad-rec{display:flex;gap:14px;background:#fff;border:1px solid var(--lilac-2);border-left:4px solid var(--slate);border-radius:12px;padding:15px 17px;box-shadow:var(--shadow)}
+.ad-rec.good{border-left-color:var(--good)} .ad-rec.warn{border-left-color:var(--warn)} .ad-rec.act{border-left-color:var(--purple)}
+.ad-rec .tag{flex:0 0 auto;font-family:var(--head);font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.6px;padding:4px 9px;border-radius:7px;height:fit-content;background:#f0eef1;color:var(--ink-soft)}
+.ad-rec.good .tag{background:var(--good-bg);color:var(--good)}
+.ad-rec.warn .tag{background:var(--warn-bg);color:var(--warn)}
+.ad-rec.act .tag{background:var(--lilac);color:var(--purple)}
+.ad-rec .h{display:block;font-family:var(--head);font-weight:900;color:var(--ink);font-size:14px;margin-bottom:2px}
+.ad-rec .bd{font-size:13.5px;color:var(--ink-soft)}
+.ad-rec .bd b{color:var(--ink);font-weight:800}
+.ad-foot{margin-top:26px;color:var(--ink-soft);font-size:12px;line-height:1.6}
+.ad-foot b{color:var(--ink)}
+
 footer{background:var(--purple-deep);color:#e9d9e8;padding:30px 0;margin-top:30px;font-size:13px}
 footer .wrap{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
 footer img{height:30px;filter:brightness(0) invert(1);opacity:.9}
 footer .sp{margin-left:auto}
-@media(max-width:600px){.hero h1{font-size:32px}.sec-head h2{font-size:22px}}
+@media(max-width:600px){.hero h1{font-size:32px}.sec-head h2{font-size:22px}.ads-top h1{font-size:27px}}
 </style>
 </head>
 <body>
@@ -193,12 +276,27 @@ footer .sp{margin-left:auto}
 <header>
   <div class="wrap nav">
     <img src="assets/ybh-logo.png" alt="Your Body Hub">
-    <div class="htext">Content Hub<span>Your Body Hub</span></div>
+    <div class="htext">Client Hub<span>Your Body Hub</span></div>
     <div class="spacer"></div>
     <a class="book" href="https://yourbodyhub.com.au/" target="_blank" rel="noopener">yourbodyhub.com.au</a>
   </div>
 </header>
 
+<nav class="tabstrip" aria-label="Hub sections">
+  <div class="wrap">
+    <button class="tab" id="tab-content" role="tab" aria-selected="true" aria-controls="view-content">
+      <svg viewBox="0 0 24 24"><path d="M7 2v2H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-3V2h-2v2H9V2H7zm13 8v10H4V10h16z"/></svg>
+      Content Calendar
+    </button>
+    <button class="tab" id="tab-ads" role="tab" aria-selected="false" aria-controls="view-ads">
+      <svg viewBox="0 0 24 24"><path d="M4 20h16v2H4v-2zM6 12h2v6H6v-6zm5-6h2v12h-2V6zm5 3h2v9h-2V9z"/></svg>
+      Google Ads
+    </button>
+  </div>
+</nav>
+
+<!-- ===================== CONTENT VIEW ===================== -->
+<main id="view-content" class="view" role="tabpanel" aria-labelledby="tab-content">
 <div class="hero">
   <div class="wrap herowrap">
     <div class="hero-text">
@@ -271,11 +369,92 @@ footer .sp{margin-left:auto}
     <div class="cards" id="cards"></div>
   </div>
 </section>
+</main>
+
+<!-- ===================== GOOGLE ADS VIEW ===================== -->
+<main id="view-ads" class="view" role="tabpanel" aria-labelledby="tab-ads" hidden>
+  <div class="ads-top">
+    <div class="wrap">
+      <div class="ads-toprow">
+        <div>
+          <div class="kick">Google Ads · Performance</div>
+          <h1>Your campaigns, month by month.</h1>
+          <div class="win" id="ad-window"></div>
+        </div>
+        <div class="msel">
+          <label for="ad-month">Report</label>
+          <select id="ad-month"></select>
+        </div>
+      </div>
+      <div class="ad-kpis" id="ad-kpis"></div>
+    </div>
+  </div>
+
+  <section style="padding-top:34px">
+    <div class="wrap">
+      <div class="ad-card">
+        <h3>Spend &amp; conversions, day by day</h3>
+        <p class="cap" id="ad-daily-cap"></p>
+        <div class="ad-chart-wrap"><svg class="ad-chart" id="ad-chart" viewBox="0 0 900 300" role="img" aria-label="Daily spend and conversions"></svg></div>
+        <div class="ad-legend">
+          <span><span class="ad-sw" style="background:var(--teal)"></span> Daily spend (AUD)</span>
+          <span><span class="ad-sw line" style="background:var(--purple)"></span> Conversions</span>
+        </div>
+      </div>
+
+      <div class="ad-card">
+        <h3>Where the budget went</h3>
+        <p class="cap">Active campaigns for the period. Performance Max is the efficiency engine; Search converts at a higher rate but a higher cost per enquiry.</p>
+        <div class="ad-tbl-wrap">
+          <table class="ad-tbl">
+            <thead><tr>
+              <th>Campaign</th><th>Type</th><th>Status</th><th>Spend</th><th>Impr.</th><th>Clicks</th><th>CTR</th><th>Avg CPC</th><th>Conv.</th><th>Cost / conv.</th>
+            </tr></thead>
+            <tbody id="ad-camp-body"></tbody>
+            <tfoot id="ad-camp-foot"></tfoot>
+          </table>
+        </div>
+        <div class="ad-callout good" id="ad-camp-note"></div>
+      </div>
+
+      <div class="ad-two">
+        <div class="ad-card">
+          <h3>Device split</h3>
+          <p class="cap">Where enquiries actually come from.</p>
+          <div class="ad-tbl-wrap">
+            <table class="ad-tbl">
+              <thead><tr><th>Device</th><th>Spend</th><th>Clicks</th><th>Conv.</th><th>Share</th></tr></thead>
+              <tbody id="ad-dev-body"></tbody>
+            </table>
+          </div>
+          <div class="ad-callout" id="ad-dev-note"></div>
+        </div>
+        <div class="ad-card">
+          <h3>Top converting searches</h3>
+          <p class="cap">Real queries that drove enquiries (Search campaign).</p>
+          <ul class="ad-terms" id="ad-terms-top"></ul>
+        </div>
+      </div>
+
+      <div class="ad-card">
+        <h3>Spend with no enquiries — negative-keyword candidates</h3>
+        <p class="cap">These queries drew clicks but no conversions. Tightening them protects budget.</p>
+        <ul class="ad-terms" id="ad-terms-waste"></ul>
+      </div>
+
+      <div class="sec-head" style="margin-top:38px"><h2>Recommendations</h2></div>
+      <div class="rule"></div>
+      <div class="ad-recs" id="ad-recs"></div>
+
+      <div class="ad-foot" id="ad-foot"></div>
+    </div>
+  </section>
+</main>
 
 <footer>
   <div class="wrap">
     <img src="assets/ybh-logo.png" alt="Your Body Hub">
-    <span>Content Hub · prepared by Ready to Rank</span>
+    <span>Client Hub · prepared by Ready to Rank</span>
     <span class="sp">Your Body Hub · Suite 26, 445 Princes Hwy, Officer VIC 3809 · <a href="https://yourbodyhub.com.au/" style="color:#fff" target="_blank" rel="noopener">yourbodyhub.com.au</a></span>
   </div>
 </footer>
@@ -487,6 +666,141 @@ cardsEl.addEventListener('submit',async e=>{
 
 renderAll();
 loadComments();
+
+/* ===================== GOOGLE ADS REPORTS =====================
+   To add a month: copy the '2026-06' block, change the key + numbers,
+   and it appears in the Report selector automatically (newest first). */
+const ADS_REPORTS={
+ '2026-06':{
+   label:'June 2026',
+   window:'1–30 June 2026 · Account: YourBodyHub (AUD) · all figures AUD',
+   dailyCap:'Spend held steady around $35/day. Conversions arrive in clusters — 12 &amp; 19 June were the strongest days.',
+   kpis:[
+     {lbl:'Ad spend',val:'$1,053.47',sub:'2 active campaigns · ~$35/day',hero:true},
+     {lbl:'Conversions',val:'63',sub:'Enquiry / booking actions'},
+     {lbl:'Cost / conversion',val:'$16.72',sub:'Blended across campaigns'},
+     {lbl:'Clicks',val:'678',sub:'9.3% of clicks converted'},
+     {lbl:'Click-through rate',val:'6.45%',sub:'10,508 impressions served'},
+     {lbl:'Avg. cost / click',val:'$1.55',sub:'Search runs higher than P-Max'}
+   ],
+   daily:[["06-01",43.01,1],["06-02",31.05,1],["06-03",36.12,4],["06-04",18.51,2],["06-05",29.20,3],
+     ["06-06",26.57,0],["06-07",30.97,4],["06-08",54.85,4],["06-09",54.19,2],["06-10",44.99,3],
+     ["06-11",36.29,1],["06-12",50.58,10],["06-13",24.28,1],["06-14",33.90,0],["06-15",44.14,0],
+     ["06-16",34.32,1],["06-17",41.32,4],["06-18",36.58,3],["06-19",26.44,6],["06-20",24.77,2],
+     ["06-21",26.42,0],["06-22",24.92,1],["06-23",44.96,0],["06-24",49.40,1],["06-25",37.22,1],
+     ["06-26",36.94,1],["06-27",34.87,0],["06-28",33.11,3],["06-29",31.32,2],["06-30",12.22,2]],
+   campaigns:[
+     {name:'RTR · P-Max · Myotherapy',type:'Perf. Max',status:'on',cells:['$544.54','8,918','541','6.07%','$1.01','45.0','$12.10']},
+     {name:'Search · Physiotherapy',type:'Search',status:'on',cells:['$508.92','1,590','137','8.62%','$3.71','18.0','$28.27']},
+     {name:'RTR · P-Max · Physiotherapy',type:'Perf. Max',status:'paused',cells:['$0.00','0','0','—','—','0','—']}
+   ],
+   campTotals:['$1,053.47','10,508','678','6.45%','$1.55','63.0','$16.72'],
+   campNote:'<b>Myotherapy delivers 71% of conversions on 52% of spend.</b> At $12.10 per enquiry it is more than twice as efficient as Search ($28.27). Search still earns its place — it converts 13% of clicks — but the Pakenham physio keywords carry a high cost per click.',
+   devices:[
+     {name:'Mobile',spend:'$975.07',clicks:'629',conv:'63.0',share:100},
+     {name:'Desktop',spend:'$67.25',clicks:'46',conv:'0',share:0},
+     {name:'Tablet',spend:'$11.14',clicks:'3',conv:'0',share:0}
+   ],
+   devNote:'<b>$78 on desktop + tablet returned zero conversions.</b> A device bid adjustment (or exclusion) would redirect that budget to mobile, where every enquiry originated.',
+   topTerms:[
+     {t:'physio near me',d:'<b>4</b> conv · $73.97 · $18.49 ea.'},
+     {t:'physiotherapist pakenham',d:'<b>3</b> conv · $26.63 · $8.88 ea.'},
+     {t:'sports physio',d:'<b>2</b> conv · $22.93 · $11.47 ea.'},
+     {t:'exercise physiologist near me',d:'<b>2</b> conv · $8.45 · $4.23 ea.'},
+     {t:'physio pakenham',d:'<b>1</b> conv · $75.14'}
+   ],
+   wasteTerms:[
+     {t:'physio pakenham <small>(broad match)</small>',d:'6 clicks · <b>$21.70</b> · 0 conv'},
+     {t:'good physiotherapist near me',d:'2 clicks · <b>$12.84</b> · 0 conv'},
+     {t:'cranbourne physio <small style="color:var(--crit)">· outside catchment</small>',d:'3 clicks · <b>$12.65</b> · 0 conv'},
+     {t:'best physiotherapist near me',d:'1 click · <b>$6.43</b> · 0 conv'},
+     {t:'physiotherapy in pakenham',d:'1 click · <b>$6.63</b> · 0 conv'}
+   ],
+   recs:[
+     {c:'good',tag:'Keep',h:'Protect the Myotherapy P-Max budget',bd:'It is producing enquiries at $12.10 each — the best value in the account. Hold or gently lift its daily budget before scaling anywhere else.'},
+     {c:'warn',tag:'Tighten',h:'Add negative keywords to Search',bd:'Exclude <b>cranbourne physio</b> (outside the Officer/Pakenham catchment) and non-converting modifiers like <b>good/best physiotherapist near me</b>. Recovers roughly $40–60/month to reinvest in converting terms.'},
+     {c:'act',tag:'Optimise',h:'Shift budget toward mobile',bd:'Desktop and tablet spent $78 with no enquiries. A device bid adjustment concentrates budget where every June conversion happened.'},
+     {c:'act',tag:'Decide',h:'Physiotherapy P-Max is paused — reactivate or retire',bd:'With Search physio converting at 13%, a Performance Max layer could scale physio enquiries. Worth a controlled relaunch, or formally retire it to keep the account clean.'},
+     {c:'',tag:'Set up',h:'Assign a value to each conversion',bd:'Conversions are currently counted, not valued, so we can’t yet report revenue or ROAS. Agreeing an average booking value lets next month show return on ad spend, not just cost per enquiry.'}
+   ],
+   foot:'<b>Data source:</b> Google Ads API, account YourBodyHub (1967570791), pulled 3 July 2026. Reporting window 1–30 June 2026, account time zone Australia/Sydney.<br><b>Note on conversions:</b> "Conversions" are Google Ads conversion actions (enquiry / booking events) and include fractional values where Google attributes partial conversions. No monetary value is attached to conversions in the account yet, so cost-per-conversion is shown in place of ROAS. Search-term data covers the Search campaign only; Performance Max does not expose individual queries.'
+ }
+};
+
+const AD_KEYS=Object.keys(ADS_REPORTS).sort().reverse(); // newest first
+function renderAdsMonth(key){
+  const R=ADS_REPORTS[key];if(!R)return;
+  document.getElementById('ad-window').innerHTML=R.window;
+  document.getElementById('ad-daily-cap').innerHTML=R.dailyCap;
+  // KPIs
+  document.getElementById('ad-kpis').innerHTML=R.kpis.map(k=>
+    `<div class="ad-kpi${k.hero?' hero':''}"><div class="lbl">${k.lbl}</div><div class="val">${k.val}</div><div class="sub">${k.sub}</div></div>`).join('');
+  // Campaign table
+  document.getElementById('ad-camp-body').innerHTML=R.campaigns.map(c=>
+    `<tr><td class="cn">${c.name}</td><td><span class="ad-type">${c.type}</span></td>
+     <td><span class="ad-st ${c.status}">${c.status==='on'?'Active':'Paused'}</span></td>
+     ${c.cells.map(x=>`<td>${x}</td>`).join('')}</tr>`).join('');
+  document.getElementById('ad-camp-foot').innerHTML=
+    `<tr><td>Total</td><td></td><td></td>${R.campTotals.map(x=>`<td>${x}</td>`).join('')}</tr>`;
+  document.getElementById('ad-camp-note').innerHTML=`<span class="ic">◆</span><div>${R.campNote}</div>`;
+  // Devices
+  document.getElementById('ad-dev-body').innerHTML=R.devices.map(d=>
+    `<tr><td class="cn">${d.name}</td><td>${d.spend}</td><td>${d.clicks}</td><td>${d.conv}</td>
+     <td>${d.share}%<div class="ad-minibar" style="width:${Math.max(d.share,1)}%;${d.share===0?'background:var(--lilac-2)':''}"></div></td></tr>`).join('');
+  document.getElementById('ad-dev-note').innerHTML=`<span class="ic">!</span><div>${R.devNote}</div>`;
+  // Terms
+  document.getElementById('ad-terms-top').innerHTML=R.topTerms.map(t=>
+    `<li><span class="t">${t.t}</span><span class="d">${t.d}</span></li>`).join('');
+  document.getElementById('ad-terms-waste').innerHTML=R.wasteTerms.map(t=>
+    `<li><span class="t">${t.t}</span><span class="d">${t.d}</span></li>`).join('');
+  // Recs
+  document.getElementById('ad-recs').innerHTML=R.recs.map(r=>
+    `<div class="ad-rec ${r.c}"><span class="tag">${r.tag}</span><div><span class="h">${r.h}</span><span class="bd">${r.bd}</span></div></div>`).join('');
+  document.getElementById('ad-foot').innerHTML=R.foot;
+  drawAdChart(R.daily);
+}
+function drawAdChart(daily){
+  const W=900,H=300,mL=44,mR=38,mT=18,mB=34,iw=W-mL-mR,ih=H-mT-mB;
+  const maxCost=60,maxConv=10,n=daily.length,step=iw/n,bw=step*0.6;
+  const x=i=>mL+step*i+step/2,yC=v=>mT+ih-(v/maxCost)*ih,yV=v=>mT+ih-(v/maxConv)*ih;
+  const cTeal='#62c4bb',cPurp='#90278e',cGrid='#efe6ef',cSoft='#6a6470';
+  let s='';
+  for(let g=0;g<=maxCost;g+=15){const yy=yC(g);
+    s+=`<line x1="${mL}" y1="${yy}" x2="${W-mR}" y2="${yy}" stroke="${cGrid}" stroke-width="1"/>`;
+    s+=`<text x="${mL-8}" y="${yy+4}" text-anchor="end" font-size="11" fill="${cSoft}">$${g}</text>`;}
+  for(let g=0;g<=maxConv;g+=5){const yy=yV(g);
+    s+=`<text x="${W-mR+8}" y="${yy+4}" text-anchor="start" font-size="11" fill="${cSoft}">${g}</text>`;}
+  daily.forEach((d,i)=>{const by=yC(d[1]);s+=`<rect x="${x(i)-bw/2}" y="${by}" width="${bw}" height="${mT+ih-by}" rx="2.5" fill="${cTeal}" opacity="0.72"/>`;});
+  let path='';daily.forEach((d,i)=>{path+=(i?'L':'M')+x(i)+' '+yV(d[2])+' ';});
+  s+=`<path d="${path}" fill="none" stroke="${cPurp}" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>`;
+  daily.forEach((d,i)=>{const px=x(i),py=yV(d[2]);s+=`<circle cx="${px}" cy="${py}" r="${d[2]>=6?4:2.6}" fill="${cPurp}"/>`;
+    if(d[2]>=6)s+=`<text x="${px}" y="${py-9}" text-anchor="middle" font-size="11" font-weight="700" fill="${cPurp}">${d[2]}</text>`;});
+  daily.forEach((d,i)=>{if(i%3===0||i===n-1)s+=`<text x="${x(i)}" y="${H-12}" text-anchor="middle" font-size="10.5" fill="${cSoft}">${d[0].slice(3)}</text>`;});
+  document.getElementById('ad-chart').innerHTML=s;
+}
+// month selector
+const adSel=document.getElementById('ad-month');
+adSel.innerHTML=AD_KEYS.map(k=>`<option value="${k}">${ADS_REPORTS[k].label}</option>`).join('');
+adSel.addEventListener('change',()=>renderAdsMonth(adSel.value));
+renderAdsMonth(AD_KEYS[0]);
+
+/* ===================== TAB SWITCHING ===================== */
+const tabs={content:document.getElementById('tab-content'),ads:document.getElementById('tab-ads')};
+const views={content:document.getElementById('view-content'),ads:document.getElementById('view-ads')};
+function showView(name,push){
+  if(!views[name])name='content';
+  Object.keys(views).forEach(k=>{
+    const on=k===name;
+    views[k].hidden=!on;
+    tabs[k].setAttribute('aria-selected',on?'true':'false');
+  });
+  if(push){const h=name==='ads'?'#google-ads':'#content';if(location.hash!==h)history.pushState(null,'',h);}
+  window.scrollTo({top:0});
+}
+tabs.content.addEventListener('click',()=>showView('content',true));
+tabs.ads.addEventListener('click',()=>showView('ads',true));
+window.addEventListener('popstate',()=>showView(location.hash==='#google-ads'?'ads':'content',false));
+showView(location.hash==='#google-ads'?'ads':'content',false);
 </script>
 </body>
 </html>
