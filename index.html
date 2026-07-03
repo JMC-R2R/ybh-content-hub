@@ -238,6 +238,10 @@ table.ad-tbl{border-collapse:collapse;width:100%;font-size:13.5px;min-width:560p
 .ad-st.paused{background:var(--warn-bg);color:var(--warn)}
 .ad-type{display:inline-block;font-family:var(--head);font-size:10px;font-weight:800;padding:2px 9px;border-radius:20px;background:var(--lilac);color:var(--purple);text-transform:uppercase;letter-spacing:.3px}
 .ad-minibar{height:6px;border-radius:4px;background:var(--teal);margin-top:5px}
+.ad-delta{font-family:var(--head);font-weight:800;font-size:10.5px;border-radius:20px;padding:1px 6px;margin-left:3px}
+.ad-delta.up{color:var(--good);background:var(--good-bg)}
+.ad-delta.down{color:var(--crit);background:var(--crit-bg)}
+.ad-delta.flat{color:var(--ink-soft);background:#f0eef1}
 .ad-two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
 @media(max-width:760px){.ad-two{grid-template-columns:1fr}.ad-card+.ad-card{margin-top:0}.ad-two .ad-card{margin-bottom:0}}
 .ad-terms{list-style:none;display:flex;flex-direction:column;gap:2px}
@@ -392,6 +396,23 @@ footer .sp{margin-left:auto}
 
   <section style="padding-top:34px">
     <div class="wrap">
+      <div class="ad-card">
+        <h3>Month-on-month performance</h3>
+        <p class="cap">The whole account since launch — spend, enquiries and efficiency, month by month.</p>
+        <div class="ad-chart-wrap"><svg class="ad-chart" id="ad-mom-chart" viewBox="0 0 900 300" role="img" aria-label="Month-on-month spend and conversions"></svg></div>
+        <div class="ad-legend">
+          <span><span class="ad-sw" style="background:var(--teal)"></span> Monthly spend (AUD)</span>
+          <span><span class="ad-sw line" style="background:var(--purple)"></span> Conversions</span>
+        </div>
+        <div class="ad-tbl-wrap" style="margin-top:16px">
+          <table class="ad-tbl">
+            <thead><tr><th>Month</th><th>Spend</th><th>Impr.</th><th>Clicks</th><th>CTR</th><th>Avg CPC</th><th>Conv.</th><th>Cost / conv.</th></tr></thead>
+            <tbody id="ad-mom-body"></tbody>
+          </table>
+        </div>
+        <div class="ad-callout good"><span class="ic">◆</span><div>Since launch in <b>September 2025</b>, monthly conversions have climbed from a handful to <b>45–75</b>, cost per conversion has fallen from <b>~$78</b> (Oct) to the low-to-mid teens, and click-through rate has risen from <b>~2.3% to 6.5%</b> — the account maturing as the campaigns and bidding settle in.</div></div>
+      </div>
+
       <div class="ad-card">
         <h3>Spend &amp; conversions, day by day</h3>
         <p class="cap" id="ad-daily-cap"></p>
@@ -778,6 +799,51 @@ function drawAdChart(daily){
   daily.forEach((d,i)=>{if(i%3===0||i===n-1)s+=`<text x="${x(i)}" y="${H-12}" text-anchor="middle" font-size="10.5" fill="${cSoft}">${d[0].slice(3)}</text>`;});
   document.getElementById('ad-chart').innerHTML=s;
 }
+/* ---- Month-on-month (account-level history) ----
+   To add a month: append {m:'Mon YY', spend, impr, clicks, conv} (raw numbers). */
+const ADS_MONTHLY=[
+  {m:'Sep 25',spend:4.518723,impr:93,clicks:3,conv:1},
+  {m:'Oct 25',spend:233.385500,impr:10638,clicks:243,conv:3},
+  {m:'Nov 25',spend:607.758504,impr:34624,clicks:810,conv:29},
+  {m:'Dec 25',spend:622.946651,impr:10598,clicks:434,conv:24},
+  {m:'Jan 26',spend:857.444197,impr:19596,clicks:663,conv:50.024891},
+  {m:'Feb 26',spend:601.824943,impr:10716,clicks:588,conv:48.004979},
+  {m:'Mar 26',spend:1018.709684,impr:13559,clicks:866,conv:74.97013},
+  {m:'Apr 26',spend:1063.162567,impr:14787,clicks:742,conv:49.97704},
+  {m:'May 26',spend:986.499540,impr:12626,clicks:730,conv:45},
+  {m:'Jun 26',spend:1053.466517,impr:10508,clicks:678,conv:63.02296}
+];
+function renderMoM(){
+  const rows=ADS_MONTHLY;
+  const money=v=>'$'+v.toLocaleString('en-AU',{minimumFractionDigits:2,maximumFractionDigits:2});
+  const n0=v=>Math.round(v).toLocaleString('en-AU');
+  document.getElementById('ad-mom-body').innerHTML=rows.map((r,i)=>{
+    const ctr=r.impr?r.clicks/r.impr*100:0, cpc=r.clicks?r.spend/r.clicks:0, cpa=r.conv?r.spend/r.conv:0;
+    let delta='';
+    if(i>0){const d=r.conv-rows[i-1].conv, cls=d>0.5?'up':(d<-0.5?'down':'flat'), sign=d>0?'+':'';delta=` <span class="ad-delta ${cls}">${sign}${Math.round(d)}</span>`;}
+    return `<tr><td class="cn">${r.m}</td><td>${money(r.spend)}</td><td>${n0(r.impr)}</td><td>${n0(r.clicks)}</td><td>${ctr.toFixed(2)}%</td><td>$${cpc.toFixed(2)}</td><td>${n0(r.conv)}${delta}</td><td>${cpa?'$'+cpa.toFixed(2):'—'}</td></tr>`;
+  }).join('');
+  drawMoMChart(rows);
+}
+function drawMoMChart(rows){
+  const W=900,H=300,mL=52,mR=42,mT=18,mB=34,iw=W-mL-mR,ih=H-mT-mB;
+  const maxCost=Math.max(300,Math.ceil(Math.max.apply(null,rows.map(r=>r.spend))/300)*300);
+  const maxConv=Math.max(20,Math.ceil(Math.max.apply(null,rows.map(r=>r.conv))/20)*20);
+  const n=rows.length,step=iw/n,bw=step*0.52;
+  const x=i=>mL+step*i+step/2,yC=v=>mT+ih-(v/maxCost)*ih,yV=v=>mT+ih-(v/maxConv)*ih;
+  const cTeal='#62c4bb',cPurp='#90278e',cGrid='#efe6ef',cSoft='#6a6470';
+  let s='';
+  for(let g=0;g<=maxCost;g+=maxCost/4){const yy=yC(g);s+=`<line x1="${mL}" y1="${yy}" x2="${W-mR}" y2="${yy}" stroke="${cGrid}" stroke-width="1"/>`;s+=`<text x="${mL-8}" y="${yy+4}" text-anchor="end" font-size="11" fill="${cSoft}">$${Math.round(g)}</text>`;}
+  for(let g=0;g<=maxConv;g+=maxConv/4){const yy=yV(g);s+=`<text x="${W-mR+8}" y="${yy+4}" text-anchor="start" font-size="11" fill="${cSoft}">${Math.round(g)}</text>`;}
+  rows.forEach((r,i)=>{const by=yC(r.spend);s+=`<rect x="${x(i)-bw/2}" y="${by}" width="${bw}" height="${mT+ih-by}" rx="3" fill="${cTeal}" opacity="0.72"/>`;});
+  let path='';rows.forEach((r,i)=>{path+=(i?'L':'M')+x(i)+' '+yV(r.conv)+' ';});
+  s+=`<path d="${path}" fill="none" stroke="${cPurp}" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>`;
+  rows.forEach((r,i)=>{const px=x(i),py=yV(r.conv);s+=`<circle cx="${px}" cy="${py}" r="3.2" fill="${cPurp}"/>`;s+=`<text x="${px}" y="${py-9}" text-anchor="middle" font-size="10.5" font-weight="700" fill="${cPurp}">${Math.round(r.conv)}</text>`;});
+  rows.forEach((r,i)=>{s+=`<text x="${x(i)}" y="${H-12}" text-anchor="middle" font-size="10" fill="${cSoft}">${r.m}</text>`;});
+  document.getElementById('ad-mom-chart').innerHTML=s;
+}
+renderMoM();
+
 // month selector
 const adSel=document.getElementById('ad-month');
 adSel.innerHTML=AD_KEYS.map(k=>`<option value="${k}">${ADS_REPORTS[k].label}</option>`).join('');
