@@ -296,6 +296,10 @@ footer .sp{margin-left:auto}
       <svg viewBox="0 0 24 24"><path d="M4 20h16v2H4v-2zM6 12h2v6H6v-6zm5-6h2v12h-2V6zm5 3h2v9h-2V9z"/></svg>
       Google Ads
     </button>
+    <button class="tab" id="tab-meta" role="tab" aria-selected="false" aria-controls="view-meta">
+      <svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg>
+      Meta Ads
+    </button>
   </div>
 </nav>
 
@@ -468,6 +472,59 @@ footer .sp{margin-left:auto}
       <div class="ad-recs" id="ad-recs"></div>
 
       <div class="ad-foot" id="ad-foot"></div>
+    </div>
+  </section>
+</main>
+
+<!-- ===================== META ADS VIEW ===================== -->
+<main id="view-meta" class="view" role="tabpanel" aria-labelledby="tab-meta" hidden>
+  <div class="ads-top">
+    <div class="wrap">
+      <div class="ads-toprow">
+        <div>
+          <div class="kick">Meta Ads · Facebook &amp; Instagram</div>
+          <h1>The campaigns we ran on Facebook.</h1>
+          <div class="win">Ready To Rank campaigns · Sep 2025 – Mar 2026 · <span class="ad-st paused">Paused</span> last active 24 Mar 2026 · AUD</div>
+        </div>
+      </div>
+      <div class="ad-kpis" id="meta-kpis"></div>
+    </div>
+  </div>
+
+  <section style="padding-top:34px">
+    <div class="wrap">
+      <div class="ad-callout"><span class="ic">!</span><div>These Facebook &amp; Instagram campaigns are <b>currently paused</b> — no spend since 24 March 2026. The figures below cover the campaigns Ready To Rank built and ran between <b>September 2025 and March 2026</b>.</div></div>
+
+      <div class="ad-card" style="margin-top:16px">
+        <h3>Month-on-month performance</h3>
+        <p class="cap">Monthly spend and leads across the R2R Facebook campaigns.</p>
+        <div class="ad-chart-wrap"><svg class="ad-chart" id="meta-mom-chart" viewBox="0 0 900 300" role="img" aria-label="Meta monthly spend and leads"></svg></div>
+        <div class="ad-legend">
+          <span><span class="ad-sw" style="background:var(--teal)"></span> Monthly spend (AUD)</span>
+          <span><span class="ad-sw line" style="background:var(--purple)"></span> Leads</span>
+        </div>
+        <div class="ad-tbl-wrap" style="margin-top:16px">
+          <table class="ad-tbl">
+            <thead><tr><th>Month</th><th>Spend</th><th>Impr.</th><th>Clicks</th><th>Link clicks</th><th>Leads</th><th>Chats</th></tr></thead>
+            <tbody id="meta-mom-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="ad-card">
+        <h3>Campaigns Ready To Rank created</h3>
+        <p class="cap">Every R2R campaign in the account, most spend first — all currently paused.</p>
+        <div class="ad-tbl-wrap">
+          <table class="ad-tbl">
+            <thead><tr><th>Campaign</th><th>Objective</th><th>Spend</th><th>Impr.</th><th>Clicks</th><th>Leads</th><th>Cost / lead</th></tr></thead>
+            <tbody id="meta-camp-body"></tbody>
+            <tfoot id="meta-camp-foot"></tfoot>
+          </table>
+        </div>
+        <div class="ad-callout good"><span class="ic">◆</span><div>Across the run, R2R's Facebook campaigns generated <b>158 lead-form enquiries</b> and <b>63 Messenger conversations</b> from <b>$3,276</b> in spend. The lead-form offers — Christmas Instant Form ($3.87/lead) and the $59 Physio offers — were the strongest; the Oct–Nov landing-page campaign drove traffic rather than form fills.</div></div>
+      </div>
+
+      <div class="ad-foot" id="meta-foot"></div>
     </div>
   </section>
 </main>
@@ -849,9 +906,85 @@ adSel.innerHTML=AD_KEYS.map(k=>`<option value="${k}">${ADS_REPORTS[k].label}</op
 adSel.addEventListener('change',()=>renderAdsMonth(adSel.value));
 renderAdsMonth(AD_KEYS[0]);
 
+/* ===================== META ADS (Facebook & Instagram) ====================
+   Historical — account paused since 24 Mar 2026. R2R campaigns Sep 2025–Mar 2026. */
+const META_MONTHLY=[
+  {m:'Sep 25',spend:846.57,impr:32739,clicks:1155,link:338,leads:54,chats:1},
+  {m:'Oct 25',spend:360.94,impr:25866,clicks:699,link:229,leads:0,chats:3},
+  {m:'Nov 25',spend:603.68,impr:42128,clicks:672,link:219,leads:0,chats:3},
+  {m:'Dec 25',spend:266.19,impr:17642,clicks:654,link:216,leads:51,chats:1},
+  {m:'Jan 26',spend:406.63,impr:20353,clicks:542,link:204,leads:29,chats:25},
+  {m:'Feb 26',spend:568.95,impr:24702,clicks:514,link:198,leads:17,chats:22},
+  {m:'Mar 26',spend:222.67,impr:10392,clicks:184,link:71,leads:7,chats:8}
+];
+const META_CAMPAIGNS=[
+  {name:'LP | Your Body Hub | R2R',obj:'Leads · landing page',spend:1033.54,impr:71541,clicks:1420,leads:0},
+  {name:'Your Body Hub | R2R',obj:'Leads',spend:846.57,impr:32739,clicks:1155,leads:54},
+  {name:'R2R | Physiotherapy $59 Offer (12 Jan)',obj:'Leads',spend:278.83,impr:13152,clicks:362,leads:21},
+  {name:'R2R | Retargeting (12 Jan)',obj:'Leads',spend:258.25,impr:13583,clicks:340,leads:15},
+  {name:'R2R | Christmas | Instant Form',obj:'Leads',spend:197.27,impr:14095,clicks:605,leads:51},
+  {name:'R2R | Physiotherapy $59 Offer (27 Feb)',obj:'Leads',spend:185.07,impr:9004,clicks:168,leads:8},
+  {name:'R2R | Retargeting (16 Feb)',obj:'Leads',spend:176.03,impr:6406,clicks:120,leads:6},
+  {name:'R2R | Physiotherapy $59 Offer (14 Feb)',obj:'Leads',spend:104.20,impr:4141,clicks:67,leads:1},
+  {name:'R2R | Retargeting (9 Feb)',obj:'Leads',spend:68.37,impr:3228,clicks:66,leads:2},
+  {name:'R2R | Physiotherapy $59 Offer (9 Feb)',obj:'Leads',spend:31.49,impr:1578,clicks:32,leads:0},
+  {name:'R2R | Retargeting (12 Jan) – Copy',obj:'Leads',spend:23.27,impr:1025,clicks:22,leads:0},
+  {name:'R2R | Physiotherapy $59 Offer (12 Jan) – Copy',obj:'Leads',spend:22.92,impr:1058,clicks:23,leads:0},
+  {name:'R2R | Physiotherapy $59 Offer (12 Feb)',obj:'Leads',spend:20.12,impr:643,clicks:15,leads:0}
+];
+const META_KPIS=[
+  {lbl:'Total spend',val:'$3,276',sub:'Sep 2025 – Mar 2026',hero:true},
+  {lbl:'Leads',val:'158',sub:'Lead-form enquiries'},
+  {lbl:'Cost / lead',val:'$20.73',sub:'Blended across all R2R spend'},
+  {lbl:'Messenger chats',val:'63',sub:'Conversations started'},
+  {lbl:'Link clicks',val:'1,475',sub:'To site &amp; landing pages'},
+  {lbl:'Impressions',val:'172k',sub:'Across R2R campaigns'}
+];
+function renderMeta(){
+  const money=v=>'$'+v.toLocaleString('en-AU',{minimumFractionDigits:2,maximumFractionDigits:2});
+  const n0=v=>Math.round(v).toLocaleString('en-AU');
+  document.getElementById('meta-kpis').innerHTML=META_KPIS.map(k=>
+    `<div class="ad-kpi${k.hero?' hero':''}"><div class="lbl">${k.lbl}</div><div class="val">${k.val}</div><div class="sub">${k.sub}</div></div>`).join('');
+  document.getElementById('meta-mom-body').innerHTML=META_MONTHLY.map((r,i)=>{
+    let delta='';
+    if(i>0){const d=r.leads-META_MONTHLY[i-1].leads,cls=d>0.5?'up':(d<-0.5?'down':'flat'),sign=d>0?'+':'';delta=` <span class="ad-delta ${cls}">${sign}${Math.round(d)}</span>`;}
+    return `<tr><td class="cn">${r.m}</td><td>${money(r.spend)}</td><td>${n0(r.impr)}</td><td>${n0(r.clicks)}</td><td>${n0(r.link)}</td><td>${n0(r.leads)}${delta}</td><td>${n0(r.chats)}</td></tr>`;
+  }).join('');
+  let ts=0,ti=0,tc=0,tl=0;
+  document.getElementById('meta-camp-body').innerHTML=META_CAMPAIGNS.map(c=>{
+    ts+=c.spend;ti+=c.impr;tc+=c.clicks;tl+=c.leads;
+    const cpl=c.leads?'$'+(c.spend/c.leads).toFixed(2):'—';
+    return `<tr><td class="cn">${c.name}</td><td><span class="ad-type">${c.obj}</span></td><td>${money(c.spend)}</td><td>${n0(c.impr)}</td><td>${n0(c.clicks)}</td><td>${n0(c.leads)}</td><td>${cpl}</td></tr>`;
+  }).join('');
+  document.getElementById('meta-camp-foot').innerHTML=
+    `<tr><td>Total</td><td></td><td>${money(ts)}</td><td>${n0(ti)}</td><td>${n0(tc)}</td><td>${n0(tl)}</td><td>$${(ts/tl).toFixed(2)}</td></tr>`;
+  document.getElementById('meta-foot').innerHTML='<b>Data source:</b> Meta Ads via Windsor.ai, account Your Body Hub Ads (287276288515611), pulled 3 July 2026. Covers Ready To Rank campaigns (tagged “R2R”) that ran Sep 2025–Mar 2026; the account has had no spend since 24 March 2026. “Leads” = Meta lead-form submissions; “Chats” = Messenger conversations started (7-day). Campaigns used mixed objectives — some optimised for lead forms, others for landing-page traffic — so cost-per-lead is a blended figure. Earlier non-R2R campaigns are excluded.';
+  drawMetaChart(META_MONTHLY);
+}
+function drawMetaChart(rows){
+  const W=900,H=300,mL=52,mR=42,mT=18,mB=34,iw=W-mL-mR,ih=H-mT-mB;
+  const maxCost=Math.max(300,Math.ceil(Math.max.apply(null,rows.map(r=>r.spend))/300)*300);
+  const maxLead=Math.max(20,Math.ceil(Math.max.apply(null,rows.map(r=>r.leads))/20)*20);
+  const n=rows.length,step=iw/n,bw=step*0.52;
+  const x=i=>mL+step*i+step/2,yC=v=>mT+ih-(v/maxCost)*ih,yL=v=>mT+ih-(v/maxLead)*ih;
+  const cTeal='#62c4bb',cPurp='#90278e',cGrid='#efe6ef',cSoft='#6a6470';
+  let s='';
+  for(let g=0;g<=maxCost;g+=maxCost/4){const yy=yC(g);s+=`<line x1="${mL}" y1="${yy}" x2="${W-mR}" y2="${yy}" stroke="${cGrid}" stroke-width="1"/>`;s+=`<text x="${mL-8}" y="${yy+4}" text-anchor="end" font-size="11" fill="${cSoft}">$${Math.round(g)}</text>`;}
+  for(let g=0;g<=maxLead;g+=maxLead/4){const yy=yL(g);s+=`<text x="${W-mR+8}" y="${yy+4}" text-anchor="start" font-size="11" fill="${cSoft}">${Math.round(g)}</text>`;}
+  rows.forEach((r,i)=>{const by=yC(r.spend);s+=`<rect x="${x(i)-bw/2}" y="${by}" width="${bw}" height="${mT+ih-by}" rx="3" fill="${cTeal}" opacity="0.72"/>`;});
+  let path='';rows.forEach((r,i)=>{path+=(i?'L':'M')+x(i)+' '+yL(r.leads)+' ';});
+  s+=`<path d="${path}" fill="none" stroke="${cPurp}" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>`;
+  rows.forEach((r,i)=>{const px=x(i),py=yL(r.leads);s+=`<circle cx="${px}" cy="${py}" r="3.2" fill="${cPurp}"/>`;s+=`<text x="${px}" y="${py-9}" text-anchor="middle" font-size="10.5" font-weight="700" fill="${cPurp}">${r.leads}</text>`;});
+  rows.forEach((r,i)=>{s+=`<text x="${x(i)}" y="${H-12}" text-anchor="middle" font-size="10" fill="${cSoft}">${r.m}</text>`;});
+  document.getElementById('meta-mom-chart').innerHTML=s;
+}
+renderMeta();
+
 /* ===================== TAB SWITCHING ===================== */
-const tabs={content:document.getElementById('tab-content'),ads:document.getElementById('tab-ads')};
-const views={content:document.getElementById('view-content'),ads:document.getElementById('view-ads')};
+const HASHES={content:'#content',ads:'#google-ads',meta:'#meta-ads'};
+const tabs={content:document.getElementById('tab-content'),ads:document.getElementById('tab-ads'),meta:document.getElementById('tab-meta')};
+const views={content:document.getElementById('view-content'),ads:document.getElementById('view-ads'),meta:document.getElementById('view-meta')};
+function viewFromHash(){return location.hash==='#google-ads'?'ads':(location.hash==='#meta-ads'?'meta':'content');}
 function showView(name,push){
   if(!views[name])name='content';
   Object.keys(views).forEach(k=>{
@@ -859,13 +992,12 @@ function showView(name,push){
     views[k].hidden=!on;
     tabs[k].setAttribute('aria-selected',on?'true':'false');
   });
-  if(push){const h=name==='ads'?'#google-ads':'#content';if(location.hash!==h)history.pushState(null,'',h);}
+  if(push){const h=HASHES[name];if(location.hash!==h)history.pushState(null,'',h);}
   window.scrollTo({top:0});
 }
-tabs.content.addEventListener('click',()=>showView('content',true));
-tabs.ads.addEventListener('click',()=>showView('ads',true));
-window.addEventListener('popstate',()=>showView(location.hash==='#google-ads'?'ads':'content',false));
-showView(location.hash==='#google-ads'?'ads':'content',false);
+Object.keys(tabs).forEach(k=>tabs[k].addEventListener('click',()=>showView(k,true)));
+window.addEventListener('popstate',()=>showView(viewFromHash(),false));
+showView(viewFromHash(),false);
 </script>
 </body>
 </html>
