@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Your Body Hub — Client Hub</title>
+<link rel="icon" href="assets/ybh-logo.png">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Nunito:wght@400;600;700;800&display=swap');
+:root{
+  --purple:#90278e; --purple-deep:#6c2766; --teal:#62c4bb; --slate:#779b9f;
+  --lilac:#f3e9f3; --lilac-2:#e8d3e8; --paper:#f6f4f3; --ink:#2a2530; --ink-soft:#6a6470; --white:#fff;
+  --head:"Lato",Helvetica,Arial,sans-serif; --body:"Nunito","Segoe UI",Arial,sans-serif;
+  --shadow:0 8px 30px rgba(108,39,102,.10);
+  --good:#2c8077; --good-bg:#e4f5f3; --warn:#8a5a12; --warn-bg:#faedd4; --crit:#b3261e; --crit-bg:#f8e4e2;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--body);color:var(--ink);background:var(--white);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--purple);text-decoration:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 22px}
+header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--lilac-2)}
+.nav{display:flex;align-items:center;gap:16px;height:68px}
+.nav img{height:38px}
+.nav .htext{font-family:var(--head);font-weight:900;color:var(--purple);font-size:15px;line-height:1}
+.nav .htext span{display:block;font-family:var(--body);font-weight:700;color:var(--slate);font-size:10px;letter-spacing:2px;text-transform:uppercase}
+.nav .spacer{margin-left:auto}
+.nav .book{background:var(--purple);color:#fff;font-family:var(--head);font-weight:800;font-size:13px;padding:9px 18px;border-radius:30px}
+/* primary tabs */
+.tabstrip{position:sticky;top:68px;z-index:49;background:#fff;border-bottom:1px solid var(--lilac-2)}
+.tabstrip .wrap{display:flex;gap:6px}
+.tab{appearance:none;background:none;border:none;cursor:pointer;font-family:var(--head);font-weight:800;font-size:13.5px;
+  color:var(--ink-soft);padding:15px 6px;margin-right:22px;position:relative;letter-spacing:.2px;display:inline-flex;align-items:center;gap:8px}
+.tab:hover{color:var(--purple)}
+.tab[aria-selected="true"]{color:var(--purple)}
+.tab[aria-selected="true"]::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:3px;background:var(--teal);border-radius:3px 3px 0 0}
+.tab svg{width:16px;height:16px;fill:currentColor}
+.view[hidden]{display:none}
+.tab[hidden]{display:none}
+@media(max-width:600px){.tabstrip{top:60px}}
+/* sign-in gate: nothing else renders until we know who you are */
+body.locked > *:not(#gate){display:none !important}
+#gate{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:24px;
+  background:linear-gradient(160deg,var(--lilac) 0%,#fff 70%)}
+#gate .box{width:100%;max-width:380px;background:#fff;border:1px solid var(--lilac-2);border-radius:18px;
+  padding:32px 30px;box-shadow:var(--shadow);text-align:center}
+#gate img{height:46px;margin-bottom:18px}
+#gate h1{font-family:var(--head);font-weight:900;color:var(--purple);font-size:21px;line-height:1.2}
+#gate p{font-size:13.5px;color:var(--ink-soft);margin:8px 0 20px}
+#gate label{display:block;text-align:left;font-size:11.5px;font-weight:700;color:var(--ink-soft);
+  text-transform:uppercase;letter-spacing:.06em;margin:0 0 5px}
+#gate input{width:100%;font-family:var(--body);font-size:15px;padding:11px 13px;border:1px solid var(--lilac-2);
+  border-radius:10px;margin-bottom:14px;background:var(--paper);color:var(--ink)}
+#gate input:focus{outline:none;border-color:var(--purple);background:#fff}
+#gate button{width:100%;background:var(--purple);color:#fff;font-family:var(--head);font-weight:800;font-size:14.5px;
+  padding:12px;border:none;border-radius:30px;cursor:pointer}
+#gate button:disabled{opacity:.55;cursor:default}
+#gate .err{color:var(--crit);font-size:13px;min-height:19px;margin-top:11px;text-align:left}
+#gate .foot{margin-top:18px;font-size:11.5px;color:var(--ink-soft)}
+/* signed-in chip in the header */
+.me{display:flex;align-items:center;gap:9px;font-size:12.5px;color:var(--ink-soft)}
+.me b{font-family:var(--head);color:var(--ink);font-weight:800;font-size:13px}
+.me button{appearance:none;background:none;border:1px solid var(--lilac-2);border-radius:20px;cursor:pointer;
+  font-family:var(--body);font-size:11.5px;font-weight:700;color:var(--ink-soft);padding:5px 12px}
+.me button:hover{color:var(--purple);border-color:var(--purple)}
+@media(max-width:600px){.me b{display:none}}
+#gate{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:24px;
+  background:linear-gradient(160deg,var(--lilac) 0%,#fff 70%)}
+/* social view */
+.soc-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:860px){.soc-grid{grid-template-columns:1fr}}
+.soc-foll{display:flex;flex-direction:column;gap:11px;margin-top:6px}
+.soc-fr{display:flex;align-items:center;gap:12px}
+.soc-fr .ic{width:32px;height:32px;border-radius:9px;flex:none;display:flex;align-items:center;justify-content:center}
+.soc-fr .nm{font-size:13px;color:var(--ink-soft);flex:1}
+.soc-fr .vv{font-family:var(--head);font-weight:900;font-size:19px;color:var(--purple)}
+.soc-fr .dl{font-size:11.5px;color:var(--ink-soft);min-width:72px;text-align:right}
+.soc-posts{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:4px}
+@media(max-width:860px){.soc-posts{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.soc-posts{grid-template-columns:1fr}}
+.soc-post{border:1px solid var(--lilac-2);border-radius:13px;overflow:hidden;background:#fff;display:flex;flex-direction:column}
+.soc-post .im{aspect-ratio:1;background:var(--lilac);display:block;width:100%;object-fit:cover}
+.soc-post .noim{aspect-ratio:1;background:var(--lilac);display:flex;align-items:center;justify-content:center;color:var(--slate);font-size:11.5px}
+.soc-post .bd{padding:11px 13px 13px}
+.soc-post .ty{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--slate)}
+.soc-post .cp{font-size:12.5px;color:var(--ink-soft);margin:5px 0 9px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.soc-post .mt{display:flex;gap:14px;font-size:12px}
+.soc-post .mt b{font-family:var(--head);font-weight:900;color:var(--purple);font-size:14px;display:block;line-height:1.1}
+.soc-post .mt span{color:var(--ink-soft);font-size:11px}
+.soc-empty{color:var(--ink-soft);font-size:13.5px;padding:14px 0}
+.cm-as{font-size:12.5px;color:var(--ink-soft);margin-bottom:10px}
+.cm-as b{font-family:var(--head);color:var(--ink);font-weight:800}
+.hero{background:linear-gradient(160deg,var(--lilac) 0%,#fff 70%);padding:56px 0 40px;border-bottom:1px solid var(--lilac-2)}
+.hero .kick{font-family:var(--head);font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--slate);font-size:12px}
+.hero h1{font-family:var(--head);font-weight:900;color:var(--purple);font-size:44px;line-height:1.08;margin:10px 0 12px}
+.hero h1 .t{color:var(--teal)}
+.hero p{font-size:17px;color:var(--ink-soft);max-width:680px}
+.stats{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
+.stat{background:#fff;border:1px solid var(--lilac-2);border-radius:14px;padding:12px 18px;box-shadow:var(--shadow)}
+.stat b{font-family:var(--head);font-weight:900;color:var(--purple);font-size:22px;display:block;line-height:1}
+.stat span{font-size:12px;color:var(--ink-soft)}
+.herowrap{display:flex;align-items:center;gap:34px}
+.hero-text{flex:1;min-width:0}
+.social-cloud{position:relative;width:340px;height:300px;flex-shrink:0}
+.social-cloud::before{content:"";position:absolute;inset:8% 4%;background:radial-gradient(circle,rgba(98,196,187,.30),transparent 68%);border-radius:50%;z-index:0}
+.social-cloud .ic{position:absolute;z-index:1;border-radius:21px;display:flex;align-items:center;justify-content:center;box-shadow:0 16px 32px rgba(108,39,102,.22);animation:floaty 4s ease-in-out infinite;cursor:pointer}
+.social-cloud .ic svg{width:52%;height:52%;fill:#fff}
+.social-cloud .ic:hover{animation-play-state:paused}
+.social-cloud .ig{width:72px;height:72px;top:3%;left:33%;background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);animation-duration:4.2s}
+.social-cloud .tt{width:60px;height:60px;top:1%;left:69%;background:#0b0b0b;animation-duration:3.6s;animation-delay:.3s}
+.social-cloud .fb{width:62px;height:62px;top:41%;left:5%;background:#1877F2;animation-duration:4.7s;animation-delay:.15s}
+.social-cloud .yt{width:76px;height:76px;top:47%;left:43%;background:#FF0000;animation-duration:3.9s;animation-delay:.5s}
+.social-cloud .li{width:60px;height:60px;top:66%;left:74%;background:#0A66C2;animation-duration:4.4s;animation-delay:.2s}
+@keyframes floaty{0%,100%{transform:translateY(0) rotate(-2.5deg)}50%{transform:translateY(-14px) rotate(2.5deg)}}
+@media(max-width:880px){.herowrap{display:block}.social-cloud{display:none}}
+@media(prefers-reduced-motion:reduce){.social-cloud .ic{animation:none}}
+section{padding:42px 0}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:8px;flex-wrap:wrap}
+.sec-head h2{font-family:var(--head);font-weight:900;color:var(--purple);font-size:26px}
+.sec-head p{color:var(--ink-soft);font-size:14px}
+.rule{width:54px;height:5px;background:var(--teal);border-radius:3px;margin:6px 0 18px}
+.legend{display:flex;gap:18px;flex-wrap:wrap;align-items:center;margin-bottom:14px;font-size:13px;color:var(--ink-soft)}
+.legend .k{display:inline-flex;align-items:center;gap:7px}
+.dot{width:12px;height:12px;border-radius:50%;display:inline-block}
+.dot.pub{background:var(--teal)} .dot.plan{background:var(--purple)} .dot.up{background:#c9c2cd}
+.dot.review{background:#e0a32e} .dot.sched{background:#4a7fb5}
+.engine{background:var(--purple);color:#fff;border-radius:18px;padding:24px 26px;display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.engine .e .n{font-family:var(--head);font-weight:900;color:var(--teal);font-size:13px;letter-spacing:1px;text-transform:uppercase}
+.engine .e p{font-size:13.5px;color:#f0e6f0;margin-top:4px}
+@media(max-width:820px){.engine{grid-template-columns:1fr 1fr}}
+.vol-lab{font-family:var(--head);font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(--slate);font-size:11px;margin:22px 0 10px}
+.volume{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.vcard{background:#fff;border:1px solid var(--lilac-2);border-top:5px solid var(--teal);border-radius:16px;padding:18px 20px;box-shadow:var(--shadow);text-align:center}
+.vcard:nth-child(2){border-top-color:var(--purple)} .vcard:nth-child(3){border-top-color:var(--slate)}
+.vcard .n{font-family:var(--head);font-weight:900;color:var(--purple);font-size:38px;line-height:1}
+.vcard .lab{font-family:var(--head);font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--slate);font-size:11.5px;margin-top:5px}
+.vcard .sub{font-size:11.5px;color:var(--ink-soft);margin-top:7px;line-height:1.45}
+@media(max-width:700px){.volume{grid-template-columns:1fr}}
+.vol-note{text-align:center;color:var(--ink-soft);font-size:13.5px;max-width:780px;margin:16px auto 0;line-height:1.55}
+.vol-note b{color:var(--purple);font-weight:800}
+/* toolbar */
+.toolbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:#faf6fa;border:1px solid var(--lilac-2);border-radius:12px;padding:10px 14px;margin-bottom:16px}
+.toolbar .hint{font-size:13px;color:var(--ink-soft)}
+.toolbar .hint b{color:var(--purple)}
+.toolbar .sp{margin-left:auto}
+.btn-sm{font-family:var(--head);font-weight:800;font-size:12px;border:none;cursor:pointer;border-radius:20px;padding:8px 14px;background:#fff;color:var(--purple);border:2px solid var(--lilac-2)}
+.btn-sm:hover{filter:brightness(.98)}
+.saved{font-size:12px;color:var(--slate);font-weight:700;opacity:0;transition:opacity .3s}
+.saved.show{opacity:1}
+/* timeline */
+.timeline{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+.tl{position:relative;background:#fff;border:1px solid var(--lilac-2);border-left:5px solid var(--slate);border-radius:11px;padding:11px 12px 30px;box-shadow:var(--shadow);cursor:grab;transition:transform .1s,box-shadow .1s}
+.tl:active{cursor:grabbing}
+.tl.dragging{opacity:.45;transform:scale(.98)}
+.tl.over{outline:2px dashed var(--purple);outline-offset:2px}
+.tl.pub{border-left-color:var(--teal)} .tl.plan{border-left-color:var(--purple)} .tl.up{border-left-color:#c9c2cd}
+.tl.review{border-left-color:#e0a32e} .tl.sched{border-left-color:#4a7fb5}
+.tl .grip{position:absolute;top:9px;right:10px;color:var(--lilac-2);font-size:13px;letter-spacing:-2px}
+.tl .m{font-family:var(--head);font-weight:900;color:var(--purple-deep);font-size:12px}
+.tl .mo{font-size:10.5px;color:var(--slate);font-weight:700}
+.tl .d{font-size:12.5px;color:var(--ink);font-weight:700;margin-top:3px;line-height:1.25}
+.tl .st{display:inline-block;margin-top:6px;font-size:9px;font-family:var(--head);font-weight:800;letter-spacing:.4px;text-transform:uppercase;padding:2px 8px;border-radius:10px}
+.st.pub{background:#e4f5f3;color:#2c8077} .st.plan{background:var(--lilac);color:var(--purple)} .st.up{background:#f0eef1;color:var(--ink-soft)}
+.st.review{background:#faedd4;color:#8a5a12} .st.sched{background:#e2edf7;color:#2f5f8a}
+.tl .nudge{position:absolute;bottom:7px;left:10px;display:flex;gap:6px}
+.tl .nudge button{width:22px;height:22px;border-radius:7px;border:1px solid var(--lilac-2);background:#fff;color:var(--purple);font-weight:900;cursor:pointer;line-height:1;font-size:13px}
+.tl .nudge button:hover{background:var(--lilac)}
+.tl .nudge button:disabled{opacity:.3;cursor:default}
+@media(max-width:980px){.timeline{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:560px){.timeline{grid-template-columns:repeat(2,1fr)}}
+/* cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:22px}
+.card{background:#fff;border:1px solid var(--lilac-2);border-radius:18px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column}
+.card .bar{height:7px;background:var(--purple)}
+.card.pub .bar{background:var(--teal)} .card.plan .bar{background:var(--purple)} .card.up .bar{background:#c9c2cd}
+.card.review .bar{background:#e0a32e} .card.sched .bar{background:#4a7fb5}
+.card .body{padding:20px 22px;display:flex;flex-direction:column;flex:1}
+.card .mline{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.card .mlabel{font-family:var(--head);font-weight:800;color:var(--slate);font-size:11.5px;letter-spacing:1px;text-transform:uppercase}
+.badge{font-family:var(--head);font-weight:800;font-size:10px;letter-spacing:.5px;text-transform:uppercase;padding:3px 11px;border-radius:20px}
+.badge.pub{background:#e4f5f3;color:#2c8077} .badge.plan{background:var(--lilac);color:var(--purple)} .badge.up{background:#f0eef1;color:var(--ink-soft)}
+.badge.review{background:#faedd4;color:#8a5a12} .badge.sched{background:#e2edf7;color:#2f5f8a}
+.card h3{font-family:var(--head);font-weight:900;color:var(--purple);font-size:22px;margin:8px 0 2px;line-height:1.1}
+.card .disc{font-size:12px;color:var(--slate);font-weight:700;margin-bottom:9px}
+.card .brief{font-size:13.5px;color:var(--ink-soft);flex:1}
+.pills{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 4px}
+.volline{font-family:var(--head);font-weight:800;color:var(--purple);font-size:12.5px;margin:10px 0 2px}
+.volline span{font-family:var(--body);font-weight:400;color:var(--ink-soft);font-size:11.5px;display:block;margin-top:2px}
+.pill{background:var(--lilac);color:var(--purple);border-radius:20px;padding:3px 10px;font-size:10.5px;font-weight:700}
+.themes{margin:10px 0 2px}
+.themes .lab{font-family:var(--head);font-weight:800;color:var(--purple-deep);font-size:10.5px;letter-spacing:.5px;text-transform:uppercase;display:block;margin-bottom:5px}
+.themes ul{list-style:none;display:flex;flex-wrap:wrap;gap:5px}
+.themes li{background:#faf6fa;border:1px solid var(--lilac-2);border-radius:8px;padding:3px 9px;font-size:11px;color:var(--ink-soft)}
+.dl{display:flex;flex-direction:column;gap:8px;margin-top:16px}
+.dlrow{display:flex;gap:8px}
+.dlrow .btn{flex:1;min-width:0}
+.btn-dl{display:inline-flex;align-items:center;justify-content:center;flex:0 0 46px;width:46px;border-radius:30px;background:#fff;border:2px solid var(--lilac-2);color:var(--purple);transition:background .12s}
+.btn-dl:hover{background:var(--lilac)}
+.btn-dl svg{width:17px;height:17px;fill:currentColor}
+.dl-hint{font-size:11px;color:var(--ink-soft);margin-top:2px;text-align:center}
+.btn{display:inline-flex;align-items:center;gap:9px;justify-content:center;background:var(--purple);color:#fff;font-family:var(--head);font-weight:800;font-size:13px;padding:11px 16px;border-radius:30px;transition:filter .12s}
+.btn:hover{filter:brightness(1.07)}
+.btn.teal{background:var(--teal)} .btn svg{width:15px;height:15px;fill:currentColor}
+.btn.ghost{background:#fff;color:var(--purple);border:2px solid var(--lilac-2);font-weight:700}
+.soon{margin-top:16px;background:#faf6fa;border:1px dashed var(--lilac-2);border-radius:12px;padding:11px 14px;font-size:12.5px;color:var(--ink-soft);text-align:center}
+.soon b{color:var(--purple);font-family:var(--head)}
+.notebar{background:#fff8fc;border:1px solid var(--lilac-2);border-left:4px solid var(--teal);border-radius:0 10px 10px 0;padding:11px 15px;font-size:12.5px;color:var(--ink-soft);margin-top:18px}
+.notebar b{color:var(--purple)}
+/* comments */
+.tl .tl-cm{position:absolute;bottom:7px;right:9px;font-size:9.5px;font-weight:800;color:#8a5a12;background:#fbe6cf;border-radius:10px;padding:1px 7px;line-height:1.4}
+.comments{margin-top:16px;border-top:1px solid var(--lilac-2);padding-top:13px}
+.cm-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.cm-title{font-family:var(--head);font-weight:800;color:var(--purple-deep);font-size:12.5px;display:inline-flex;align-items:center;gap:7px}
+.cm-count{background:#f0eef1;color:var(--ink-soft);font-size:11px;font-weight:800;border-radius:20px;padding:1px 9px;min-width:22px;text-align:center}
+.cm-count.has{background:#fbe6cf;color:#8a5a12}
+.cm-toggle{font-family:var(--head);font-weight:800;font-size:11.5px;border:none;background:none;color:var(--purple);cursor:pointer;padding:2px 4px}
+.cm-toggle:hover{text-decoration:underline}
+.cm-list{display:none;flex-direction:column;gap:9px;margin:12px 0 4px}
+.cm-list.open{display:flex}
+.cm{background:#faf6fa;border:1px solid var(--lilac-2);border-radius:10px;padding:9px 12px}
+.cm .who{font-weight:800;color:var(--purple-deep);font-size:12px}
+.cm .when{color:var(--slate);font-size:10.5px;font-weight:700;margin-left:6px}
+.cm .txt{font-size:13px;color:var(--ink);margin-top:3px;line-height:1.45;white-space:pre-wrap;overflow-wrap:anywhere}
+.cm-empty{font-size:12.5px;color:var(--ink-soft);font-style:italic;margin:11px 0 2px}
+.cm-form{display:none;flex-direction:column;gap:8px;margin-top:11px}
+.cm-form.open{display:flex}
+.cm-form input,.cm-form textarea{font-family:var(--body);font-size:13px;color:var(--ink);border:1px solid var(--lilac-2);border-radius:9px;padding:9px 11px;width:100%;resize:vertical;background:#fff}
+.cm-form input:focus,.cm-form textarea:focus{outline:none;border-color:var(--purple)}
+.cm-form textarea{min-height:62px}
+.cm-form .row{display:flex;gap:10px;align-items:center}
+.cm-post{background:var(--purple);color:#fff;font-family:var(--head);font-weight:800;font-size:12.5px;border:none;border-radius:30px;padding:9px 18px;cursor:pointer}
+.cm-post:hover{filter:brightness(1.07)}
+.cm-post:disabled{opacity:.5;cursor:default}
+.cm-err{color:#b3261e;font-size:12px;font-weight:700}
+.cm .cm-pill{display:inline-block;font-family:var(--head);font-weight:800;font-size:10px;letter-spacing:.3px;text-transform:uppercase;border-radius:20px;padding:2px 9px;margin-bottom:5px;color:#fff;background:var(--slate)}
+.cm-pill-reel{background:var(--purple)}
+.cm-pill-story{background:var(--teal)}
+.cm-pill-carousel{background:var(--purple-deep)}
+.cm-tags{display:flex;flex-direction:column;gap:7px;background:#faf6fa;border:1px solid var(--lilac-2);border-radius:10px;padding:10px 11px}
+.cm-tg{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.cm-tgl{font-family:var(--head);font-weight:800;color:var(--purple-deep);font-size:11px;min-width:54px}
+.cm-tgl em{font-style:normal;font-weight:700;color:var(--ink-soft);font-size:10px}
+.cm-chip{font-family:var(--body);font-weight:700;font-size:12px;color:var(--purple-deep);background:#fff;border:1px solid var(--lilac-2);border-radius:20px;padding:4px 13px;cursor:pointer}
+.cm-chip:hover{border-color:var(--purple)}
+.cm-chip.sel{background:var(--purple);border-color:var(--purple);color:#fff}
+.cm-filter{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:11px 0 2px}
+.cm-flab{font-family:var(--head);font-weight:800;color:var(--ink-soft);font-size:10.5px;text-transform:uppercase;letter-spacing:.5px}
+.cm-fx{font-family:var(--body);font-weight:700;font-size:11px;color:var(--ink-soft);background:#f0eef1;border:1px solid transparent;border-radius:20px;padding:3px 11px;cursor:pointer}
+.cm-fx:hover{color:var(--purple)}
+.cm-fx.sel{background:var(--purple);color:#fff}
+
+/* ============ Google Ads view ============ */
+.ads-top{background:linear-gradient(160deg,var(--lilac) 0%,#fff 72%);border-bottom:1px solid var(--lilac-2);padding:34px 0 26px}
+.ads-top .kick{font-family:var(--head);font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--slate);font-size:12px}
+.ads-toprow{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.ads-top h1{font-family:var(--head);font-weight:900;color:var(--purple);font-size:34px;line-height:1.1;margin:8px 0 4px}
+.ads-top .win{color:var(--ink-soft);font-size:14px}
+.ads-top .win b{color:var(--ink)}
+.msel{display:flex;align-items:center;gap:9px}
+.msel label{font-family:var(--head);font-weight:800;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--slate)}
+.msel select{font-family:var(--head);font-weight:800;font-size:14px;color:var(--purple);background:#fff;border:2px solid var(--lilac-2);border-radius:30px;padding:9px 16px;cursor:pointer}
+.msel select:focus{outline:none;border-color:var(--purple)}
+.ad-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px}
+@media(max-width:640px){.ad-kpis{grid-template-columns:repeat(2,1fr)}}
+.ad-kpi{background:#fff;border:1px solid var(--lilac-2);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow)}
+.ad-kpi .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--ink-soft);font-weight:800;font-family:var(--head)}
+.ad-kpi .val{font-family:var(--head);font-weight:900;color:var(--ink);font-size:29px;letter-spacing:-.5px;margin-top:6px;line-height:1;font-variant-numeric:tabular-nums}
+.ad-kpi .sub{font-size:12px;color:var(--ink-soft);margin-top:7px;line-height:1.35}
+.ad-kpi.hero{background:linear-gradient(150deg,var(--purple),var(--purple-deep));border:none}
+.ad-kpi.hero .lbl{color:rgba(255,255,255,.82)}
+.ad-kpi.hero .val{color:#fff}
+.ad-kpi.hero .sub{color:rgba(255,255,255,.82)}
+.ad-card{background:#fff;border:1px solid var(--lilac-2);border-radius:18px;padding:22px 24px 20px;box-shadow:var(--shadow)}
+.ad-card+.ad-card{margin-top:18px}
+.ad-card h3{font-family:var(--head);font-weight:900;color:var(--purple);font-size:18px;margin-bottom:2px}
+.ad-card .cap{color:var(--ink-soft);font-size:13px;margin-bottom:16px}
+.ad-chart-wrap{overflow-x:auto}
+svg.ad-chart{display:block;width:100%;min-width:560px;height:auto}
+.ad-legend{display:flex;gap:20px;flex-wrap:wrap;margin-top:12px;font-size:12.5px;color:var(--ink-soft)}
+.ad-legend span{display:inline-flex;align-items:center;gap:7px}
+.ad-sw{width:12px;height:12px;border-radius:3px;display:inline-block}
+.ad-sw.line{height:3px;width:16px;border-radius:2px}
+.ad-tbl-wrap{overflow-x:auto}
+table.ad-tbl{border-collapse:collapse;width:100%;font-size:13.5px;min-width:560px;font-variant-numeric:tabular-nums}
+.ad-tbl th,.ad-tbl td{text-align:right;padding:11px 12px;border-bottom:1px solid var(--lilac-2);white-space:nowrap}
+.ad-tbl th:first-child,.ad-tbl td:first-child{text-align:left}
+.ad-tbl thead th{font-family:var(--head);font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--ink-soft);font-weight:800;border-bottom:2px solid var(--lilac-2)}
+.ad-tbl tbody tr:last-child td{border-bottom:none}
+.ad-tbl tfoot td{font-family:var(--head);font-weight:900;border-top:2px solid var(--lilac-2);border-bottom:none;color:var(--ink)}
+.ad-tbl .cn{font-weight:800;color:var(--ink)}
+.ad-st{display:inline-block;font-family:var(--head);font-size:10px;font-weight:800;padding:2px 9px;border-radius:20px;letter-spacing:.3px;text-transform:uppercase}
+.ad-st.on{background:var(--good-bg);color:var(--good)}
+.ad-st.paused{background:var(--warn-bg);color:var(--warn)}
+.ad-type{display:inline-block;font-family:var(--head);font-size:10px;font-weight:800;padding:2px 9px;border-radius:20px;background:var(--lilac);color:var(--purple);text-transform:uppercase;letter-spacing:.3px}
+.ad-minibar{height:6px;border-radius:4px;background:var(--teal);margin-top:5px}
+.ad-delta{font-family:var(--head);font-weight:800;font-size:10.5px;border-radius:20px;padding:1px 6px;margin-left:3px}
+.ad-delta.up{color:var(--good);background:var(--good-bg)}
+.ad-delta.down{color:var(--crit);background:var(--crit-bg)}
+.ad-delta.flat{color:var(--ink-soft);background:#f0eef1}
+.ad-two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:760px){.ad-two{grid-template-columns:1fr}.ad-card+.ad-card{margin-top:0}.ad-two .ad-card{margin-bottom:0}}
+.ad-terms{list-style:none;display:flex;flex-direction:column;gap:2px}
+.ad-terms li{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:9px 0;border-bottom:1px solid var(--lilac-2);font-size:13.5px}
+.ad-terms li:last-child{border-bottom:none}
+.ad-terms .t{font-weight:700;color:var(--ink)}
+.ad-terms .t small{font-weight:600;color:var(--ink-soft)}
+.ad-terms .d{color:var(--ink-soft);font-size:12px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.ad-terms .d b{color:var(--ink)}
+.ad-callout{display:flex;gap:11px;align-items:flex-start;background:var(--warn-bg);border:1px solid #eacf92;border-radius:12px;padding:12px 15px;font-size:13px;color:var(--ink);margin-top:16px;line-height:1.5}
+.ad-callout .ic{font-weight:900;color:var(--warn);flex:0 0 auto}
+.ad-callout.good{background:var(--good-bg);border-color:#a6ddd6}
+.ad-callout.good .ic{color:var(--good)}
+.ad-recs{display:flex;flex-direction:column;gap:12px}
+.ad-rec{display:flex;gap:14px;background:#fff;border:1px solid var(--lilac-2);border-left:4px solid var(--slate);border-radius:12px;padding:15px 17px;box-shadow:var(--shadow)}
+.ad-rec.good{border-left-color:var(--good)} .ad-rec.warn{border-left-color:var(--warn)} .ad-rec.act{border-left-color:var(--purple)}
+.ad-rec .tag{flex:0 0 auto;font-family:var(--head);font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.6px;padding:4px 9px;border-radius:7px;height:fit-content;background:#f0eef1;color:var(--ink-soft)}
+.ad-rec.good .tag{background:var(--good-bg);color:var(--good)}
+.ad-rec.warn .tag{background:var(--warn-bg);color:var(--warn)}
+.ad-rec.act .tag{background:var(--lilac);color:var(--purple)}
+.ad-rec .h{display:block;font-family:var(--head);font-weight:900;color:var(--ink);font-size:14px;margin-bottom:2px}
+.ad-rec .bd{font-size:13.5px;color:var(--ink-soft)}
+.ad-rec .bd b{color:var(--ink);font-weight:800}
+.ad-foot{margin-top:26px;color:var(--ink-soft);font-size:12px;line-height:1.6}
+.ad-foot b{color:var(--ink)}
+
+footer{background:var(--purple-deep);color:#e9d9e8;padding:30px 0;margin-top:30px;font-size:13px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+footer img{height:30px;filter:brightness(0) invert(1);opacity:.9}
+footer .sp{margin-left:auto}
+@media(max-width:600px){.hero h1{font-size:32px}.sec-head h2{font-size:22px}.ads-top h1{font-size:27px}}
+</style>
+</head>
+<body class="locked">
+
+<div id="gate">
+  <div class="box">
+    <img src="assets/ybh-logo.png" alt="Your Body Hub">
+    <h1>Your Body Hub Client Hub</h1>
+    <p>Please sign in to continue.</p>
+    <form id="gate-form">
+      <label for="gate-email">Email</label>
+      <input id="gate-email" type="email" autocomplete="username" required>
+      <label for="gate-pw">Password</label>
+      <input id="gate-pw" type="password" autocomplete="current-password" required>
+      <button type="submit" id="gate-go">Sign in</button>
+      <div class="err" id="gate-err"></div>
+    </form>
+    <div class="foot">Access is granted per person. If you need a login, contact Ready to Rank.</div>
+  </div>
+</div>
+
+<header>
+  <div class="wrap nav">
+    <img src="assets/ybh-logo.png" alt="Your Body Hub">
+    <div class="htext">Client Hub<span>Your Body Hub</span></div>
+    <div class="spacer"></div>
+    <div class="me"><b id="me-name"></b><button type="button" id="signout">Sign out</button></div>
+  </div>
+</header>
+
+<nav class="tabstrip" aria-label="Hub sections">
+  <div class="wrap">
+    <button class="tab" id="tab-content" role="tab" aria-selected="true" aria-controls="view-content">
+      <svg viewBox="0 0 24 24"><path d="M7 2v2H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-3V2h-2v2H9V2H7zm13 8v10H4V10h16z"/></svg>
+      Content Calendar
+    </button>
+    <button class="tab" id="tab-ads" role="tab" aria-selected="false" aria-controls="view-ads">
+      <svg viewBox="0 0 24 24"><path d="M4 20h16v2H4v-2zM6 12h2v6H6v-6zm5-6h2v12h-2V6zm5 3h2v9h-2V9z"/></svg>
+      Google Ads
+    </button>
+    <button class="tab" id="tab-meta" role="tab" aria-selected="false" aria-controls="view-meta">
+      <svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg>
+      Meta Ads
+    </button>
+    <button class="tab" id="tab-social" role="tab" aria-selected="false" aria-controls="view-social">
+      <svg viewBox="0 0 24 24"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zm0 3.18a6.66 6.66 0 1 0 0 13.32 6.66 6.66 0 0 0 0-13.32zm0 10.98a4.32 4.32 0 1 1 0-8.64 4.32 4.32 0 0 1 0 8.64zm8.48-11.24a1.56 1.56 0 1 1-3.11 0 1.56 1.56 0 0 1 3.11 0z"/></svg>
+      Social
+    </button>
+  </div>
+</nav>
+
+<!-- ===================== CONTENT VIEW ===================== -->
+<main id="view-content" class="view" role="tabpanel" aria-labelledby="tab-content">
+<div class="hero">
+  <div class="wrap herowrap">
+    <div class="hero-text">
+      <div class="kick">Social &amp; LinkedIn Content Calendar</div>
+      <h1>Your 12-month <span class="t">content engine</span>,<br>all in one place.</h1>
+      <p>Every month spotlights one discipline so each team films in focused batches and we build genuine topical authority. Drag the calendar to plan the running order, download what's published, and preview what's planned.</p>
+      <div class="stats">
+        <div class="stat"><b>12</b><span>months planned</span></div>
+        <div class="stat"><b>6</b><span>disciplines</span></div>
+        <div class="stat"><b>5</b><span>platforms</span></div>
+        <div class="stat"><b>1</b><span>weekly referrer newsletter</span></div>
+      </div>
+    </div>
+    <div class="social-cloud" aria-hidden="true">
+      <span class="ic ig" title="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41 1.27-.06 1.65-.07 4.85-.07M12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63c-.79.31-1.46.72-2.13 1.38C1.35 2.68.94 3.35.63 4.14.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.31.79.72 1.46 1.38 2.13.67.66 1.34 1.07 2.13 1.38.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56a5.8 5.8 0 0 0 2.13-1.38 5.8 5.8 0 0 0 1.38-2.13c.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91a5.8 5.8 0 0 0-1.38-2.13A5.8 5.8 0 0 0 19.86.63c-.76-.3-1.64-.5-2.91-.56C15.67.01 15.26 0 12 0zm0 5.84A6.16 6.16 0 1 0 18.16 12 6.16 6.16 0 0 0 12 5.84zM12 16a4 4 0 1 1 4-4 4 4 0 0 1-4 4zm6.41-10.85a1.44 1.44 0 1 0 1.44 1.44 1.44 1.44 0 0 0-1.44-1.44z"/></svg></span>
+      <span class="ic tt" title="TikTok"><svg viewBox="0 0 24 24"><path d="M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.08-.14 1.62.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></span>
+      <span class="ic fb" title="Facebook"><svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></span>
+      <span class="ic yt" title="YouTube"><svg viewBox="0 0 24 24"><path d="M23.5 6.2a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.51A3.02 3.02 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3.02 3.02 0 0 0 2.12 2.14C4.5 20.45 12 20.45 12 20.45s7.5 0 9.38-.51a3.02 3.02 0 0 0 2.12-2.14A31.5 31.5 0 0 0 24 12a31.5 31.5 0 0 0-.5-5.8zM9.55 15.57V8.43L15.82 12z"/></svg></span>
+      <span class="ic li" title="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.66H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.8 0 0 .78 0 1.74v20.52C0 23.22.8 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.74V1.74C24 .78 23.2 0 22.22 0z"/></svg></span>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head"><h2>How the content engine works</h2></div>
+    <div class="rule"></div>
+    <div class="engine">
+      <div class="e"><div class="n">1 · One discipline / month</div><p>The spotlighted team films its content in focused batches, building topical authority.</p></div>
+      <div class="e"><div class="n">2 · Same video, every platform</div><p>Two talking-head reels each go to Instagram &amp; Facebook Reels, TikTok and YouTube Shorts.</p></div>
+      <div class="e"><div class="n">3 · A weekly referrer newsletter</div><p>On LinkedIn, Tara publishes a weekly clinical note to keep GPs and specialists engaged.</p></div>
+      <div class="e"><div class="n">4 · Every piece points somewhere</div><p>Educational → follow &amp; book. Direct-response → free assessment. Newsletter → subscribe.</p></div>
+    </div>
+    <div class="vol-lab">What gets published</div>
+    <div class="volume">
+      <div class="vcard"><div class="n">~2</div><div class="lab">Pieces / day</div><div class="sub">A steady, consistent presence right across the week</div></div>
+      <div class="vcard"><div class="n">12</div><div class="lab">Pieces / week</div><div class="sub">Instagram &amp; Facebook (same content): 3 posts + 2 stories · TikTok 2 · YouTube Shorts 2 · LinkedIn 3</div></div>
+      <div class="vcard"><div class="n">48&ndash;52+</div><div class="lab">Pieces / month</div><div class="sub">Varies by month — each discipline card shows its own count. August adds a weekly telehealth post.</div></div>
+    </div>
+    <p class="vol-note"><b>48+ pieces of content every month, across all platforms — more in months that carry an extra feature</b> (August adds a weekly telehealth post, taking it to 52+). Each discipline card shows that month&rsquo;s own count. Designed to create a strong, consistent presence across every major platform while repurposing content efficiently to maximise reach and visibility.</p>
+  </div>
+</section>
+
+<section style="padding-top:8px">
+  <div class="wrap">
+    <div class="sec-head"><h2>The 12-month calendar</h2><p>Drag a discipline to a new month — the schedule updates automatically.</p></div>
+    <div class="rule"></div>
+    <div class="legend">
+      <span class="k"><span class="dot up"></span>Upcoming — proposed (to confirm)</span>
+      <span class="k"><span class="dot plan"></span>Planned — in production</span>
+      <span class="k"><span class="dot review"></span>For approval — awaiting client sign-off</span>
+      <span class="k"><span class="dot pub"></span>Published — approved &amp; ready</span>
+      <span class="k"><span class="dot sched"></span>Scheduled — loaded to post</span>
+    </div>
+    <div class="toolbar">
+      <span class="hint">✋ <b>Drag to rearrange</b> the running order, or use the ‹ › buttons — changes save in your browser automatically.</span>
+      <span class="sp"></span>
+      <span class="saved" id="saved">✓ Saved</span>
+      <button class="btn-sm" id="reset">Reset order</button>
+    </div>
+    <div class="timeline" id="timeline"></div>
+    <div class="notebar"><b>Note:</b> Rearranging updates the schedule and month labels here, and saves to your browser. A published pack keeps its downloadable file — when you finalise the order, let us know and we'll align the calendar dates inside the PDF to match.</div>
+  </div>
+</section>
+
+<section style="padding-top:8px">
+  <div class="wrap">
+    <div class="sec-head"><h2>Monthly content packs</h2><p>In your chosen order. Download the published packs; preview what's coming.</p></div>
+    <div class="rule"></div>
+    <div class="cards" id="cards"></div>
+  </div>
+</section>
+</main>
+
+<!-- ===================== GOOGLE ADS VIEW ===================== -->
+<main id="view-ads" class="view" role="tabpanel" aria-labelledby="tab-ads" hidden>
+  <div class="ads-top">
+    <div class="wrap">
+      <div class="ads-toprow">
+        <div>
+          <div class="kick">Google Ads · Performance</div>
+          <h1>Your campaigns, month by month.</h1>
+          <div class="win" id="ad-window"></div>
+        </div>
+        <div class="msel">
+          <label for="ad-month">Report</label>
+          <select id="ad-month"></select>
+        </div>
+      </div>
+      <div class="ad-kpis" id="ad-kpis"></div>
+    </div>
+  </div>
+
+  <section style="padding-top:34px">
+    <div class="wrap">
+      <div class="ad-card">
+        <h3>Month-on-month performance</h3>
+        <p class="cap">The whole account since launch — spend, enquiries and efficiency, month by month.</p>
+        <div class="ad-chart-wrap"><svg class="ad-chart" id="ad-mom-chart" viewBox="0 0 900 300" role="img" aria-label="Month-on-month spend and conversions"></svg></div>
+        <div class="ad-legend">
+          <span><span class="ad-sw" style="background:var(--teal)"></span> Monthly spend (AUD)</span>
+          <span><span class="ad-sw line" style="background:var(--purple)"></span> Conversions</span>
+        </div>
+        <div class="ad-tbl-wrap" style="margin-top:16px">
+          <table class="ad-tbl">
+            <thead><tr><th>Month</th><th>Spend</th><th>Impr.</th><th>Clicks</th><th>CTR</th><th>Avg CPC</th><th>Conv.</th><th>Cost / conv.</th></tr></thead>
+            <tbody id="ad-mom-body"></tbody>
+          </table>
+        </div>
+        <div class="ad-callout good"><span class="ic">◆</span><div>Since launch in <b>September 2025</b>, monthly conversions have climbed from a handful to <b>45–75</b>, cost per conversion has fallen from <b>~$78</b> (Oct) to the low-to-mid teens, and click-through rate has risen from <b>~2.3% to 6.5%</b> — the account maturing as the campaigns and bidding settle in.</div></div>
+      </div>
+
+      <div class="ad-card">
+        <h3>Spend &amp; conversions, day by day</h3>
+        <p class="cap" id="ad-daily-cap"></p>
+        <div class="ad-chart-wrap"><svg class="ad-chart" id="ad-chart" viewBox="0 0 900 300" role="img" aria-label="Daily spend and conversions"></svg></div>
+        <div class="ad-legend">
+          <span><span class="ad-sw" style="background:var(--teal)"></span> Daily spend (AUD)</span>
+          <span><span class="ad-sw line" style="background:var(--purple)"></span> Conversions</span>
+        </div>
+      </div>
+
+      <div class="ad-card">
+        <h3>Where the budget went</h3>
+        <p class="cap">Active campaigns for the period. Performance Max is the efficiency engine; Search converts at a higher rate but a higher cost per enquiry.</p>
+        <div class="ad-tbl-wrap">
+          <table class="ad-tbl">
+            <thead><tr>
+              <th>Campaign</th><th>Type</th><th>Status</th><th>Spend</th><th>Impr.</th><th>Clicks</th><th>CTR</th><th>Avg CPC</th><th>Conv.</th><th>Cost / conv.</th>
+            </tr></thead>
+            <tbody id="ad-camp-body"></tbody>
+            <tfoot id="ad-camp-foot"></tfoot>
+          </table>
+        </div>
+        <div class="ad-callout good" id="ad-camp-note"></div>
+      </div>
+
+      <div class="ad-two">
+        <div class="ad-card">
+          <h3>Device split</h3>
+          <p class="cap">Where enquiries actually come from.</p>
+          <div class="ad-tbl-wrap">
+            <table class="ad-tbl">
+              <thead><tr><th>Device</th><th>Spend</th><th>Clicks</th><th>Conv.</th><th>Share</th></tr></thead>
+              <tbody id="ad-dev-body"></tbody>
+            </table>
+          </div>
+          <div class="ad-callout" id="ad-dev-note"></div>
+        </div>
+        <div class="ad-card">
+          <h3>Top converting searches</h3>
+          <p class="cap">Real queries that drove enquiries (Search campaign).</p>
+          <ul class="ad-terms" id="ad-terms-top"></ul>
+        </div>
+      </div>
+
+      <div class="ad-card">
+        <h3>Spend with no enquiries — negative-keyword candidates</h3>
+        <p class="cap">These queries drew clicks but no conversions. Tightening them protects budget.</p>
+        <ul class="ad-terms" id="ad-terms-waste"></ul>
+      </div>
+
+      <div class="sec-head" style="margin-top:38px"><h2>Recommendations</h2></div>
+      <div class="rule"></div>
+      <div class="ad-recs" id="ad-recs"></div>
+
+      <div class="ad-foot" id="ad-foot"></div>
+    </div>
+  </section>
+</main>
+
+<!-- ===================== META ADS VIEW ===================== -->
+<main id="view-meta" class="view" role="tabpanel" aria-labelledby="tab-meta" hidden>
+  <div class="ads-top">
+    <div class="wrap">
+      <div class="ads-toprow">
+        <div>
+          <div class="kick">Meta Ads · Facebook &amp; Instagram</div>
+          <h1>The campaigns we ran on Facebook.</h1>
+          <div class="win">Ready To Rank campaigns · Sep 2025 – Mar 2026 · <span class="ad-st paused">Paused</span> last active 24 Mar 2026 · AUD</div>
+        </div>
+      </div>
+      <div class="ad-kpis" id="meta-kpis"></div>
+    </div>
+  </div>
+
+  <section style="padding-top:34px">
+    <div class="wrap">
+      <div class="ad-callout"><span class="ic">!</span><div>These Facebook &amp; Instagram campaigns are <b>currently paused</b> — no spend since 24 March 2026. The figures below cover the campaigns Ready To Rank built and ran between <b>September 2025 and March 2026</b>.</div></div>
+
+      <div class="ad-card" style="margin-top:16px">
+        <h3>Month-on-month performance</h3>
+        <p class="cap">Monthly spend and leads across the R2R Facebook campaigns.</p>
+        <div class="ad-chart-wrap"><svg class="ad-chart" id="meta-mom-chart" viewBox="0 0 900 300" role="img" aria-label="Meta monthly spend and leads"></svg></div>
+        <div class="ad-legend">
+          <span><span class="ad-sw" style="background:var(--teal)"></span> Monthly spend (AUD)</span>
+          <span><span class="ad-sw line" style="background:var(--purple)"></span> Leads</span>
+        </div>
+        <div class="ad-tbl-wrap" style="margin-top:16px">
+          <table class="ad-tbl">
+            <thead><tr><th>Month</th><th>Spend</th><th>Impr.</th><th>Clicks</th><th>Link clicks</th><th>Leads</th><th>Chats</th></tr></thead>
+            <tbody id="meta-mom-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="ad-card">
+        <h3>Campaigns Ready To Rank created</h3>
+        <p class="cap">Every R2R campaign in the account, most spend first — all currently paused.</p>
+        <div class="ad-tbl-wrap">
+          <table class="ad-tbl">
+            <thead><tr><th>Campaign</th><th>Objective</th><th>Spend</th><th>Impr.</th><th>Clicks</th><th>Leads</th><th>Cost / lead</th></tr></thead>
+            <tbody id="meta-camp-body"></tbody>
+            <tfoot id="meta-camp-foot"></tfoot>
+          </table>
+        </div>
+        <div class="ad-callout good"><span class="ic">◆</span><div>Across the run, R2R's Facebook campaigns generated <b>158 lead-form enquiries</b> and <b>63 Messenger conversations</b> from <b>$3,276</b> in spend. The lead-form offers — Christmas Instant Form ($3.87/lead) and the $59 Physio offers — were the strongest; the Oct–Nov landing-page campaign drove traffic rather than form fills.</div></div>
+      </div>
+
+      <div class="ad-foot" id="meta-foot"></div>
+    </div>
+  </section>
+</main>
+
+<!-- ===================== SOCIAL VIEW ===================== -->
+<main id="view-social" class="view" role="tabpanel" aria-labelledby="tab-social" hidden>
+  <div class="ads-top">
+    <div class="wrap">
+      <div class="ads-toprow">
+        <div>
+          <div class="kick">Organic social &middot; Instagram &middot; Facebook &middot; LinkedIn</div>
+          <h1>How the content is performing.</h1>
+          <div class="win" id="soc-window">&nbsp;</div>
+        </div>
+      </div>
+      <div class="ad-kpis" id="soc-kpis"></div>
+    </div>
+  </div>
+
+  <section style="padding-top:34px">
+    <div class="wrap">
+      <div class="ad-card">
+        <h3>Reach over time</h3>
+        <p class="cap">Daily accounts reached on Instagram and Facebook.</p>
+        <div class="ad-chart-wrap"><svg class="ad-chart" id="soc-reach-chart" viewBox="0 0 900 300" role="img" aria-label="Daily reach by platform"></svg></div>
+        <div class="ad-legend">
+          <span><span class="ad-sw line" style="background:var(--purple)"></span> Instagram</span>
+          <span><span class="ad-sw line" style="background:var(--teal)"></span> Facebook</span>
+        </div>
+      </div>
+
+      <div class="soc-grid">
+        <div class="ad-card">
+          <h3>Engagement</h3>
+          <p class="cap">Likes, comments, shares and saves per day, all platforms.</p>
+          <div class="ad-chart-wrap"><svg class="ad-chart" id="soc-eng-chart" viewBox="0 0 900 300" role="img" aria-label="Daily engagement"></svg></div>
+        </div>
+        <div class="ad-card">
+          <h3>Audience</h3>
+          <p class="cap">Followers on each platform, most recent count.</p>
+          <div id="soc-foll"></div>
+        </div>
+      </div>
+
+      <div class="ad-card">
+        <h3>Month on month</h3>
+        <p class="cap">Organic performance by calendar month. Part months are marked with an asterisk.</p>
+        <div class="ad-tbl-wrap">
+          <table class="ad-tbl">
+            <thead><tr><th>Month</th><th>IG reach</th><th>FB reach</th><th>LI impr.</th><th>Engagement</th><th>Days</th></tr></thead>
+            <tbody id="soc-mom-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="ad-card">
+        <h3>Top performing posts</h3>
+        <p class="cap" id="soc-posts-cap">The highest-reach organic posts on Instagram.</p>
+        <div class="soc-posts" id="soc-posts"></div>
+      </div>
+
+      <div class="ad-foot" id="soc-foot"></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <img src="assets/ybh-logo.png" alt="Your Body Hub">
+    <span>Client Hub · prepared by Ready to Rank</span>
+    <span class="sp">Your Body Hub · Suite 26, 445 Princes Hwy, Officer VIC 3809 · <a href="https://yourbodyhub.com.au/" style="color:#fff" target="_blank" rel="noopener">yourbodyhub.com.au</a></span>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+const DL_ICON='<svg viewBox="0 0 24 24"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 2h14v2H5v-2z"/></svg>';
+const EYE_ICON='<svg viewBox="0 0 24 24"><path d="M12 5C5 5 2 12 2 12s3 7 10 7 10-7 10-7-3-7-10-7zm0 11.5A4.5 4.5 0 1 1 12 7a4.5 4.5 0 0 1 0 9.5zM12 9.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z"/></svg>';
+const BASE_YEAR=2026, BASE_MONTH=6; // July 2026 (0-indexed month)
+const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function dateLabel(i){const t=BASE_MONTH+i;return MONTHS[((t%12)+12)%12]+' '+(BASE_YEAR+Math.floor(t/12));}
+
+let DATA={};
+let DEFAULT_ORDER=[];
+const KEY='ybh-content-order-v1';
+let order=[];
+function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(Array.isArray(s)&&s.length===DEFAULT_ORDER.length&&s.every(id=>DATA[id]))return s;}catch(e){}return DEFAULT_ORDER.slice();}
+function save(){localStorage.setItem(KEY,JSON.stringify(order));flashSaved();}
+function flashSaved(){const el=document.getElementById('saved');el.classList.add('show');clearTimeout(flashSaved._t);flashSaved._t=setTimeout(()=>el.classList.remove('show'),1400);}
+
+function renderTimeline(){
+  const c=document.getElementById('timeline');c.innerHTML='';
+  order.forEach((id,i)=>{
+    const d=DATA[id];
+    const el=document.createElement('div');
+    el.className='tl '+d.status;el.draggable=true;el.dataset.id=id;
+    const cn=(commentsByMonth[id]||[]).length;
+    el.innerHTML=`<span class="grip">⠿</span><div class="m">Month ${i+1}</div><div class="mo">${dateLabel(i)}</div>
+      <div class="d">${d.short}</div><span class="st ${d.status}">${stLabel(d.status)}</span>
+      <div class="nudge"><button data-mv="-1" ${i===0?'disabled':''} title="Move earlier">‹</button><button data-mv="1" ${i===order.length-1?'disabled':''} title="Move later">›</button></div>
+      ${cn?`<span class="tl-cm" title="${cn} comment${cn>1?'s':''}">💬 ${cn}</span>`:''}`;
+    c.appendChild(el);
+  });
+  wireDnD();
+}
+function stLabel(s){return {pub:'Published',plan:'Planned',review:'For Approval',sched:'Scheduled',up:'Upcoming'}[s]||'Upcoming';}
+
+function renderCards(){
+  const c=document.getElementById('cards');c.innerHTML='';
+  order.forEach((id,i)=>{
+    const d=DATA[id];
+    let inner='';
+    if(d.pills){inner+=`<div class="pills">${d.pills.map(p=>`<span class="pill">${p}</span>`).join('')}</div>`;}
+    else if(d.themes){inner+=`<div class="themes"><span class="lab">${d.status==='plan'?'Weekly themes':"We'll cover"}</span><ul>${d.themes.map(t=>`<li>${t}</li>`).join('')}</ul></div>`;}
+    if(d.vol){inner+=`<div class="volline">${d.vol}+ pieces this month <span>across Instagram, Facebook, TikTok, YouTube &amp; LinkedIn</span></div>`;}
+    if(d.downloads){inner+=`<div class="dl">${d.downloads.map(x=>`<div class="dlrow"><a class="btn ${x.c}" href="#" data-pack="${esc(x.f)}" data-mode="view">${EYE_ICON}${x.l}</a><a class="btn-dl" href="#" data-pack="${esc(x.f)}" data-mode="dl" title="Download ${x.l}">${DL_ICON}</a></div>`).join('')}<div class="dl-hint">Tap to view in your browser · ⤓ to download</div></div>`;}
+    else if(d.note){inner+=`<div class="soon">${d.note}</div>`;}
+    const el=document.createElement('div');
+    el.className='card '+d.status;el.id='card-'+id;
+    el.innerHTML=`<div class="bar"></div><div class="body">
+      <div class="mline"><span class="mlabel">Month ${i+1} · ${dateLabel(i)}</span><span class="badge ${d.status}">${stLabel(d.status)}</span></div>
+      <h3>${d.name}</h3><div class="disc">${d.sub}</div>
+      <p class="brief">${d.brief}</p>${inner}${commentsHtml(id)}</div>`;
+    c.appendChild(el);
+  });
+}
+function renderAll(){renderTimeline();renderCards();}
+
+// drag & drop
+let dragId=null;
+function wireDnD(){
+  document.querySelectorAll('.tl').forEach(el=>{
+    el.addEventListener('dragstart',e=>{dragId=el.dataset.id;el.classList.add('dragging');e.dataTransfer.effectAllowed='move';});
+    el.addEventListener('dragend',()=>{dragId=null;document.querySelectorAll('.tl').forEach(t=>t.classList.remove('dragging','over'));});
+    el.addEventListener('dragover',e=>{e.preventDefault();el.classList.add('over');});
+    el.addEventListener('dragleave',()=>el.classList.remove('over'));
+    el.addEventListener('drop',e=>{e.preventDefault();const targetId=el.dataset.id;moveTo(dragId,targetId);});
+    el.querySelectorAll('.nudge button').forEach(b=>{
+      b.addEventListener('click',ev=>{ev.stopPropagation();const id=el.dataset.id;const dir=parseInt(b.dataset.mv,10);nudge(id,dir);});
+    });
+  });
+}
+function moveTo(id,targetId){
+  if(!id||id===targetId)return;
+  const from=order.indexOf(id),to=order.indexOf(targetId);
+  order.splice(from,1);
+  order.splice(order.indexOf(targetId)+(from<to?1:0),0,id);
+  save();renderAll();
+}
+function nudge(id,dir){
+  const i=order.indexOf(id),j=i+dir;
+  if(j<0||j>=order.length)return;
+  [order[i],order[j]]=[order[j],order[i]];
+  save();renderAll();
+}
+document.getElementById('reset').addEventListener('click',()=>{order=DEFAULT_ORDER.slice();save();renderAll();});
+
+/* ---- comments (Supabase-backed, shared across everyone) ---- */
+/* ---- Supabase: reporting project, one login for the whole hub ---- */
+const SB_URL='https://tjgrtrazyepvbcmmdhet.supabase.co';
+const SB_KEY='sb_publishable_FeX9cGqiIHCfAlWA_yTJ9g_u_TM48T8';
+const sb=supabase.createClient(SB_URL,SB_KEY);
+let ME={email:null,name:null,content:false,reports:false};
+let commentsByMonth={};
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function fmtWhen(iso){const d=new Date(iso);if(isNaN(d))return '';return d.toLocaleString('en-AU',{day:'numeric',month:'short',year:'numeric',hour:'numeric',minute:'2-digit',hour12:true});}
+function pillHtml(c){
+  if(!c.tag_week&&!c.tag_format)return '';
+  const p=[];
+  if(c.tag_week)p.push('Week '+c.tag_week);
+  if(c.tag_format)p.push(esc(c.tag_format));
+  if(c.tag_item)p.push('#'+c.tag_item);
+  return `<span class="cm-pill cm-pill-${(c.tag_format||'').toLowerCase()}">${p.join(' · ')}</span>`;
+}
+function chipRow(k,vals,lab){return vals.map(v=>`<button type="button" class="cm-chip" data-group="${k}" data-val="${v}">${lab?lab(v):v}</button>`).join('');}
+function commentsHtml(id){
+  const list=commentsByMonth[id]||[];const n=list.length;
+  const items=n?list.map(c=>`<div class="cm" data-week="${c.tag_week||''}" data-format="${c.tag_format||''}">${pillHtml(c)?`<div>${pillHtml(c)}</div>`:''}<div><span class="who">${esc(c.author)}</span><span class="when">${fmtWhen(c.created_at)}</span></div><div class="txt">${esc(c.body)}</div></div>`).join('')
+    :`<div class="cm-empty">No comments yet — leave the first note for the team.</div>`;
+  const weeks=[...new Set(list.map(c=>c.tag_week).filter(Boolean))].sort((a,b)=>a-b);
+  const formats=['Reel','Story','Carousel'].filter(f=>list.some(c=>c.tag_format===f));
+  const filter=(n>1&&(weeks.length||formats.length))?`<div class="cm-filter"><span class="cm-flab">Filter</span><button type="button" class="cm-fx sel" data-fk="all" data-fv="">All</button>${weeks.map(w=>`<button type="button" class="cm-fx" data-fk="week" data-fv="${w}">Wk ${w}</button>`).join('')}${formats.map(f=>`<button type="button" class="cm-fx" data-fk="format" data-fv="${f}">${f}</button>`).join('')}</div>`:'';
+  return `<div class="comments" data-month="${id}">
+    <div class="cm-head"><span class="cm-title">💬 Comments <span class="cm-count ${n?'has':''}">${n}</span></span>
+      <button type="button" class="cm-toggle">${n?'View &amp; add':'Add a comment'}</button></div>
+    ${filter}
+    <div class="cm-list">${items}</div>
+    <form class="cm-form" autocomplete="on">
+      <div class="cm-as">Commenting as <b>${esc(ME.name||ME.email||'')}</b></div>
+      <div class="cm-tags">
+        <div class="cm-tg"><span class="cm-tgl">Week</span>${chipRow('week',[1,2,3,4])}</div>
+        <div class="cm-tg"><span class="cm-tgl">Format</span>${chipRow('format',['Reel','Story','Carousel'])}</div>
+        <div class="cm-tg"><span class="cm-tgl">Piece <em>(optional)</em></span>${chipRow('item',[1,2,3],v=>'#'+v)}</div>
+      </div>
+      <textarea name="body" placeholder="Add a comment for the team…" maxlength="2000" required></textarea>
+      <div class="row"><button type="submit" class="cm-post">Add comment</button><span class="cm-err"></span></div>
+    </form></div>`;
+}
+async function loadComments(){
+  try{
+    const {data,error}=await sb.from('ybh_comments')
+      .select('month_id,author,body,created_at,tag_week,tag_format,tag_item')
+      .order('created_at',{ascending:true});
+    if(error)throw error;
+    const m={};(data||[]).forEach(c=>{(m[c.month_id]=m[c.month_id]||[]).push(c);});
+    commentsByMonth=m;
+  }catch(e){/* keep whatever we have */}
+  renderAll();
+}
+const cardsEl=document.getElementById('cards');
+cardsEl.addEventListener('click',e=>{
+  const chip=e.target.closest('.cm-chip');
+  if(chip){const grp=chip.parentElement,was=chip.classList.contains('sel');grp.querySelectorAll('.cm-chip').forEach(c=>c.classList.remove('sel'));if(!was)chip.classList.add('sel');return;}
+  const fx=e.target.closest('.cm-fx');
+  if(fx){const fbox=fx.closest('.comments');fbox.querySelectorAll('.cm-fx').forEach(b=>b.classList.toggle('sel',b===fx));const k=fx.dataset.fk,v=fx.dataset.fv;fbox.querySelectorAll('.cm').forEach(el=>{el.style.display=(k==='all'||el.dataset[k]===v)?'':'none';});return;}
+  const t=e.target.closest('.cm-toggle');if(!t)return;
+  const box=t.closest('.comments');
+  const open=box.querySelector('.cm-list').classList.toggle('open');
+  box.querySelector('.cm-form').classList.toggle('open',open);
+  t.innerHTML=open?'Hide':((commentsByMonth[box.dataset.month]||[]).length?'View &amp; add':'Add a comment');
+});
+cardsEl.addEventListener('submit',async e=>{
+  if(!e.target.classList.contains('cm-form'))return;
+  e.preventDefault();
+  const form=e.target,box=form.closest('.comments'),id=box.dataset.month;
+  const author=(ME.name||ME.email||'').trim(),body=form.body.value.trim();
+  const wk=form.querySelector('.cm-chip.sel[data-group="week"]'),fmt=form.querySelector('.cm-chip.sel[data-group="format"]'),itm=form.querySelector('.cm-chip.sel[data-group="item"]');
+  const err=form.querySelector('.cm-err'),btn=form.querySelector('.cm-post');
+  err.textContent='';
+  if(!body){err.textContent='Please add a comment.';return;}
+  if(!wk||!fmt){err.textContent='Please choose a week and a format so we know where to look.';return;}
+  btn.disabled=true;btn.textContent='Adding…';
+  const payload={month_id:id,author,author_email:ME.email,body,tag_week:+wk.dataset.val,tag_format:fmt.dataset.val,tag_item:itm?+itm.dataset.val:null};
+  try{
+    const {data:rows,error}=await sb.from('ybh_comments').insert(payload).select();
+    if(error)throw error;
+    (commentsByMonth[id]=commentsByMonth[id]||[]).push(rows[0]);
+    renderAll();
+    const nb=document.querySelector('.comments[data-month="'+id+'"]');
+    if(nb){nb.querySelector('.cm-list').classList.add('open');nb.querySelector('.cm-form').classList.add('open');nb.querySelector('.cm-toggle').innerHTML='Hide';}
+  }catch(err2){err.textContent='Sorry — couldn’t add just now. Please try again.';btn.disabled=false;btn.textContent='Add comment';}
+});
+
+
+/* ===================== GOOGLE ADS REPORTS =====================
+   To add a month: copy the '2026-06' block, change the key + numbers,
+   and it appears in the Report selector automatically (newest first). */
+let ADS_REPORTS={};
+let AD_KEYS=Object.keys(ADS_REPORTS).sort().reverse(); // newest first
+function renderAdsMonth(key){
+  const R=ADS_REPORTS[key];if(!R)return;
+  document.getElementById('ad-window').innerHTML=R.window;
+  document.getElementById('ad-daily-cap').innerHTML=R.dailyCap;
+  // KPIs
+  document.getElementById('ad-kpis').innerHTML=R.kpis.map(k=>
+    `<div class="ad-kpi${k.hero?' hero':''}"><div class="lbl">${k.lbl}</div><div class="val">${k.val}</div><div class="sub">${k.sub}</div></div>`).join('');
+  // Campaign table
+  document.getElementById('ad-camp-body').innerHTML=R.campaigns.map(c=>
+    `<tr><td class="cn">${c.name}</td><td><span class="ad-type">${c.type}</span></td>
+     <td><span class="ad-st ${c.status}">${c.status==='on'?'Active':'Paused'}</span></td>
+     ${c.cells.map(x=>`<td>${x}</td>`).join('')}</tr>`).join('');
+  document.getElementById('ad-camp-foot').innerHTML=
+    `<tr><td>Total</td><td></td><td></td>${R.campTotals.map(x=>`<td>${x}</td>`).join('')}</tr>`;
+  document.getElementById('ad-camp-note').innerHTML=`<span class="ic">◆</span><div>${R.campNote}</div>`;
+  // Devices
+  document.getElementById('ad-dev-body').innerHTML=R.devices.map(d=>
+    `<tr><td class="cn">${d.name}</td><td>${d.spend}</td><td>${d.clicks}</td><td>${d.conv}</td>
+     <td>${d.share}%<div class="ad-minibar" style="width:${Math.max(d.share,1)}%;${d.share===0?'background:var(--lilac-2)':''}"></div></td></tr>`).join('');
+  document.getElementById('ad-dev-note').innerHTML=`<span class="ic">!</span><div>${R.devNote}</div>`;
+  // Terms
+  document.getElementById('ad-terms-top').innerHTML=R.topTerms.map(t=>
+    `<li><span class="t">${t.t}</span><span class="d">${t.d}</span></li>`).join('');
+  document.getElementById('ad-terms-waste').innerHTML=R.wasteTerms.map(t=>
+    `<li><span class="t">${t.t}</span><span class="d">${t.d}</span></li>`).join('');
+  // Recs
+  document.getElementById('ad-recs').innerHTML=R.recs.map(r=>
+    `<div class="ad-rec ${r.c}"><span class="tag">${r.tag}</span><div><span class="h">${r.h}</span><span class="bd">${r.bd}</span></div></div>`).join('');
+  document.getElementById('ad-foot').innerHTML=R.foot;
+  drawAdChart(R.daily);
+}
+function drawAdChart(daily){
+  const W=900,H=300,mL=44,mR=38,mT=18,mB=34,iw=W-mL-mR,ih=H-mT-mB;
+  const maxCost=60,maxConv=10,n=daily.length,step=iw/n,bw=step*0.6;
+  const x=i=>mL+step*i+step/2,yC=v=>mT+ih-(v/maxCost)*ih,yV=v=>mT+ih-(v/maxConv)*ih;
+  const cTeal='#62c4bb',cPurp='#90278e',cGrid='#efe6ef',cSoft='#6a6470';
+  let s='';
+  for(let g=0;g<=maxCost;g+=15){const yy=yC(g);
+    s+=`<line x1="${mL}" y1="${yy}" x2="${W-mR}" y2="${yy}" stroke="${cGrid}" stroke-width="1"/>`;
+    s+=`<text x="${mL-8}" y="${yy+4}" text-anchor="end" font-size="11" fill="${cSoft}">$${g}</text>`;}
+  for(let g=0;g<=maxConv;g+=5){const yy=yV(g);
+    s+=`<text x="${W-mR+8}" y="${yy+4}" text-anchor="start" font-size="11" fill="${cSoft}">${g}</text>`;}
+  daily.forEach((d,i)=>{const by=yC(d[1]);s+=`<rect x="${x(i)-bw/2}" y="${by}" width="${bw}" height="${mT+ih-by}" rx="2.5" fill="${cTeal}" opacity="0.72"/>`;});
+  let path='';daily.forEach((d,i)=>{path+=(i?'L':'M')+x(i)+' '+yV(d[2])+' ';});
+  s+=`<path d="${path}" fill="none" stroke="${cPurp}" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>`;
+  daily.forEach((d,i)=>{const px=x(i),py=yV(d[2]);s+=`<circle cx="${px}" cy="${py}" r="${d[2]>=6?4:2.6}" fill="${cPurp}"/>`;
+    if(d[2]>=6)s+=`<text x="${px}" y="${py-9}" text-anchor="middle" font-size="11" font-weight="700" fill="${cPurp}">${d[2]}</text>`;});
+  daily.forEach((d,i)=>{if(i%3===0||i===n-1)s+=`<text x="${x(i)}" y="${H-12}" text-anchor="middle" font-size="10.5" fill="${cSoft}">${d[0].slice(3)}</text>`;});
+  document.getElementById('ad-chart').innerHTML=s;
+}
+/* ---- Month-on-month (account-level history) ----
+   To add a month: append {m:'Mon YY', spend, impr, clicks, conv} (raw numbers). */
+let ADS_MONTHLY=[];
+function renderMoM(){
+  const rows=ADS_MONTHLY;
+  const money=v=>'$'+v.toLocaleString('en-AU',{minimumFractionDigits:2,maximumFractionDigits:2});
+  const n0=v=>Math.round(v).toLocaleString('en-AU');
+  document.getElementById('ad-mom-body').innerHTML=rows.map((r,i)=>{
+    const ctr=r.impr?r.clicks/r.impr*100:0, cpc=r.clicks?r.spend/r.clicks:0, cpa=r.conv?r.spend/r.conv:0;
+    let delta='';
+    if(i>0){const d=r.conv-rows[i-1].conv, cls=d>0.5?'up':(d<-0.5?'down':'flat'), sign=d>0?'+':'';delta=` <span class="ad-delta ${cls}">${sign}${Math.round(d)}</span>`;}
+    return `<tr><td class="cn">${r.m}</td><td>${money(r.spend)}</td><td>${n0(r.impr)}</td><td>${n0(r.clicks)}</td><td>${ctr.toFixed(2)}%</td><td>$${cpc.toFixed(2)}</td><td>${n0(r.conv)}${delta}</td><td>${cpa?'$'+cpa.toFixed(2):'—'}</td></tr>`;
+  }).join('');
+  drawMoMChart(rows);
+}
+function drawMoMChart(rows){
+  const W=900,H=300,mL=52,mR=42,mT=18,mB=34,iw=W-mL-mR,ih=H-mT-mB;
+  const maxCost=Math.max(300,Math.ceil(Math.max.apply(null,rows.map(r=>r.spend))/300)*300);
+  const maxConv=Math.max(20,Math.ceil(Math.max.apply(null,rows.map(r=>r.conv))/20)*20);
+  const n=rows.length,step=iw/n,bw=step*0.52;
+  const x=i=>mL+step*i+step/2,yC=v=>mT+ih-(v/maxCost)*ih,yV=v=>mT+ih-(v/maxConv)*ih;
+  const cTeal='#62c4bb',cPurp='#90278e',cGrid='#efe6ef',cSoft='#6a6470';
+  let s='';
+  for(let g=0;g<=maxCost;g+=maxCost/4){const yy=yC(g);s+=`<line x1="${mL}" y1="${yy}" x2="${W-mR}" y2="${yy}" stroke="${cGrid}" stroke-width="1"/>`;s+=`<text x="${mL-8}" y="${yy+4}" text-anchor="end" font-size="11" fill="${cSoft}">$${Math.round(g)}</text>`;}
+  for(let g=0;g<=maxConv;g+=maxConv/4){const yy=yV(g);s+=`<text x="${W-mR+8}" y="${yy+4}" text-anchor="start" font-size="11" fill="${cSoft}">${Math.round(g)}</text>`;}
+  rows.forEach((r,i)=>{const by=yC(r.spend);s+=`<rect x="${x(i)-bw/2}" y="${by}" width="${bw}" height="${mT+ih-by}" rx="3" fill="${cTeal}" opacity="0.72"/>`;});
+  let path='';rows.forEach((r,i)=>{path+=(i?'L':'M')+x(i)+' '+yV(r.conv)+' ';});
+  s+=`<path d="${path}" fill="none" stroke="${cPurp}" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>`;
+  rows.forEach((r,i)=>{const px=x(i),py=yV(r.conv);s+=`<circle cx="${px}" cy="${py}" r="3.2" fill="${cPurp}"/>`;s+=`<text x="${px}" y="${py-9}" text-anchor="middle" font-size="10.5" font-weight="700" fill="${cPurp}">${Math.round(r.conv)}</text>`;});
+  rows.forEach((r,i)=>{s+=`<text x="${x(i)}" y="${H-12}" text-anchor="middle" font-size="10" fill="${cSoft}">${r.m}</text>`;});
+  document.getElementById('ad-mom-chart').innerHTML=s;
+}
+
+
+// month selector
+const adSel=document.getElementById('ad-month');
+function paintAds(){
+  AD_KEYS=Object.keys(ADS_REPORTS).sort().reverse();
+  adSel.innerHTML=AD_KEYS.map(k=>`<option value="${k}">${ADS_REPORTS[k].label}</option>`).join('');
+  renderAdsMonth(AD_KEYS[0]);
+  renderMoM();
+}
+adSel.addEventListener('change',()=>renderAdsMonth(adSel.value));
+
+
+/* ===================== META ADS (Facebook & Instagram) ====================
+   Historical — account paused since 24 Mar 2026. R2R campaigns Sep 2025–Mar 2026. */
+let META_MONTHLY=[],META_CAMPAIGNS=[],META_KPIS=[];
+function renderMeta(){
+  const money=v=>'$'+v.toLocaleString('en-AU',{minimumFractionDigits:2,maximumFractionDigits:2});
+  const n0=v=>Math.round(v).toLocaleString('en-AU');
+  document.getElementById('meta-kpis').innerHTML=META_KPIS.map(k=>
+    `<div class="ad-kpi${k.hero?' hero':''}"><div class="lbl">${k.lbl}</div><div class="val">${k.val}</div><div class="sub">${k.sub}</div></div>`).join('');
+  document.getElementById('meta-mom-body').innerHTML=META_MONTHLY.map((r,i)=>{
+    let delta='';
+    if(i>0){const d=r.leads-META_MONTHLY[i-1].leads,cls=d>0.5?'up':(d<-0.5?'down':'flat'),sign=d>0?'+':'';delta=` <span class="ad-delta ${cls}">${sign}${Math.round(d)}</span>`;}
+    return `<tr><td class="cn">${r.m}</td><td>${money(r.spend)}</td><td>${n0(r.impr)}</td><td>${n0(r.clicks)}</td><td>${n0(r.link)}</td><td>${n0(r.leads)}${delta}</td><td>${n0(r.chats)}</td></tr>`;
+  }).join('');
+  let ts=0,ti=0,tc=0,tl=0;
+  document.getElementById('meta-camp-body').innerHTML=META_CAMPAIGNS.map(c=>{
+    ts+=c.spend;ti+=c.impr;tc+=c.clicks;tl+=c.leads;
+    const cpl=c.leads?'$'+(c.spend/c.leads).toFixed(2):'—';
+    return `<tr><td class="cn">${c.name}</td><td><span class="ad-type">${c.obj}</span></td><td>${money(c.spend)}</td><td>${n0(c.impr)}</td><td>${n0(c.clicks)}</td><td>${n0(c.leads)}</td><td>${cpl}</td></tr>`;
+  }).join('');
+  document.getElementById('meta-camp-foot').innerHTML=
+    `<tr><td>Total</td><td></td><td>${money(ts)}</td><td>${n0(ti)}</td><td>${n0(tc)}</td><td>${n0(tl)}</td><td>$${(ts/tl).toFixed(2)}</td></tr>`;
+  document.getElementById('meta-foot').innerHTML='<b>Data source:</b> Meta Ads via Windsor.ai, account Your Body Hub Ads (287276288515611), pulled 3 July 2026. Covers Ready To Rank campaigns (tagged “R2R”) that ran Sep 2025–Mar 2026; the account has had no spend since 24 March 2026. “Leads” = Meta lead-form submissions; “Chats” = Messenger conversations started (7-day). Campaigns used mixed objectives — some optimised for lead forms, others for landing-page traffic — so cost-per-lead is a blended figure. Earlier non-R2R campaigns are excluded.';
+  drawMetaChart(META_MONTHLY);
+}
+function drawMetaChart(rows){
+  const W=900,H=300,mL=52,mR=42,mT=18,mB=34,iw=W-mL-mR,ih=H-mT-mB;
+  const maxCost=Math.max(300,Math.ceil(Math.max.apply(null,rows.map(r=>r.spend))/300)*300);
+  const maxLead=Math.max(20,Math.ceil(Math.max.apply(null,rows.map(r=>r.leads))/20)*20);
+  const n=rows.length,step=iw/n,bw=step*0.52;
+  const x=i=>mL+step*i+step/2,yC=v=>mT+ih-(v/maxCost)*ih,yL=v=>mT+ih-(v/maxLead)*ih;
+  const cTeal='#62c4bb',cPurp='#90278e',cGrid='#efe6ef',cSoft='#6a6470';
+  let s='';
+  for(let g=0;g<=maxCost;g+=maxCost/4){const yy=yC(g);s+=`<line x1="${mL}" y1="${yy}" x2="${W-mR}" y2="${yy}" stroke="${cGrid}" stroke-width="1"/>`;s+=`<text x="${mL-8}" y="${yy+4}" text-anchor="end" font-size="11" fill="${cSoft}">$${Math.round(g)}</text>`;}
+  for(let g=0;g<=maxLead;g+=maxLead/4){const yy=yL(g);s+=`<text x="${W-mR+8}" y="${yy+4}" text-anchor="start" font-size="11" fill="${cSoft}">${Math.round(g)}</text>`;}
+  rows.forEach((r,i)=>{const by=yC(r.spend);s+=`<rect x="${x(i)-bw/2}" y="${by}" width="${bw}" height="${mT+ih-by}" rx="3" fill="${cTeal}" opacity="0.72"/>`;});
+  let path='';rows.forEach((r,i)=>{path+=(i?'L':'M')+x(i)+' '+yL(r.leads)+' ';});
+  s+=`<path d="${path}" fill="none" stroke="${cPurp}" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>`;
+  rows.forEach((r,i)=>{const px=x(i),py=yL(r.leads);s+=`<circle cx="${px}" cy="${py}" r="3.2" fill="${cPurp}"/>`;s+=`<text x="${px}" y="${py-9}" text-anchor="middle" font-size="10.5" font-weight="700" fill="${cPurp}">${r.leads}</text>`;});
+  rows.forEach((r,i)=>{s+=`<text x="${x(i)}" y="${H-12}" text-anchor="middle" font-size="10" fill="${cSoft}">${r.m}</text>`;});
+  document.getElementById('meta-mom-chart').innerHTML=s;
+}
+
+
+/* ===================== CONTENT PACKS (signed URLs) ===================== */
+cardsEl.addEventListener('click',async e=>{
+  const a=e.target.closest('[data-pack]');
+  if(!a)return;
+  e.preventDefault();
+  const file=a.dataset.pack, dl=a.dataset.mode==='dl';
+  const label=a.textContent.trim();
+  a.style.opacity=.55;
+  try{
+    const {data,error}=await sb.storage.from('ybh-packs')
+      .createSignedUrl(file, 300, dl?{download:file}:{});
+    if(error||!data)throw error||new Error('no url');
+    window.open(data.signedUrl,'_blank','noopener');
+  }catch(err){
+    alert('Sorry, that file could not be opened just now. Please try again.');
+  }finally{a.style.opacity=1;}
+});
+
+/* ===================== SOCIAL (organic) ===================== */
+let SOC_DAILY=[],SOC_POSTS=[];
+const SOC_C={instagram:'#90278e',facebook:'#62c4bb',linkedin:'#0A66C2'};
+const MON3=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function nf(n){n=Math.round(+n||0);return n>=1000?(n/1000).toFixed(n>=10000?0:1)+'k':''+n;}
+function clip(s,n){
+  s=(s||'').replace(/\s+/g,' ').trim();
+  // split by code point: captions use bold maths characters, which are surrogate
+  // pairs, and a plain slice() cuts one in half and leaves a replacement glyph
+  const cp=Array.from(s);
+  if(cp.length<=n)return s;
+  let cut=cp.slice(0,n).join('');
+  const sp=cut.lastIndexOf(' ');
+  if(sp>n*0.6)cut=cut.slice(0,sp);
+  return cut.replace(/[\s.,;:!?-]+$/,'')+'…';
+}
+function dmy(d){return d.slice(8,10)+'/'+d.slice(5,7);}
+
+function socDates(){return [...new Set(SOC_DAILY.map(r=>r.period_date))].sort();}
+function socSeries(field,platform){
+  const dates=socDates(),idx={};dates.forEach((d,i)=>idx[d]=i);
+  const v=new Array(dates.length).fill(0);
+  SOC_DAILY.forEach(r=>{
+    if(platform&&r.platform!==platform)return;
+    const i=idx[r.period_date];if(i==null)return;
+    v[i]+=(+r[field]||0);
+  });
+  return {d:dates,v};
+}
+function socChart(elId,series){
+  const el=document.getElementById(elId);if(!el)return;
+  const n=series.length&&series[0].v.length?series[0].v.length:0;
+  if(!n){el.innerHTML='';return;}
+  const W=900,H=300,mL=52,mR=18,mT=16,mB=34,iw=W-mL-mR,ih=H-mT-mB;
+  const max=Math.max(1,...series.flatMap(s=>s.v));
+  const x=i=>mL+(n===1?iw/2:iw*i/(n-1)),y=v=>mT+ih-(v/max)*ih;
+  let s='';
+  for(let g=0;g<=4;g++){
+    const vv=max*g/4,yy=y(vv);
+    s+='<line x1="'+mL+'" y1="'+yy+'" x2="'+(W-mR)+'" y2="'+yy+'" stroke="#efe6ef" stroke-width="1"/>';
+    s+='<text x="'+(mL-8)+'" y="'+(yy+4)+'" text-anchor="end" font-size="11" fill="#6a6470">'+nf(vv)+'</text>';
+  }
+  series.forEach(sr=>{
+    let p='';sr.v.forEach((v,i)=>{p+=(i?'L':'M')+x(i)+' '+y(v)+' ';});
+    s+='<path d="'+p+'" fill="none" stroke="'+sr.c+'" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>';
+  });
+  const step=Math.max(1,Math.ceil(n/9));
+  series[0].d.forEach((d,i)=>{
+    if(i%step)return;
+    s+='<text x="'+x(i)+'" y="'+(H-12)+'" text-anchor="middle" font-size="10" fill="#6a6470">'+dmy(d)+'</text>';
+  });
+  el.innerHTML=s;
+}
+function socMonths(){
+  const m={};
+  SOC_DAILY.forEach(r=>{
+    const k=r.period_date.slice(0,7);
+    const o=m[k]||(m[k]={k,days:new Set(),ig:0,fb:0,li:0,eng:0});
+    o.days.add(r.period_date);
+    if(r.platform==='instagram')o.ig+=+r.reach||0;
+    else if(r.platform==='facebook')o.fb+=+r.reach||0;
+    else if(r.platform==='linkedin')o.li+=+r.impressions||0;
+    o.eng+=+r.engagement||0;
+  });
+  return Object.values(m).sort((a,b)=>a.k<b.k?-1:1);
+}
+function socFollowers(){
+  const f={};
+  SOC_DAILY.forEach(r=>{
+    if(r.followers==null)return;
+    const c=f[r.platform];
+    if(!c||r.period_date>c.d)f[r.platform]={d:r.period_date,v:+r.followers};
+  });
+  return f;
+}
+function renderSocial(){
+  const dates=socDates();
+  if(!dates.length){
+    document.getElementById('soc-window').textContent='No social data available yet.';
+    return;
+  }
+  const months=socMonths();
+  const full=m=>m.days.size>=new Date(+m.k.slice(0,4),+m.k.slice(5,7),0).getDate();
+  // Headline the last COMPLETE month. A part month makes every number look like a collapse.
+  const complete=months.filter(full);
+  const last=complete.length?complete[complete.length-1]:months[months.length-1];
+  const li=months.indexOf(last);
+  const partial=!full(last);
+  const mLabel=MON3[+last.k.slice(5,7)-1]+' '+last.k.slice(0,4);
+  const tail=months[months.length-1];
+  const note=(tail!==last)
+    ? ' · '+MON3[+tail.k.slice(5,7)-1]+' is '+tail.days.size+' day'+(tail.days.size===1?'':'s')+' in and sits in the table below'
+    : '';
+  document.getElementById('soc-window').innerHTML=
+    'Instagram, Facebook &amp; LinkedIn · '+dmy(dates[0])+' to '+dmy(dates[dates.length-1])+
+    ' · headline figures are '+mLabel+(partial?' to date':'')+note;
+
+  const foll=socFollowers();
+  const totFoll=Object.values(foll).reduce((a,b)=>a+b.v,0);
+  const prev=li>0?months[li-1]:null;
+  const delta=(now,was)=>{
+    if(!prev||!was)return '';
+    const d=now-was,p=was?Math.round(d/was*100):0;
+    return ' · '+(d>=0?'+':'')+p+'% on '+MON3[+prev.k.slice(5,7)-1];
+  };
+  document.getElementById('soc-kpis').innerHTML=[
+    {hero:1,lbl:'Instagram reach',val:nf(last.ig),sub:mLabel+(partial?' to date':'')+delta(last.ig,prev&&prev.ig)},
+    {lbl:'Facebook reach',val:nf(last.fb),sub:mLabel+(partial?' to date':'')+delta(last.fb,prev&&prev.fb)},
+    {lbl:'LinkedIn impressions',val:nf(last.li),sub:mLabel+(partial?' to date':'')+delta(last.li,prev&&prev.li)},
+    {lbl:'Engagement',val:nf(last.eng),sub:'Likes, comments, shares and saves'},
+    {lbl:'Total followers',val:nf(totFoll),sub:'Across all three platforms'},
+    {lbl:'Posts tracked',val:''+SOC_POSTS.length,sub:'With reach and engagement'}
+  ].map(k=>'<div class="ad-kpi'+(k.hero?' hero':'')+'"><div class="lbl">'+k.lbl+'</div><div class="val">'+k.val+'</div><div class="sub">'+k.sub+'</div></div>').join('');
+
+  const ig=socSeries('reach','instagram'),fb=socSeries('reach','facebook');
+  socChart('soc-reach-chart',[{d:ig.d,v:ig.v,c:SOC_C.instagram},{d:fb.d,v:fb.v,c:SOC_C.facebook}]);
+  const eng=socSeries('engagement',null);
+  socChart('soc-eng-chart',[{d:eng.d,v:eng.v,c:SOC_C.instagram}]);
+
+  const IC={instagram:'Instagram',facebook:'Facebook',linkedin:'LinkedIn'};
+  document.getElementById('soc-foll').innerHTML=Object.keys(IC).map(p=>{
+    const f=foll[p];
+    if(!f)return '';
+    return '<div class="soc-fr"><span class="ic" style="background:'+SOC_C[p]+'"></span>'+
+      '<span class="nm">'+IC[p]+'</span><span class="vv">'+f.v.toLocaleString('en-AU')+'</span>'+
+      '<span class="dl">as at '+dmy(f.d)+'</span></div>';
+  }).join('')||'<div class="soc-empty">No follower counts recorded.</div>';
+
+  document.getElementById('soc-mom-body').innerHTML=months.slice().reverse().map(m=>{
+    const dim=new Date(+m.k.slice(0,4),+m.k.slice(5,7),0).getDate();
+    const part=m.days.size<dim;
+    return '<tr><td>'+MON3[+m.k.slice(5,7)-1]+' '+m.k.slice(2,4)+(part?'*':'')+'</td>'+
+      '<td>'+nf(m.ig)+'</td><td>'+nf(m.fb)+'</td><td>'+nf(m.li)+'</td>'+
+      '<td>'+nf(m.eng)+'</td><td>'+m.days.size+'</td></tr>';
+  }).join('');
+
+  // Scope the grid to the headline month so it matches the figures above.
+  const igAll=SOC_POSTS.filter(p=>p.platform==='instagram');
+  const igMonth=igAll.filter(p=>p.period_date.slice(0,7)===last.k);
+  const scoped=igMonth.length>0;
+  const posts=(scoped?igMonth:igAll).slice(0,6);
+  document.getElementById('soc-posts-cap').textContent=scoped
+    ?'The highest-reach organic posts on Instagram in '+mLabel+'.'
+    :'No Instagram posts were recorded in '+mLabel+', so these are the highest-reach posts on record.';
+  document.getElementById('soc-posts').innerHTML=posts.length?posts.map(p=>{
+    const ty=(p.media_type||'').replace('_ALBUM','').replace('REELS','REEL');
+    const img=p.image_path?'<img class="im" src="'+esc(p.image_path)+'" alt="" loading="lazy">':'<div class="noim">No preview</div>';
+    const body='<div class="bd"><div class="ty">'+esc(ty)+' · '+dmy(p.period_date)+'</div>'+
+      '<div class="cp">'+esc(clip(p.caption,150))+'</div>'+
+      '<div class="mt"><span><b>'+nf(p.reach)+'</b><span>reach</span></span>'+
+      '<span><b>'+nf(p.engagement)+'</b><span>engagement</span></span></div></div>';
+    return p.permalink
+      ? '<a class="soc-post" href="'+esc(p.permalink)+'" target="_blank" rel="noopener">'+img+body+'</a>'
+      : '<div class="soc-post">'+img+body+'</div>';
+  }).join(''):'<div class="soc-empty">No posts recorded for this period.</div>';
+
+  document.getElementById('soc-foot').innerHTML=
+    'Source: Instagram, Facebook and LinkedIn via Windsor.ai. Reach is accounts reached; LinkedIn reports impressions rather than reach. Part months marked *.';
+}
+
+/* ===================== LOADERS ===================== */
+async function loadContent(){
+  const {data,error}=await sb.from('ybh_content_months').select('*').order('sort',{ascending:true});
+  if(error||!data||!data.length)return;
+  DATA={};DEFAULT_ORDER=[];
+  data.forEach(r=>{
+    DATA[r.id]={name:r.name,sub:r.sub,short:r.short,vol:r.vol,status:r.status,
+                brief:r.brief,pills:r.pills,themes:r.themes,note:r.note,downloads:r.downloads};
+    DEFAULT_ORDER.push(r.id);
+  });
+  order=load();
+  renderAll();
+}
+async function loadAds(){
+  try{
+    const [r,m]=await Promise.all([
+      sb.from('ybh_ads_reports').select('month_key,report').eq('client_key','your-body-hub').order('month_key',{ascending:false}),
+      sb.from('ybh_ads_monthly').select('m,spend,impr,clicks,conv,month_key').eq('client_key','your-body-hub').order('month_key',{ascending:true})
+    ]);
+    const reps=r.data||[];if(!reps.length)return;
+    const next={};reps.forEach(x=>{if(x.month_key&&x.report)next[x.month_key]=x.report;});
+    if(!Object.keys(next).length)return;
+    ADS_REPORTS=next;
+    const mons=m.data||[];
+    if(mons.length)ADS_MONTHLY=mons.map(x=>({m:x.m,spend:+x.spend,impr:+x.impr,clicks:+x.clicks,conv:+x.conv}));
+    paintAds();
+  }catch(e){}
+}
+async function loadMeta(){
+  try{
+    const {data}=await sb.from('ybh_meta_ads').select('block,payload').eq('client_key','your-body-hub');
+    (data||[]).forEach(r=>{
+      if(r.block==='monthly')META_MONTHLY=r.payload;
+      else if(r.block==='campaigns')META_CAMPAIGNS=r.payload;
+      else if(r.block==='kpis')META_KPIS=r.payload;
+    });
+    if(META_KPIS.length||META_MONTHLY.length)renderMeta();
+  }catch(e){}
+}
+async function loadSocial(){
+  try{
+    const [d,p]=await Promise.all([
+      sb.from('ybh_social_daily').select('period_date,platform,followers,reach,impressions,engagement').order('period_date',{ascending:true}),
+      sb.from('ybh_social_posts').select('platform,period_date,permalink,media_type,caption,reach,engagement,image_path').order('reach',{ascending:false})
+    ]);
+    SOC_DAILY=d.data||[];SOC_POSTS=p.data||[];
+    renderSocial();
+  }catch(e){}
+}
+
+/* ===================== TABS + ACCESS ===================== */
+const ORDER_TABS=['content','ads','meta','social'];
+const HASHES={content:'#content',ads:'#google-ads',meta:'#meta-ads',social:'#social'};
+const NEEDS={content:'content',ads:'reports',meta:'reports',social:'reports'};
+const tabs={content:document.getElementById('tab-content'),ads:document.getElementById('tab-ads'),
+            meta:document.getElementById('tab-meta'),social:document.getElementById('tab-social')};
+const views={content:document.getElementById('view-content'),ads:document.getElementById('view-ads'),
+             meta:document.getElementById('view-meta'),social:document.getElementById('view-social')};
+function allowed(k){return NEEDS[k]==='content'?!!ME.content:!!ME.reports;}
+function firstAllowed(){return ORDER_TABS.find(allowed)||null;}
+function viewFromHash(){
+  const h=location.hash;
+  const k=ORDER_TABS.find(t=>HASHES[t]===h);
+  return (k&&allowed(k))?k:firstAllowed();
+}
+function showView(name,push){
+  if(!name||!views[name]||!allowed(name))name=firstAllowed();
+  if(!name)return;
+  ORDER_TABS.forEach(k=>{
+    const on=k===name;
+    views[k].hidden=!on;
+    tabs[k].setAttribute('aria-selected',on?'true':'false');
+  });
+  if(push){const hh=HASHES[name];if(location.hash!==hh)history.pushState(null,'',hh);}
+  window.scrollTo({top:0});
+}
+ORDER_TABS.forEach(k=>tabs[k].addEventListener('click',()=>showView(k,true)));
+window.addEventListener('popstate',()=>showView(viewFromHash(),false));
+function applyAccess(){
+  ORDER_TABS.forEach(k=>{
+    const ok=allowed(k);
+    tabs[k].hidden=!ok;
+    if(!ok)views[k].hidden=true;
+  });
+}
+
+/* ===================== SIGN IN ===================== */
+const gEl=document.getElementById('gate'),gForm=document.getElementById('gate-form'),
+      gErr=document.getElementById('gate-err'),gGo=document.getElementById('gate-go');
+function gateReset(msg){gErr.textContent=msg||'';gGo.disabled=false;gGo.textContent='Sign in';}
+async function whoAmI(){
+  const {data:{session}}=await sb.auth.getSession();
+  if(!session||!session.user)return null;
+  const email=session.user.email;
+  const {data}=await sb.from('ybh_users')
+    .select('name,can_view_content,can_view_reports,active').ilike('email',email).maybeSingle();
+  if(!data||!data.active)return {email,name:null,content:false,reports:false};
+  return {email,name:data.name,content:!!data.can_view_content,reports:!!data.can_view_reports};
+}
+async function boot(){
+  applyAccess();
+  document.getElementById('me-name').textContent=ME.name||ME.email||'';
+  const jobs=[];
+  if(ME.content)jobs.push(loadContent().then(loadComments));
+  if(ME.reports)jobs.push(loadAds(),loadMeta(),loadSocial());
+  await Promise.allSettled(jobs);
+  showView(viewFromHash(),false);
+  document.body.classList.remove('locked');
+  gEl.style.display='none';
+}
+async function start(){
+  const me=await whoAmI();
+  if(!me){gateReset();return;}
+  if(!me.content&&!me.reports){
+    await sb.auth.signOut();
+    gateReset('That account does not have access yet. Please contact Ready to Rank.');
+    return;
+  }
+  ME=me;
+  await boot();
+}
+gForm.addEventListener('submit',async e=>{
+  e.preventDefault();
+  gErr.textContent='';gGo.disabled=true;gGo.textContent='Signing in…';
+  const email=document.getElementById('gate-email').value.trim();
+  const pw=document.getElementById('gate-pw').value;
+  const {error}=await sb.auth.signInWithPassword({email,password:pw});
+  if(error){gateReset('That email and password did not match.');return;}
+  await start();
+});
+document.getElementById('signout').addEventListener('click',async()=>{
+  await sb.auth.signOut();location.reload();
+});
+start();
+</script>
+</body>
+</html>
