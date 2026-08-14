@@ -1247,22 +1247,40 @@ function renderSocial(){
       '<td>'+nf(m.liEng!=null?m.liEng:0)+'</td>'+
       '<td>'+(f!=null?f.toLocaleString('en-AU'):'—')+'</td><td>'+m.days.size+'</td></tr>';
   }).join('');
-  const liPosts=SOC_POSTS.filter(p=>p.platform==='linkedin').length;
-  document.getElementById('soc-li-gap').innerHTML=liPosts
-    ? '<b>Top LinkedIn content</b> is available below.'
-    : '<b>Top-performing LinkedIn content is not shown</b> because no post-level LinkedIn data is being collected. '+
-      'Only daily totals come through, so we can report how many impressions LinkedIn served but not which article or post earned them. '+
-      'Adding the LinkedIn Page connector to the feed would fill this in.';
+  const liAll=SOC_POSTS.filter(p=>p.platform==='linkedin');
+  const liThis=liAll.filter(p=>p.period_date.slice(0,7)===cur.k);
+  const liRanked=liThis.filter(p=>p.reach!=null).length;
+  document.getElementById('soc-li-gap').innerHTML=
+    !liAll.length
+      ? '<b>Top-performing LinkedIn content is not shown</b> because no post-level LinkedIn data has arrived yet. '+
+        'Only daily totals come through, so we can report how many impressions LinkedIn served but not which article or post earned them. '+
+        'This fills in on its own once the connector starts sending posts.'
+    : !liThis.length
+      ? 'LinkedIn post data is coming through now, but <b>none was recorded in '+mLabel+'</b>.'
+    : liRanked
+      ? '<b>'+liRanked+' LinkedIn post'+(liRanked===1?'':'s')+'</b> from '+mLabel+' '+(liRanked===1?'is':'are')+' ranked under Top performing posts below.'
+      : '<b>'+liThis.length+' LinkedIn post'+(liThis.length===1?'':'s')+'</b> recorded in '+mLabel+', listed here rather than below because '+
+        'LinkedIn does not report reach per post, so they cannot be ranked against Instagram: '+
+        liThis.slice(0,4).map(p=>'<br>&middot; '+esc(clip(p.caption,90))+' <span style="opacity:.7">('+dmy(p.period_date)+
+        (p.engagement!=null?', '+nf(p.engagement)+' engagement':'')+')</span>').join('');
 
-  const igAll=SOC_POSTS.filter(p=>p.platform==='instagram');
-  const igMonth=igAll.filter(p=>p.period_date.slice(0,7)===cur.k);
-  const scoped=igMonth.length>0;
-  const posts=(scoped?igMonth:igAll).slice(0,6);
+  /* Platform-agnostic: whatever post-level data exists gets ranked together, so a
+     platform arriving later (LinkedIn) appears without another code change. */
+  const PNAME={instagram:'Instagram',facebook:'Facebook',linkedin:'LinkedIn'};
+  /* Ranked on reach, so anything without a reach figure is excluded rather than
+     silently sorted to the top by a null. Supabase returns nulls first on a desc
+     order, so this is sorted explicitly here rather than trusted from the query. */
+  const ranked=SOC_POSTS.filter(p=>p.reach!=null).sort((a,b)=>b.reach-a.reach);
+  const inMonth=ranked.filter(p=>p.period_date.slice(0,7)===cur.k);
+  const scoped=inMonth.length>0;
+  const posts=(scoped?inMonth:ranked).slice(0,6);
+  const plats=[...new Set(posts.map(p=>p.platform))].map(p=>PNAME[p]||p);
+  const plist=plats.length>1?plats.slice(0,-1).join(', ')+' and '+plats[plats.length-1]:(plats[0]||'any platform');
   document.getElementById('soc-posts-cap').textContent=scoped
-    ?'The highest-reach organic posts on Instagram in '+mLabel+'.'
-    :'No Instagram posts were recorded in '+mLabel+', so these are the highest-reach posts on record.';
+    ?'The highest-reach organic posts in '+mLabel+', across '+plist+'.'
+    :'No posts were recorded in '+mLabel+', so these are the highest-reach posts on record.';
   document.getElementById('soc-posts').innerHTML=posts.length?posts.map(p=>{
-    const ty=(p.media_type||'').replace('_ALBUM','').replace('REELS','REEL');
+    const ty=((PNAME[p.platform]||p.platform)+' · '+(p.media_type||'post')).replace('_ALBUM','').replace('REELS','REEL');
     const img=p.image_path?'<img class="im" src="'+esc(p.image_path)+'" alt="" loading="lazy">':'<div class="noim">No preview</div>';
     const body='<div class="bd"><div class="ty">'+esc(ty)+' · '+dmy(p.period_date)+'</div>'+
       '<div class="cp">'+esc(clip(p.caption,150))+'</div>'+
