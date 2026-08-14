@@ -75,6 +75,20 @@ body.locked > *:not(#gate){display:none !important}
 .soc-fr .nm{font-size:13px;color:var(--ink-soft);flex:1}
 .soc-fr .vv{font-family:var(--head);font-weight:900;font-size:19px;color:var(--purple)}
 .soc-fr .dl{font-size:11.5px;color:var(--ink-soft);min-width:72px;text-align:right}
+.soc-mtabs{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
+.soc-mtab{border:1px solid var(--lilac-2);background:#fff;color:var(--ink-soft);border-radius:20px;padding:6px 15px;font:inherit;font-size:12.5px;font-weight:700;cursor:pointer}
+.soc-mtab[aria-pressed="true"]{background:var(--purple);border-color:var(--purple);color:#fff}
+.soc-mtab .pt{font-weight:400;opacity:.75}
+.soc-note{background:var(--lilac);border-left:4px solid var(--purple);border-radius:0 11px 11px 0;padding:17px 21px;margin-bottom:18px}
+.soc-note .to{font-family:var(--head);font-weight:800;color:var(--purple);font-size:12px;letter-spacing:.09em;text-transform:uppercase;margin-bottom:7px}
+.soc-note p{margin:0 0 9px;font-size:14.5px;line-height:1.62;color:var(--ink)}
+.soc-note p:last-child{margin-bottom:0}
+.soc-note b{color:var(--purple-deep)}
+.dl-up{color:#1f7a57;font-weight:700}
+.dl-dn{color:#b3282d;font-weight:700}
+.dl-flat{color:var(--ink-soft)}
+.soc-gap{background:#fdf6ea;border:1px solid #efdcb8;border-left:4px solid #a8620a;border-radius:0 10px 10px 0;padding:13px 17px;font-size:13px;line-height:1.55;color:var(--ink-soft)}
+.soc-gap b{color:#a8620a}
 .soc-posts{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:4px}
 @media(max-width:860px){.soc-posts{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:520px){.soc-posts{grid-template-columns:1fr}}
@@ -614,6 +628,7 @@ footer .sp{margin-left:auto}
           <div class="kick">Organic social &middot; Instagram &middot; Facebook &middot; LinkedIn</div>
           <h1>How the content is performing.</h1>
           <div class="win" id="soc-window">&nbsp;</div>
+          <div class="soc-mtabs" id="soc-mtabs"></div>
         </div>
       </div>
       <div class="ad-kpis" id="soc-kpis"></div>
@@ -622,13 +637,16 @@ footer .sp{margin-left:auto}
 
   <section style="padding-top:34px">
     <div class="wrap">
+      <div class="soc-note" id="soc-note"></div>
+
       <div class="ad-card">
         <h3>Reach over time</h3>
-        <p class="cap">Daily accounts reached on Instagram and Facebook.</p>
+        <p class="cap">Daily accounts reached on Instagram and Facebook. LinkedIn is plotted as impressions, which is the only figure it reports.</p>
         <div class="ad-chart-wrap"><svg class="ad-chart" id="soc-reach-chart" viewBox="0 0 900 300" role="img" aria-label="Daily reach by platform"></svg></div>
         <div class="ad-legend">
           <span><span class="ad-sw line" style="background:var(--purple)"></span> Instagram</span>
           <span><span class="ad-sw line" style="background:var(--teal)"></span> Facebook</span>
+          <span><span class="ad-sw line" style="background:var(--slate)"></span> LinkedIn (impressions)</span>
         </div>
       </div>
 
@@ -650,10 +668,22 @@ footer .sp{margin-left:auto}
         <p class="cap">Organic performance by calendar month. Part months are marked with an asterisk.</p>
         <div class="ad-tbl-wrap">
           <table class="ad-tbl">
-            <thead><tr><th>Month</th><th>IG reach</th><th>FB reach</th><th>LI impr.</th><th>Engagement</th><th>Days</th></tr></thead>
+            <thead><tr><th>Month</th><th>IG reach</th><th></th><th>FB reach</th><th></th><th>LI impr.</th><th></th><th>Engagement</th><th></th><th>Days</th></tr></thead>
             <tbody id="soc-mom-body"></tbody>
           </table>
         </div>
+      </div>
+
+      <div class="ad-card">
+        <h3>LinkedIn</h3>
+        <p class="cap">LinkedIn reports impressions rather than reach, so it is tracked separately. Tara publishes the weekly referrer newsletter here.</p>
+        <div class="ad-tbl-wrap">
+          <table class="ad-tbl">
+            <thead><tr><th>Month</th><th>Impressions</th><th></th><th>Engagement</th><th>Followers</th><th>Days</th></tr></thead>
+            <tbody id="soc-li-body"></tbody>
+          </table>
+        </div>
+        <div class="soc-gap" id="soc-li-gap" style="margin-top:16px"></div>
       </div>
 
       <div class="ad-card">
@@ -1063,11 +1093,11 @@ function socMonths(){
   const m={};
   SOC_DAILY.forEach(r=>{
     const k=r.period_date.slice(0,7);
-    const o=m[k]||(m[k]={k,days:new Set(),ig:0,fb:0,li:0,eng:0});
+    const o=m[k]||(m[k]={k,days:new Set(),ig:0,fb:0,li:0,eng:0,liEng:0});
     o.days.add(r.period_date);
     if(r.platform==='instagram')o.ig+=+r.reach||0;
     else if(r.platform==='facebook')o.fb+=+r.reach||0;
-    else if(r.platform==='linkedin')o.li+=+r.impressions||0;
+    else if(r.platform==='linkedin'){o.li+=+r.impressions||0;o.liEng+=+r.engagement||0;}
     o.eng+=+r.engagement||0;
   });
   return Object.values(m).sort((a,b)=>a.k<b.k?-1:1);
@@ -1081,6 +1111,7 @@ function socFollowers(){
   });
   return f;
 }
+let SOC_SEL=null;
 function renderSocial(){
   const dates=socDates();
   if(!dates.length){
@@ -1088,40 +1119,86 @@ function renderSocial(){
     return;
   }
   const months=socMonths();
-  const full=m=>m.days.size>=new Date(+m.k.slice(0,4),+m.k.slice(5,7),0).getDate();
-  // Headline the last COMPLETE month. A part month makes every number look like a collapse.
-  const complete=months.filter(full);
-  const last=complete.length?complete[complete.length-1]:months[months.length-1];
-  const li=months.indexOf(last);
-  const partial=!full(last);
-  const mLabel=MON3[+last.k.slice(5,7)-1]+' '+last.k.slice(0,4);
-  const tail=months[months.length-1];
-  const note=(tail!==last)
-    ? ' · '+MON3[+tail.k.slice(5,7)-1]+' is '+tail.days.size+' day'+(tail.days.size===1?'':'s')+' in and sits in the table below'
-    : '';
+  const dim=k=>new Date(+k.slice(0,4),+k.slice(5,7),0).getDate();
+  const full=m=>m.days.size>=dim(m.k);
+  const lbl=k=>MON3[+k.slice(5,7)-1]+' '+k.slice(0,4);
+
+  /* The programme started in July 2026. Months before that are the client's own
+     baseline and stay in the tables, but they do not get a tab of their own. */
+  const PROG_START='2026-07';
+  const prog=months.filter(m=>m.k>=PROG_START);
+  const tabbable=prog.length?prog:months.slice(-1);
+
+  if(!SOC_SEL||!tabbable.some(m=>m.k===SOC_SEL)){
+    const done=tabbable.filter(full);
+    SOC_SEL=(done.length?done[done.length-1]:tabbable[tabbable.length-1]).k;
+  }
+  const li=months.findIndex(m=>m.k===SOC_SEL);
+  const cur=months[li], prev=li>0?months[li-1]:null;
+  const partial=!full(cur), mLabel=lbl(cur.k);
+  const isFirst=cur.k===PROG_START;
+
+  document.getElementById('soc-mtabs').innerHTML=tabbable.map(m=>
+    '<button class="soc-mtab" data-k="'+m.k+'" aria-pressed="'+(m.k===SOC_SEL)+'">'+
+    MON3[+m.k.slice(5,7)-1]+' '+m.k.slice(0,4)+
+    (full(m)?'':' <span class="pt">· '+m.days.size+'d</span>')+'</button>').join('');
+  document.querySelectorAll('#soc-mtabs .soc-mtab').forEach(b=>
+    b.addEventListener('click',()=>{SOC_SEL=b.dataset.k;renderSocial();}));
+
   document.getElementById('soc-window').innerHTML=
-    'Instagram, Facebook &amp; LinkedIn · '+dmy(dates[0])+' to '+dmy(dates[dates.length-1])+
-    ' · headline figures are '+mLabel+(partial?' to date':'')+note;
+    'Instagram, Facebook &amp; LinkedIn · data from '+dmy(dates[0])+' to '+dmy(dates[dates.length-1])+
+    ' · showing '+mLabel+(partial?' ('+cur.days.size+' days in)':'');
+
+  /* pct change, rendered as a coloured cell. Returns '' when there is nothing to compare. */
+  const pct=(now,was)=>{
+    if(was===null||was===undefined||!prev)return '<span class="dl-flat">—</span>';
+    if(!was)return now?'<span class="dl-up">new</span>':'<span class="dl-flat">—</span>';
+    const d=Math.round((now-was)/was*100);
+    if(d===0)return '<span class="dl-flat">0%</span>';
+    return '<span class="'+(d>0?'dl-up':'dl-dn')+'">'+(d>0?'▲':'▼')+' '+Math.abs(d)+'%</span>';
+  };
+  const words=(now,was)=>{
+    if(!prev)return null;
+    if(!was)return now?'up from nothing':null;
+    const d=Math.round((now-was)/was*100);
+    return (d>0?'up '+d+'%':d<0?'down '+Math.abs(d)+'%':'level');
+  };
 
   const foll=socFollowers();
   const totFoll=Object.values(foll).reduce((a,b)=>a+b.v,0);
-  const prev=li>0?months[li-1]:null;
-  const delta=(now,was)=>{
-    if(!prev||!was)return '';
-    const d=now-was,p=was?Math.round(d/was*100):0;
-    return ' · '+(d>=0?'+':'')+p+'% on '+MON3[+prev.k.slice(5,7)-1];
-  };
+  const sub=(now,was)=>{const w=words(now,was);return mLabel+(partial?' to date':'')+(w?' · '+w+' on '+MON3[+prev.k.slice(5,7)-1]:'');};
   document.getElementById('soc-kpis').innerHTML=[
-    {hero:1,lbl:'Instagram reach',val:nf(last.ig),sub:mLabel+(partial?' to date':'')+delta(last.ig,prev&&prev.ig)},
-    {lbl:'Facebook reach',val:nf(last.fb),sub:mLabel+(partial?' to date':'')+delta(last.fb,prev&&prev.fb)},
-    {lbl:'LinkedIn impressions',val:nf(last.li),sub:mLabel+(partial?' to date':'')+delta(last.li,prev&&prev.li)},
-    {lbl:'Engagement',val:nf(last.eng),sub:'Likes, comments, shares and saves'},
+    {hero:1,lbl:'Instagram reach',val:nf(cur.ig),sub:sub(cur.ig,prev&&prev.ig)},
+    {lbl:'Facebook reach',val:nf(cur.fb),sub:sub(cur.fb,prev&&prev.fb)},
+    {lbl:'LinkedIn impressions',val:nf(cur.li),sub:sub(cur.li,prev&&prev.li)},
+    {lbl:'Engagement',val:nf(cur.eng),sub:sub(cur.eng,prev&&prev.eng)},
     {lbl:'Total followers',val:nf(totFoll),sub:'Across all three platforms'},
-    {lbl:'Posts tracked',val:''+SOC_POSTS.length,sub:'With reach and engagement'}
+    {lbl:'Posts tracked',val:''+SOC_POSTS.filter(p=>p.period_date.slice(0,7)===cur.k).length,sub:'In '+mLabel+', with reach recorded'}
   ].map(k=>'<div class="ad-kpi'+(k.hero?' hero':'')+'"><div class="lbl">'+k.lbl+'</div><div class="val">'+k.val+'</div><div class="sub">'+k.sub+'</div></div>').join('');
 
-  const ig=socSeries('reach','instagram'),fb=socSeries('reach','facebook');
-  socChart('soc-reach-chart',[{d:ig.d,v:ig.v,c:SOC_C.instagram},{d:fb.d,v:fb.v,c:SOC_C.facebook}]);
+  /* ---------- the note to Tara: every figure below is computed, never written in ---------- */
+  const reach=cur.ig+cur.fb, pReach=prev?prev.ig+prev.fb:null;
+  const S=[];
+  S.push(isFirst
+    ? 'This is the <b>first month of the social programme</b>, so there is nothing of ours to compare it with yet. What follows is the baseline everything after this gets measured against.'
+    : 'Here is how '+mLabel+' went'+(partial?', '+cur.days.size+' days in':'')+'.');
+  const rw=words(reach,pReach);
+  S.push('Across Instagram and Facebook we reached <b>'+nf(reach)+'</b> accounts'+
+    (rw?', '+rw+' on '+lbl(prev.k):'')+'. Instagram accounted for '+nf(cur.ig)+' and Facebook '+nf(cur.fb)+'.');
+  const lw=words(cur.li,prev&&prev.li);
+  S.push('LinkedIn served <b>'+nf(cur.li)+'</b> impressions'+
+    (prev&&!prev.li&&cur.li?', against none at all in '+lbl(prev.k):(lw?', '+lw:''))+
+    '. That is the weekly referrer newsletter landing.');
+  const ew=words(cur.eng,prev&&prev.eng);
+  S.push('Engagement came to <b>'+nf(cur.eng)+'</b> interactions'+(ew?', '+ew:'')+
+    ', and the audience now stands at <b>'+nf(totFoll)+'</b> followers across the three platforms.');
+  if(partial)S.push('<b>'+mLabel+' is still running</b> — these figures cover '+cur.days.size+' of '+dim(cur.k)+' days, so they are not comparable to a full month yet.');
+  document.getElementById('soc-note').innerHTML=
+    '<div class="to">Monthly summary for Tara · '+mLabel+(partial?' (part month)':'')+'</div>'+
+    S.map(s=>'<p>'+s+'</p>').join('');
+
+  const ig=socSeries('reach','instagram'),fb=socSeries('reach','facebook'),lin=socSeries('impressions','linkedin');
+  socChart('soc-reach-chart',[{d:ig.d,v:ig.v,c:SOC_C.instagram},{d:fb.d,v:fb.v,c:SOC_C.facebook},{d:lin.d,v:lin.v,c:SOC_C.linkedin}]);
   const eng=socSeries('engagement',null);
   socChart('soc-eng-chart',[{d:eng.d,v:eng.v,c:SOC_C.instagram}]);
 
@@ -1134,17 +1211,51 @@ function renderSocial(){
       '<span class="dl">as at '+dmy(f.d)+'</span></div>';
   }).join('')||'<div class="soc-empty">No follower counts recorded.</div>';
 
-  document.getElementById('soc-mom-body').innerHTML=months.slice().reverse().map(m=>{
-    const dim=new Date(+m.k.slice(0,4),+m.k.slice(5,7),0).getDate();
-    const part=m.days.size<dim;
-    return '<tr><td>'+MON3[+m.k.slice(5,7)-1]+' '+m.k.slice(2,4)+(part?'*':'')+'</td>'+
-      '<td>'+nf(m.ig)+'</td><td>'+nf(m.fb)+'</td><td>'+nf(m.li)+'</td>'+
-      '<td>'+nf(m.eng)+'</td><td>'+m.days.size+'</td></tr>';
+  document.getElementById('soc-mom-body').innerHTML=months.slice().reverse().map((m,idx,arr)=>{
+    const p=months[months.indexOf(m)-1]||null;
+    const ch=(n,w)=>{
+      if(!p)return '<span class="dl-flat">—</span>';
+      if(!w)return n?'<span class="dl-up">new</span>':'<span class="dl-flat">—</span>';
+      const d=Math.round((n-w)/w*100);
+      return d===0?'<span class="dl-flat">0%</span>':'<span class="'+(d>0?'dl-up':'dl-dn')+'">'+(d>0?'▲':'▼')+' '+Math.abs(d)+'%</span>';
+    };
+    const part=m.days.size<dim(m.k);
+    return '<tr'+(m.k===SOC_SEL?' style="background:var(--lilac)"':'')+'><td>'+MON3[+m.k.slice(5,7)-1]+' '+m.k.slice(2,4)+(part?'*':'')+'</td>'+
+      '<td>'+nf(m.ig)+'</td><td>'+ch(m.ig,p&&p.ig)+'</td>'+
+      '<td>'+nf(m.fb)+'</td><td>'+ch(m.fb,p&&p.fb)+'</td>'+
+      '<td>'+nf(m.li)+'</td><td>'+ch(m.li,p&&p.li)+'</td>'+
+      '<td>'+nf(m.eng)+'</td><td>'+ch(m.eng,p&&p.eng)+'</td>'+
+      '<td>'+m.days.size+'</td></tr>';
   }).join('');
 
-  // Scope the grid to the headline month so it matches the figures above.
+  /* ---------- LinkedIn, tracked on its own because it reports impressions ---------- */
+  const liFoll={};
+  SOC_DAILY.filter(r=>r.platform==='linkedin'&&r.followers!=null)
+    .forEach(r=>{liFoll[r.period_date.slice(0,7)]=r.followers;});
+  document.getElementById('soc-li-body').innerHTML=months.slice().reverse().map(m=>{
+    const p=months[months.indexOf(m)-1]||null;
+    const ch=(n,w)=>{
+      if(!p)return '<span class="dl-flat">—</span>';
+      if(!w)return n?'<span class="dl-up">new</span>':'<span class="dl-flat">—</span>';
+      const d=Math.round((n-w)/w*100);
+      return d===0?'<span class="dl-flat">0%</span>':'<span class="'+(d>0?'dl-up':'dl-dn')+'">'+(d>0?'▲':'▼')+' '+Math.abs(d)+'%</span>';
+    };
+    const part=m.days.size<dim(m.k);
+    const f=liFoll[m.k];
+    return '<tr'+(m.k===SOC_SEL?' style="background:var(--lilac)"':'')+'><td>'+MON3[+m.k.slice(5,7)-1]+' '+m.k.slice(2,4)+(part?'*':'')+'</td>'+
+      '<td>'+nf(m.li)+'</td><td>'+ch(m.li,p&&p.li)+'</td>'+
+      '<td>'+nf(m.liEng!=null?m.liEng:0)+'</td>'+
+      '<td>'+(f!=null?f.toLocaleString('en-AU'):'—')+'</td><td>'+m.days.size+'</td></tr>';
+  }).join('');
+  const liPosts=SOC_POSTS.filter(p=>p.platform==='linkedin').length;
+  document.getElementById('soc-li-gap').innerHTML=liPosts
+    ? '<b>Top LinkedIn content</b> is available below.'
+    : '<b>Top-performing LinkedIn content is not shown</b> because no post-level LinkedIn data is being collected. '+
+      'Only daily totals come through, so we can report how many impressions LinkedIn served but not which article or post earned them. '+
+      'Adding the LinkedIn Page connector to the feed would fill this in.';
+
   const igAll=SOC_POSTS.filter(p=>p.platform==='instagram');
-  const igMonth=igAll.filter(p=>p.period_date.slice(0,7)===last.k);
+  const igMonth=igAll.filter(p=>p.period_date.slice(0,7)===cur.k);
   const scoped=igMonth.length>0;
   const posts=(scoped?igMonth:igAll).slice(0,6);
   document.getElementById('soc-posts-cap').textContent=scoped
@@ -1163,8 +1274,10 @@ function renderSocial(){
   }).join(''):'<div class="soc-empty">No posts recorded for this period.</div>';
 
   document.getElementById('soc-foot').innerHTML=
-    'Source: Instagram, Facebook and LinkedIn via Windsor.ai. Reach is accounts reached; LinkedIn reports impressions rather than reach. Part months marked *.';
+    'Source: Instagram, Facebook and LinkedIn via Windsor.ai. Reach is accounts reached; LinkedIn reports impressions rather than reach. Part months marked *. Percentages compare with the previous calendar month.';
 }
+
+
 
 /* ===================== LOADERS ===================== */
 async function loadContent(){
