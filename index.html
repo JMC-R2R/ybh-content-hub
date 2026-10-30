@@ -653,6 +653,11 @@ table.lpg-f td:first-child{width:118px;padding-right:12px;font-family:var(--head
 .gp-rej textarea{width:100%;font:inherit;font-size:14px;border:2px solid var(--lilac-2);border-radius:12px;padding:9px 12px;resize:vertical}
 .gp-rej textarea:focus{outline:none;border-color:var(--purple)}
 .tabstrip .wrap{overflow-x:auto;scrollbar-width:none}.tab{white-space:nowrap}
+/* YBH-MERGE: shown inside /your-body-hub-hub/ (?embed=socials|reporting). Logo, title and sign out
+   belong to the outer hub, so only the clinic switch and this group's tabs stay. */
+body.embed .nav>img,body.embed .nav .htext,body.embed .nav .me{display:none}
+body.embed .nav{height:56px}body.embed .tabstrip{top:56px}
+body.embed #gate .gate-embed{font-size:15px;line-height:1.5;color:var(--slate)}
 </style>
 </head>
 <body class="locked">
@@ -1171,6 +1176,10 @@ const SB_URL='https://tjgrtrazyepvbcmmdhet.supabase.co';
 const SB_KEY='sb_publishable_FeX9cGqiIHCfAlWA_yTJ9g_u_TM48T8';
 const sb=supabase.createClient(SB_URL,SB_KEY);
 let ME={email:null,name:null,content:false,reports:false};
+/* YBH-MERGE: embedded group, null on the standalone page. */
+const EMBED=(()=>{try{const e=new URLSearchParams(location.search).get('embed');return (e==='socials'||e==='reporting')&&window.parent!==window?e:null;}catch(x){return null;}})();
+const GROUP={content:'socials',launch:'socials',posts:'socials',asks:'socials',ads:'reporting',meta:'reporting',social:'reporting',gbp:'reporting'};
+if(EMBED)document.body.classList.add('embed');
 let commentsByMonth={};
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function fmtWhen(iso){const d=new Date(iso);if(isNaN(d))return '';return d.toLocaleString('en-AU',{day:'numeric',month:'short',year:'numeric',hour:'numeric',minute:'2-digit',hour12:true});}
@@ -1736,7 +1745,7 @@ const tabs={content:document.getElementById('tab-content'),ads:document.getEleme
 const views={content:document.getElementById('view-content'),ads:document.getElementById('view-ads'),
              meta:document.getElementById('view-meta'),social:document.getElementById('view-social'),
              launch:document.getElementById('view-launch'),posts:document.getElementById('view-posts'),gbp:document.getElementById('view-gbp'),asks:document.getElementById('view-asks')};
-function allowed(k){if(!LOC_TABS[LOC].includes(k))return false;const n=NEEDS[k];return n==='any'?!!(ME.content||ME.reports):n==='content'?!!ME.content:!!ME.reports;}
+function allowed(k){if(!LOC_TABS[LOC].includes(k))return false;if(EMBED&&GROUP[k]!==EMBED)return false;const n=NEEDS[k];return n==='any'?!!(ME.content||ME.reports):n==='content'?!!ME.content:!!ME.reports;}
 function firstAllowed(){return ORDER_TABS.find(allowed)||null;}
 function viewFromHash(){
   const h=location.hash;
@@ -1752,6 +1761,7 @@ function showView(name,push){
     tabs[k].setAttribute('aria-selected',on?'true':'false');
   });
   if(push){const hh=HASHES[name];if(location.hash!==hh)history.pushState(null,'',hh);}
+  if(EMBED){try{window.parent.postMessage({r2rDashboardTab:HASHES[name].slice(1),r2rFrame:EMBED},location.origin);}catch(e){}}
   window.scrollTo({top:0});
 }
 ORDER_TABS.forEach(k=>tabs[k].addEventListener('click',()=>showView(k,true)));
@@ -1785,14 +1795,22 @@ async function boot(){
   if(ME.reports)jobs.push(loadAds(),loadMeta(),loadSocial());
   await Promise.allSettled(jobs);
   let l0=null;try{l0=localStorage.getItem('ybh-location');}catch(e){}
-  setLoc(['#warragul','#gbp-posts'].includes(location.hash)?'warragul':l0,true);
+  {const hk=ORDER_TABS.find(t=>HASHES[t]===location.hash);
+   setLoc(hk&&LOC_TABS.warragul.includes(hk)?'warragul':hk&&LOC_TABS.officer.includes(hk)?'officer':l0,true);}
   showView(viewFromHash(),false);
   {const cur=ORDER_TABS.find(k=>!views[k].hidden);if(cur==='asks')loadAsks();if(cur==='gbp')loadGbp();if(cur==='posts')loadPosts();}
   document.body.classList.remove('locked');
   gEl.style.display='none';
 }
+function gateEmbed(msg){
+  const b=gEl.querySelector('.box');
+  b.innerHTML='<img src="assets/ybh-logo.png" alt="Your Body Hub"><p class="gate-embed"></p>';
+  b.querySelector('.gate-embed').textContent=msg;
+}
 async function start(){
   const me=await whoAmI();
+  if(EMBED&&!me){gateEmbed('Your sign in has expired. Please reload the hub to sign in again.');return;}
+  if(EMBED&&!(EMBED==='reporting'?me.reports:(me.content||me.reports))){gateEmbed('This section is not switched on for your login yet. Please contact Ready to Rank.');return;}
   if(!me){gateReset();return;}
   if(!me.content&&!me.reports){
     await sb.auth.signOut();
