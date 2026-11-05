@@ -3,7 +3,7 @@
 <head>
 <script>/* YBH-MERGE redirect: this hub now lives inside /your-body-hub-hub/. */(function(){try{
 var q=new URLSearchParams(location.search);if(window.parent!==window||q.has('embed')||q.has('stay'))return;
-var m={'#content':'socials/content','#warragul':'socials/warragul','#gbp-posts':'socials/gbp-posts','#what-we-need':'socials/what-we-need',
+var m={'#content':'socials/content','#warragul':'socials/warragul','#gbp-posts':'socials/gbp-posts','#social-posts':'socials/social-posts','#what-we-need':'socials/what-we-need',
 '#google-ads':'reporting/google-ads','#meta-ads':'reporting/meta-ads','#social':'reporting/social','#google-business-profile':'reporting/google-business-profile'};
 location.replace('/your-body-hub-hub/#'+(m[location.hash]||'socials'));}catch(e){}})();</script>
 <meta charset="UTF-8">
@@ -663,6 +663,45 @@ table.lpg-f td:first-child{width:118px;padding-right:12px;font-family:var(--head
 body.embed .nav>img,body.embed .nav .htext,body.embed .nav .me{display:none}
 body.embed .nav{height:56px}body.embed .tabstrip{top:56px}
 body.embed #gate .gate-embed{font-size:15px;line-height:1.5;color:var(--slate)}
+
+/* WG-SOCIAL: Warragul Social posts tab */
+#view-socialplan .sp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;margin:14px 0 8px}
+#view-socialplan .sp-grid>*{min-width:0}
+.sp-card{background:#fff;border:1px solid #e8dfe8;border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+.sp-card>img{width:100%;display:block;background:#eee}
+.sp-meta{padding:12px 14px 0;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.sp-date{font-family:var(--head);font-weight:900;font-size:16.5px;color:var(--purple)}
+.sp-tags{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.sp-svc{font-weight:800;font-size:12px;color:var(--purple);background:#f3e9f3;border-radius:99px;padding:2px 10px}
+.sp-pill{font-family:var(--head);font-weight:900;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:99px;color:#fff}
+.sp-Help{background:var(--purple)}.sp-Local{background:#2f8f86}.sp-Act{background:var(--purple-deep)}.sp-Story{background:#7a5f86}
+.sp-cap{padding:8px 14px 14px;font-size:14px;line-height:1.55;white-space:pre-line;color:var(--ink)}
+.sp-note{margin:0 14px 14px;padding:9px 12px;border-radius:10px;background:#f3e9f3;border-left:4px solid var(--purple);font-size:13.5px}
+.sp-phone{position:relative;aspect-ratio:9/16;max-width:100%;border-radius:20px;overflow:hidden;background:#000}
+.sp-phone>img,.sp-phone>video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.sp-phone .ig-av{background:#fff url(assets/warragul-social/2026-11/ybh-avatar.png) center/86% no-repeat}
+.sp-pills{display:flex;flex-wrap:wrap;gap:6px}
+.ig-top{position:absolute;left:0;right:0;top:0;padding:8px 10px 18px;background:linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,0));pointer-events:none;z-index:2}
+.ig-bars{display:flex;gap:3px}.ig-bars i{flex:1;height:2px;border-radius:2px;background:rgba(255,255,255,.45)}.ig-bars i.on{background:#fff}
+.ig-who{display:flex;align-items:center;gap:7px;margin-top:8px;color:#fff;font:600 12px/1 -apple-system,Segoe UI,Arial,sans-serif;text-shadow:0 1px 2px rgba(0,0,0,.4)}
+.ig-av{width:24px;height:24px;border-radius:50%;border:1.5px solid #fff}
+.ig-who span{opacity:.8;font-weight:400}
+.stk{position:absolute;left:50%;transform:translateX(-50%);z-index:2;font-family:-apple-system,Segoe UI,Arial,sans-serif}
+.poll{width:70%;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+.poll .q{background:linear-gradient(90deg,#90278e,#c0517a);color:#fff;font-weight:800;font-size:12.5px;text-align:center;padding:9px 8px;line-height:1.3}
+.poll .o{padding:7px 9px;display:flex;flex-direction:column;gap:6px}
+.poll .o div{border:1.5px solid #e6e6e6;border-radius:9px;padding:6px 10px;font-weight:700;font-size:12px;color:#222}
+.quiz .o b{display:inline-block;width:16px;color:#888}.quiz .o .ok{border-color:#3fb26b;background:#eaf8ef}
+.link{background:#fff;border-radius:9px;padding:7px 12px;display:flex;align-items:center;gap:6px;font-weight:800;font-size:12.5px;color:#3b6fd8;letter-spacing:.02em;box-shadow:0 4px 12px rgba(0,0,0,.2);white-space:nowrap}
+.link svg{width:14px;height:14px;stroke:#3b6fd8;fill:none;stroke-width:2.4;stroke-linecap:round}
+.qst{width:66%;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.25);text-align:center}
+.qst .t{font-weight:800;font-size:13px;color:#222;padding:12px 10px 8px}
+.qst .a{margin:0 10px 10px;background:#f1f1f1;border-radius:8px;padding:8px;font-size:11.5px;color:#888}
+.slider{width:70%;background:#fff;border-radius:14px;padding:12px 14px 16px;box-shadow:0 6px 18px rgba(0,0,0,.25);text-align:center}
+.slider .t{font-weight:800;font-size:13px;color:#222;margin-bottom:12px}
+.slider .track{position:relative;height:8px;border-radius:4px;background:#e6e6e6}
+.slider .fill{position:absolute;left:0;top:0;bottom:0;width:62%;border-radius:4px;background:linear-gradient(90deg,#62c4bb,#90278e)}
+.slider .emo{position:absolute;left:62%;top:50%;transform:translate(-50%,-50%);font-size:24px}
 </style>
 </head>
 <body class="locked">
@@ -703,6 +742,10 @@ body.embed #gate .gate-embed{font-size:15px;line-height:1.5;color:var(--slate)}
     <button class="tab" id="tab-posts" role="tab" aria-selected="false" aria-controls="view-posts" hidden>
       <svg viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-6l-4 4v-4H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm3 5v2h10V9H7zm0 3.5v2h6v-2H7z"/></svg>
       GBP posts
+    </button>
+    <button class="tab" id="tab-socialplan" role="tab" aria-selected="false" aria-controls="view-socialplan" hidden><!-- WG-SOCIAL -->
+      <svg viewBox="0 0 24 24"><path d="M4 3h7v7H4V3zm9 0h7v7h-7V3zM4 12h7v9H4v-9zm9 0h7v9h-7v-9z"/></svg>
+      Social posts
     </button>
     <button class="tab" id="tab-content" role="tab" aria-selected="true" aria-controls="view-content">
       <svg viewBox="0 0 24 24"><path d="M7 2v2H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-3V2h-2v2H9V2H7zm13 8v10H4V10h16z"/></svg>
@@ -1056,6 +1099,140 @@ body.embed #gate .gate-embed{font-size:15px;line-height:1.5;color:var(--slate)}
   <section class="wg-sec"><div class="wrap" id="posts-body"></div></section>
 </main>
 
+<!-- ===================== WARRAGUL SOCIAL POSTS (WG-SOCIAL) ===================== -->
+<main id="view-socialplan" class="view" role="tabpanel" aria-labelledby="tab-socialplan" hidden>
+  <div class="wg-top"><div class="wrap">
+    <div class="kick">Instagram &amp; Facebook · Warragul</div>
+    <h1>November social posts, <span class="t">13 posts and 8 stories.</span></h1>
+    <p>The first monthly social plan for Warragul. Three posts a week (Monday, Wednesday, Friday) and two stories a week, following on from the launch posts and the three pinned posts.</p>
+  </div></div>
+  <section class="wg-sec"><div class="wrap">
+  <h2 style="font-family:var(--head);font-weight:900;color:var(--purple);font-size:26px;margin:30px 0 12px">The plan at a glance</h2>
+  <div class="wg-card"><div class="wg-tblw"><table class="wg-tbl"><tbody>
+   <tr><td><b>Goal</b></td><td>Let Warragul know a new allied health clinic has opened inside Universal Athlete Centre, and turn that into first bookings.</td></tr>
+   <tr><td><b>Content pillars</b></td><td><div class="sp-pills"><span class="sp-pill sp-Help">Help</span> Monday: a useful tip that solves a real problem.</div><div class="sp-pills" style="margin-top:6px"><span class="sp-pill sp-Local">Local</span> Wednesday: Warragul, Universal Athlete Centre and the team.</div><div class="sp-pills" style="margin-top:6px"><span class="sp-pill sp-Act">Act</span> Friday: a practical reason to book now.</div></td></tr>
+   <tr><td><b>Timely hooks</b></td><td>Movember, summer sport, health fund extras before 31 December, and the silly season.</td></tr>
+   <tr><td><b>Your team</b></td><td>Natasha (Physiotherapy), James and Alana (Exercise Physiology), Shannon (Dietetics) and Christine (Myotherapy and Remedial Massage). Each has their own post, and all five appear together on Wed 4.</td></tr>
+   <tr><td><b>Services</b></td><td>Every service has its own post and at least one story: Physiotherapy, Exercise Physiology, Myotherapy, Remedial Massage and Dietetics.</td></tr>
+   <tr><td><b>From December</b></td><td>Once the clinic is introduced, we'd like to move to one service per week on rotation. We'll confirm the approach with you before December.</td></tr>
+  </tbody></table></div></div>
+  <h2 style="font-family:var(--head);font-weight:900;color:var(--purple);font-size:26px;margin:30px 0 12px">Posts</h2>
+  <div class="sp-grid"><div class="sp-card"><img src="assets/warragul-social/2026-11/YBH-Warragul-Nov-02-falls-arent-part-of-getting-older.jpg" alt="" loading="lazy"><div class="sp-meta"><span class="sp-date">Mon 2 Nov</span><span class="sp-tags"><span class="sp-svc">Exercise Physiology</span><span class="sp-pill sp-Help">Help</span></span></div><div class="sp-cap">"I just had a bit of a stumble." It's one of the most common things we hear, and it's almost always followed by "but I'm fine."
+
+Falls do become more common as we get older, but common isn't the same as normal. Strength, balance and confidence can all be trained, at any age.
+
+If you or someone in your family has had a stumble lately, James and Alana, our Exercise Physiologists, can assess what's behind it and build a program around you.
+
+Book Exercise Physiology at Your Body Hub Warragul via the link in our bio.
+
+#Warragul #ExercisePhysiology #FallsPrevention #YourBodyHub</div><div class="sp-note">This date has passed, so it goes up this week.</div></div><div class="sp-card"><img src="assets/warragul-social/2026-11/YBH-Warragul-Nov-04-who-should-i-see.jpg" alt="" loading="lazy"><div class="sp-meta"><span class="sp-date">Wed 4 Nov</span><span class="sp-tags"><span class="sp-svc">All five</span><span class="sp-pill sp-Local">Local</span></span></div><div class="sp-cap">Not sure who to book with? Here's a quick guide to the Your Body Hub Warragul team 👇
+
+🦴 Natasha, Physiotherapy: pain, injury and getting moving again
+💪 James and Alana, Exercise Physiology: exercise for health conditions, injury recovery and staying strong as you age
+🥗 Shannon, Dietetics: practical, non-diet nutrition support
+💆 Christine, Myotherapy and Remedial Massage: for tight, sore muscles
+
+Still not sure? Call us on (03) 8578 6544 and we'll point you in the right direction. Find us inside Universal Athlete Centre, 7 Neilson Court.
+
+#Warragul #YourBodyHub #AlliedHealth</div><div class="sp-note">This date has passed, so it goes up this week.</div></div><div class="sp-card"><img src="assets/warragul-social/2026-11/YBH-Warragul-Nov-06-do-i-need-a-referral.jpg" alt="" loading="lazy"><div class="sp-meta"><span class="sp-date">Fri 6 Nov</span><span class="sp-tags"><span class="sp-svc">All services</span><span class="sp-pill sp-Act">Act</span></span></div><div class="sp-cap">Do you need a referral to see us? No. You can book straight in with any of our practitioners.
+
+If your GP has given you a care plan, bring it along to your first appointment. We also accept WorkSafe, TAC, DVA, NDIS and Medicare referrals.
+
+Questions about what's covered? Call us on (03) 8578 6544.
+
+#Warragul #YourBodyHub #AlliedHealth</div><div class="sp-note">Please check: are WorkSafe, TAC, DVA, NDIS and Medicare referrals all accepted at Warragul?</div></div><div class="sp-card"><img src="assets/warragul-social/2026-11/YBH-Warragul-Nov-09-sore-back-what-a-physio-checks.jpg" alt="" loading="lazy"><div class="sp-meta"><span class="sp-date">Mon 9 Nov</span><span class="sp-tags"><span class="sp-svc">Physiotherapy</span><span class="sp-pill sp-Help">Help</span></span></div><div class="sp-cap">Sore back that keeps coming back? 😣
+
+At your first Physiotherapy appointment, Natasha will look at:
+1. How you move, sit and lift
+2. What sets the pain off
+3. What you can do at home to help
+
+Then you'll leave with a plan that fits your day.
+
+Book Physiotherapy at Your Body Hub Warragul, inside Universal Athlete Centre, via the link in our bio or call (03) 8578 6544.
+
+#Warragul #Physiotherapy #BackPain #YourBodyHub</div></div><div class="sp-card"><img src="assets/warragul-social/2026-11/YBH-Warragul-Nov-11-train-and-treat-under-one-roof.jpg" alt="" loading="lazy"><div class="sp-meta"><span class="sp-date">Wed 11 Nov</span><span class="sp-tags"><span class="sp-svc">All services</span><span class="sp-pill sp-Local">Local</span></span></div><div class="sp-cap">Your Body Hub Warragul is inside Universal Athlete Centre 📍
+
+So whether you're training on the gym floor or getting a niggle looked at, it's all in one place: Physiotherapy, Exercise Physiology, Myotherapy, Remedial Massage and Dietetics.
+
+7 Neilson Court, Warragul. Book via the link in our bio or call (03) 8578 6544.
+
+#Warragul #UniversalAthleteCentre #YourBodyHub</div></div><div class="sp-card"><img src="assets/warragul-social/2026-11/YBH-Warragul-Nov-13-your-first-appointment.jpg" alt="" loading="lazy"><div class="sp-meta"><span class="sp-date">Fri 13 Nov</span><span class="sp-tags"><span class="sp-svc">Exercise Physiology</span><span class="sp-pill sp-Act">Act</span></span></div><div class="sp-cap">Never been to an allied health appointment before? Here's what to expect at Your Body Hub Warragul 👇
+
+1. We listen: what's going on, and what you want to get back to
+2. We assess how you move and what's driving it
+3. You leave with a plan: what to do, and why
+
+Wear comfortable clothes and bring any scans, reports or care plans you have. Book via the link in our bio.
+
+#Warragul #YourBodyHub #AlliedHealth</div></div><div class="sp-card"><img src="assets/warragul-social/2026-11/YBH-Warragul-Nov-16-when-to-book-remedial-massage.jpg" alt="" loading="lazy"><div class="sp-meta"><span class="sp-date">Mon 16 Nov</span><span class="sp-tags"><span class="sp-svc">Remedial Massage</span><span class="sp-pill sp-Help">Help</span></span></div><div class="sp-cap">When should you book a Remedial Massage? 💆
+
+✔️ Your muscles feel tight or sore
+✔️ You're training hard
+✔️ Everyday aches keep hanging around
+
+Remedial Massage targets the areas that need it most, so you can move more comfortably. Christine offers Remedial Massage at Your Body Hub Warragul, inside Universal Athlete Centre.
+
+Book via the link in our bio or call (03) 8578 6544.
+
+#Warragul #RemedialMassage #YourBodyHub</div></div><div class="sp-card"><img src="assets/warragul-social/2026-11/YBH-Warragul-Nov-18-movember-that-niggle.jpg" alt="" loading="lazy"><div class="sp-meta"><span class="sp-date">Wed 18 Nov</span><span class="sp-tags"><span class="sp-svc">Exercise Physiology</span><span class="sp-pill sp-Local">Local</span></span></div><div class="sp-cap">Blokes, that sore back, that dodgy knee, that shoulder you've been "meaning to get looked at" 🥸
+
+This Movember, stop putting it off. Our team at Your Body Hub Warragul can assess what's going on and help you get moving properly again.
+
+We're inside Universal Athlete Centre, 7 Neilson Court. Book via the link in our bio.
+
+#Movember #MensHealth #Warragul #YourBodyHub</div></div><div class="sp-card"><img src="assets/warragul-social/2026-11/YBH-Warragul-Nov-20-health-fund-extras.jpg" alt="" loading="lazy"><div class="sp-meta"><span class="sp-date">Fri 20 Nov</span><span class="sp-tags"><span class="sp-svc">All services</span><span class="sp-pill sp-Act">Act</span></span></div><div class="sp-cap">Have you used your health fund extras this year? 💜
+
+Many funds reset extras limits on 1 January, so anything left over may not carry into next year. Check with your fund what you have left, then book in before the end of the year.
+
+Physiotherapy, Exercise Physiology, Myotherapy, Remedial Massage and Dietetics at Your Body Hub Warragul. Book via the link in our bio or call (03) 8578 6544.
+
+#Warragul #HealthFund #YourBodyHub</div><div class="sp-note">Please check: can patients claim on the spot (HICAPS) at Warragul? If so, we will add it to the caption.</div></div><div class="sp-card"><img src="assets/warragul-social/2026-11/YBH-Warragul-Nov-23-desk-days-three-resets.jpg" alt="" loading="lazy"><div class="sp-meta"><span class="sp-date">Mon 23 Nov</span><span class="sp-tags"><span class="sp-svc">Myotherapy</span><span class="sp-pill sp-Help">Help</span></span></div><div class="sp-cap">Long days at a desk can add up in your neck and shoulders 😣
+
+Three quick resets to try:
+1. Roll your shoulders back and down, every hour
+2. Bring your screen up to eye level
+3. Stand up and move between tasks
+
+If the tightness keeps coming back, Christine can take a proper look. Myotherapy at Your Body Hub Warragul, inside Universal Athlete Centre. Book via the link in our bio.
+
+#Warragul #Myotherapy #DeskWorkers #YourBodyHub</div><div class="sp-note">Please check: is Christine's title Myotherapist?</div></div><div class="sp-card"><img src="assets/warragul-social/2026-11/YBH-Warragul-Nov-25-summer-sport-build-up-first.jpg" alt="" loading="lazy"><div class="sp-meta"><span class="sp-date">Wed 25 Nov</span><span class="sp-tags"><span class="sp-svc">Physiotherapy</span><span class="sp-pill sp-Local">Local</span></span></div><div class="sp-cap">Summer sport is here ☀️
+
+Jumping straight back in after a break is one of the most common ways people pick up a niggle. Building up first helps your body handle the load.
+
+Natasha, our Physiotherapist, can check how you're moving and help you plan a safe return, whether it's cricket, tennis, running or the gym. Book Physiotherapy at Your Body Hub Warragul, inside Universal Athlete Centre, via the link in our bio.
+
+#Warragul #Physiotherapy #SummerSport #YourBodyHub</div></div><div class="sp-card"><img src="assets/warragul-social/2026-11/YBH-Warragul-Nov-27-exercise-is-medicine.jpg" alt="" loading="lazy"><div class="sp-meta"><span class="sp-date">Fri 27 Nov</span><span class="sp-tags"><span class="sp-svc">Exercise Physiology</span><span class="sp-pill sp-Act">Act</span></span></div><div class="sp-cap">Exercise is medicine 💪
+
+Prescribed exercise isn't the same as a general gym program. The type, the amount and how often you do it are chosen for what you're managing, whether that's blood pressure, blood sugar, sore joints or low energy.
+
+James, our Accredited Exercise Physiologist, builds programs around you at Your Body Hub Warragul. No referral needed.
+
+Book an assessment via the link in our bio or call (03) 8578 6544.
+
+#Warragul #ExercisePhysiology #YourBodyHub</div></div><div class="sp-card"><img src="assets/warragul-social/2026-11/YBH-Warragul-Nov-30-silly-season-eating.jpg" alt="" loading="lazy"><div class="sp-meta"><span class="sp-date">Mon 30 Nov</span><span class="sp-tags"><span class="sp-svc">Dietetics</span><span class="sp-pill sp-Help">Help</span></span></div><div class="sp-cap">Enjoy the silly season 🎄 No guilt, no rules.
+
+Three tips from Shannon, our Accredited Practising Dietitian:
+1. Don't skip meals to "save up" for a party
+2. Start with veg or salad, then go for the rest
+3. Enjoy the treats you really love
+
+Want nutrition support that fits real life? Book Dietetics with Shannon at Your Body Hub Warragul via the link in our bio.
+
+#Warragul #Dietetics #YourBodyHub</div></div></div>
+  <h2 style="font-family:var(--head);font-weight:900;color:var(--purple);font-size:26px;margin:30px 0 12px">Stories</h2>
+  <div class="wg-card"><p style="font-size:15px;margin:0">Shown as they will look on Instagram. The stickers (poll, quiz, slider, question and booking link) are added when we post. Press play on Shannon's videos to watch them.</p></div>
+  <div class="sp-grid"><div class="sp-card"><div class="sp-phone"><img src="assets/warragul-social/2026-11/YBH-Warragul-Nov-story-06-poll-wheres-your-niggle.jpg" alt="" loading="lazy"><div class="ig-top"><div class="ig-bars"><i class="on"></i><i></i></div><div class="ig-who"><div class="ig-av"></div>yourbodyhubwarragul <span>2h</span></div></div><div class="stk poll" style="top:58%"><div class="q">Where&#39;s your niggle?</div><div class="o"><div>Neck</div><div>Back</div><div>Knees</div><div>Shoulders</div></div></div></div><div class="sp-meta"><span class="sp-date">Fri 6 Nov</span><span class="sp-tags"><span class="sp-svc">All services</span><span class="sp-pill sp-Story">New</span></span></div><div class="sp-cap">Poll sticker, alongside the referral post. Share the result the following week with a tip for the top answer.</div></div><div class="sp-card"><div class="sp-phone"><img src="assets/warragul-social/2026-11/YBH-Warragul-Nov-story-07-quiz-know-our-services.jpg" alt="" loading="lazy"><div class="ig-top"><div class="ig-bars"><i class="on"></i><i></i></div><div class="ig-who"><div class="ig-av"></div>yourbodyhubwarragul <span>2h</span></div></div><div class="stk poll quiz" style="top:52%"><div class="q">Which service uses exercise to help manage conditions like diabetes?</div><div class="o"><div><b>A</b> Physiotherapy</div><div class="ok"><b>B</b> Exercise Physiology</div><div><b>C</b> Myotherapy</div></div></div></div><div class="sp-meta"><span class="sp-date">Sat 7 Nov</span><span class="sp-tags"><span class="sp-svc">All services</span><span class="sp-pill sp-Story">New</span></span></div><div class="sp-cap">Quiz sticker. Instagram shows the right answer (Exercise Physiology) as soon as someone taps.</div></div><div class="sp-card"><div class="sp-phone"><img src="assets/warragul-social/2026-11/YBH-Warragul-Nov-story-10-can-an-ep-help.jpg" alt="" loading="lazy"><div class="ig-top"><div class="ig-bars"><i class="on"></i><i></i></div><div class="ig-who"><div class="ig-av"></div>yourbodyhubwarragul <span>2h</span></div></div><div class="stk link" style="bottom:5%"><svg viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.6 0l3-3a4 4 0 0 0-5.6-5.6l-1 1"/><path d="M14 10a4 4 0 0 0-5.6 0l-3 3a4 4 0 0 0 5.6 5.6l1-1"/></svg>BOOK NOW</div></div><div class="sp-meta"><span class="sp-date">Tue 10 Nov</span><span class="sp-tags"><span class="sp-svc">Exercise Physiology</span><span class="sp-pill sp-Story">New</span></span></div><div class="sp-cap">Can an Exercise Physiologist help me? With James and Alana, plus the booking link.</div></div><div class="sp-card"><div class="sp-phone"><video src="assets/warragul-social/2026-11/Officer-Dietetics-story-shannon-non-diet.mp4#t=3" controls playsinline preload="metadata"></video><div class="ig-top"><div class="ig-bars"><i class="on"></i><i></i></div><div class="ig-who"><div class="ig-av"></div>yourbodyhubwarragul <span>2h</span></div></div><div class="stk link" style="bottom:3%"><svg viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.6 0l3-3a4 4 0 0 0-5.6-5.6l-1 1"/><path d="M14 10a4 4 0 0 0-5.6 0l-3 3a4 4 0 0 0 5.6 5.6l1-1"/></svg>BOOK NOW</div></div><div class="sp-meta"><span class="sp-date">Thu 12 Nov</span><span class="sp-tags"><span class="sp-svc">Dietetics</span><span class="sp-pill sp-Story">Video</span></span></div><div class="sp-cap">Shannon, "Non-diet, no shame". Introduces her approach before her post at the end of the month.</div></div><div class="sp-card"><div class="sp-phone"><img src="assets/warragul-social/2026-11/YBH-Warragul-story-services-04-remedial-massage.jpg" alt="" loading="lazy"><div class="ig-top"><div class="ig-bars"><i class="on"></i><i></i></div><div class="ig-who"><div class="ig-av"></div>yourbodyhubwarragul <span>2h</span></div></div><div class="stk link" style="bottom:12%"><svg viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.6 0l3-3a4 4 0 0 0-5.6-5.6l-1 1"/><path d="M14 10a4 4 0 0 0-5.6 0l-3 3a4 4 0 0 0 5.6 5.6l1-1"/></svg>BOOK NOW</div></div><div class="sp-meta"><span class="sp-date">Tue 17 Nov</span><span class="sp-tags"><span class="sp-svc">Remedial Massage</span><span class="sp-pill sp-Story">Story</span></span></div><div class="sp-cap">What is Remedial Massage? With Christine. Pairs with the Remedial Massage post on Monday.</div></div><div class="sp-card"><div class="sp-phone"><video src="assets/warragul-social/2026-11/Officer-Dietetics-story-shannon-joined-up-care.mp4#t=3" controls playsinline preload="metadata"></video><div class="ig-top"><div class="ig-bars"><i class="on"></i><i></i></div><div class="ig-who"><div class="ig-av"></div>yourbodyhubwarragul <span>2h</span></div></div><div class="stk link" style="bottom:3%"><svg viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.6 0l3-3a4 4 0 0 0-5.6-5.6l-1 1"/><path d="M14 10a4 4 0 0 0-5.6 0l-3 3a4 4 0 0 0 5.6 5.6l1-1"/></svg>BOOK NOW</div></div><div class="sp-meta"><span class="sp-date">Thu 19 Nov</span><span class="sp-tags"><span class="sp-svc">Dietetics</span><span class="sp-pill sp-Story">Video</span></span></div><div class="sp-cap">Shannon, "Joined-up care". Shows how Dietetics works with your GP and the rest of the team.</div></div><div class="sp-card"><div class="sp-phone"><img src="assets/warragul-social/2026-11/YBH-Warragul-story-team-03-christine.jpg" alt="" loading="lazy"><div class="ig-top"><div class="ig-bars"><i class="on"></i><i></i></div><div class="ig-who"><div class="ig-av"></div>yourbodyhubwarragul <span>2h</span></div></div><div class="stk qst" style="top:20%"><div class="t">Ask Christine anything about tight, sore muscles</div><div class="a">Type something...</div></div></div><div class="sp-meta"><span class="sp-date">Tue 24 Nov</span><span class="sp-tags"><span class="sp-svc">Myotherapy</span><span class="sp-pill sp-Story">Story</span></span></div><div class="sp-cap">Christine, with a question sticker. Pairs with the desk-days post on Monday.</div></div><div class="sp-card"><div class="sp-phone"><img src="assets/warragul-social/2026-11/YBH-Warragul-Nov-story-26-ready-for-summer-sport.jpg" alt="" loading="lazy"><div class="ig-top"><div class="ig-bars"><i class="on"></i><i></i></div><div class="ig-who"><div class="ig-av"></div>yourbodyhubwarragul <span>2h</span></div></div><div class="stk slider" style="top:44%"><div class="t">How ready is your body for summer sport?</div><div class="track"><span class="fill"></span><span class="emo">💪</span></div></div></div><div class="sp-meta"><span class="sp-date">Thu 26 Nov</span><span class="sp-tags"><span class="sp-svc">Physiotherapy</span><span class="sp-pill sp-Story">New</span></span></div><div class="sp-cap">Natasha, with an emoji slider. Pairs with the summer sport post on Wednesday.</div></div></div>
+  <h2 style="font-family:var(--head);font-weight:900;color:var(--purple);font-size:26px;margin:30px 0 12px">What we need for December</h2>
+  <div class="wg-card"><ul style="margin:0">
+   <li>Photos of the Warragul rooms and the Universal Athlete Centre gym.</li>
+   <li>The team at work at Warragul. Hands-only shots are fine.</li>
+   <li>The meet-the-team videos from the filming brief on the Launch plan tab.</li>
+   <li>The original Universal Athlete Centre photo (the one we have is too small for a full post).</li>
+  </ul><p class="wg-note">Upload them on the What we need from you tab.</p></div>
+  </div></section>
+</main>
+
 <!-- ===================== GOOGLE BUSINESS PROFILE ===================== -->
 <main id="view-gbp" class="view" role="tabpanel" aria-labelledby="tab-gbp" hidden>
   <div class="wg-top"><div class="wrap"><div class="wg-toprow">
@@ -1183,7 +1360,7 @@ const sb=supabase.createClient(SB_URL,SB_KEY);
 let ME={email:null,name:null,content:false,reports:false};
 /* YBH-MERGE: embedded group, null on the standalone page. */
 const EMBED=(()=>{try{const e=new URLSearchParams(location.search).get('embed');return (e==='socials'||e==='reporting')&&window.parent!==window?e:null;}catch(x){return null;}})();
-const GROUP={content:'socials',launch:'socials',posts:'socials',asks:'socials',ads:'reporting',meta:'reporting',social:'reporting',gbp:'reporting'};
+const GROUP={content:'socials',launch:'socials',posts:'socials',socialplan:'socials',asks:'socials',ads:'reporting',meta:'reporting',social:'reporting',gbp:'reporting'};
 if(EMBED)document.body.classList.add('embed');
 let commentsByMonth={};
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
@@ -1739,17 +1916,17 @@ async function loadSocial(){
 }
 
 /* ===================== TABS + ACCESS ===================== */
-const ORDER_TABS=['launch','posts','content','ads','meta','social','gbp','asks'];
+const ORDER_TABS=['launch','posts','socialplan','content','ads','meta','social','gbp','asks'];
 let LOC='officer';
-const LOC_TABS={officer:['content','ads','meta','social'],warragul:['launch','posts','gbp','asks']};
-const HASHES={launch:'#warragul',posts:'#gbp-posts',content:'#content',ads:'#google-ads',meta:'#meta-ads',social:'#social',gbp:'#google-business-profile',asks:'#what-we-need'};
-const NEEDS={launch:'any',posts:'any',content:'content',ads:'reports',meta:'reports',social:'reports',gbp:'reports',asks:'any'};
+const LOC_TABS={officer:['content','ads','meta','social'],warragul:['launch','posts','socialplan','gbp','asks']};
+const HASHES={launch:'#warragul',posts:'#gbp-posts',socialplan:'#social-posts',content:'#content',ads:'#google-ads',meta:'#meta-ads',social:'#social',gbp:'#google-business-profile',asks:'#what-we-need'};
+const NEEDS={launch:'any',posts:'any',socialplan:'any',content:'content',ads:'reports',meta:'reports',social:'reports',gbp:'reports',asks:'any'};
 const tabs={content:document.getElementById('tab-content'),ads:document.getElementById('tab-ads'),
             meta:document.getElementById('tab-meta'),social:document.getElementById('tab-social'),
-            launch:document.getElementById('tab-launch'),posts:document.getElementById('tab-posts'),gbp:document.getElementById('tab-gbp'),asks:document.getElementById('tab-asks')};
+            launch:document.getElementById('tab-launch'),posts:document.getElementById('tab-posts'),socialplan:document.getElementById('tab-socialplan'),gbp:document.getElementById('tab-gbp'),asks:document.getElementById('tab-asks')};
 const views={content:document.getElementById('view-content'),ads:document.getElementById('view-ads'),
              meta:document.getElementById('view-meta'),social:document.getElementById('view-social'),
-             launch:document.getElementById('view-launch'),posts:document.getElementById('view-posts'),gbp:document.getElementById('view-gbp'),asks:document.getElementById('view-asks')};
+             launch:document.getElementById('view-launch'),posts:document.getElementById('view-posts'),socialplan:document.getElementById('view-socialplan'),gbp:document.getElementById('view-gbp'),asks:document.getElementById('view-asks')};
 function allowed(k){if(!LOC_TABS[LOC].includes(k))return false;if(EMBED&&GROUP[k]!==EMBED)return false;const n=NEEDS[k];return n==='any'?!!(ME.content||ME.reports):n==='content'?!!ME.content:!!ME.reports;}
 function firstAllowed(){return ORDER_TABS.find(allowed)||null;}
 function viewFromHash(){
