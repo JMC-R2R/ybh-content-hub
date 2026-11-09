@@ -1427,7 +1427,7 @@ async function apPanel(){
     p.addEventListener('click',apSend);
   }
   const due=order.filter(k=>DATA[k]&&DATA[k].status==='review'&&!DATA[k].notified);
-  const lock=AP_SET.live===null?'':AP_SET.live?`<span class="ap-lock live">Live: sends go to Tara, CC Jose</span>`:`<span class="ap-lock">Safety lock on: every send goes to ${esc(AP_SET.test)} only</span>`;
+  const lock=AP_SET.live===null?'':AP_SET.live?`<span class="ap-lock live">Automatic sends: live</span>`:`<span class="ap-lock">Automatic sends: safety lock on, to ${esc(AP_SET.test)} only</span>`;
   p.innerHTML=`<div class="ap-ph"><b>📨 Send notice</b><span class="ap-only">Only Jose and Jhen see this</span>${lock}</div>`
     +(due.length?`<div class="ap-list">${due.map(k=>`<label><input type="checkbox" name="apm" value="${k}" checked> ${esc(apMonth(k))} · ${DATA[k].name}</label>`).join('')}</div>
       <div class="ap-btns"><button type="button" class="t" data-send="test">Send test to me</button><button type="button" class="r" data-send="real">Send to Tara (CC Jose)</button></div>`
@@ -1444,15 +1444,15 @@ async function apSend(e){
   const p=document.getElementById('ap-panel'),msg=p.querySelector('.ap-msg'),test=b.dataset.send==='test';
   const ids=[...p.querySelectorAll('input[name=apm]:checked')].map(x=>x.value);
   if(!ids.length){msg.textContent='Tick at least one month.';return;}
-  if(!test&&!confirm('Send the branded notice for '+ids.map(apMonth).join(', ')+' to '+(AP_SET.live===false?AP_SET.test+' (the safety lock is on)':'Tara, CC Jose')+'?'))return;
+  if(!test&&!confirm('Send the branded notice for '+ids.map(apMonth).join(', ')+' to Tara, CC Jose?'))return;
   p.querySelectorAll('[data-send]').forEach(x=>x.disabled=true);msg.textContent='Sending…';
   const {data:qid,error}=await sb.rpc('ybh_send_release',{p_months:ids,p_test:test});
   if(error){msg.textContent=error.message;p.querySelectorAll('[data-send]').forEach(x=>x.disabled=false);return;}
   setTimeout(async()=>{
     let r=null;try{({data:r}=await sb.from('ybh_notice_outbox').select('status,sent_to,last_error').eq('id',qid).maybeSingle());}catch(x){}
     const ok=r&&r.status==='sent';
-    if(ok&&!test&&AP_SET.live)ids.forEach(k=>{if(DATA[k])DATA[k].notified=new Date().toISOString();});
-    if(ok&&!test&&AP_SET.live)renderAll();
+    if(ok&&!test)ids.forEach(k=>{if(DATA[k])DATA[k].notified=new Date().toISOString();});
+    if(ok&&!test)renderAll();
     const p2=document.getElementById('ap-panel');if(!p2)return;
     p2.querySelector('.ap-msg').textContent=ok?'Sent to '+(r.sent_to||[]).join(', ')+'.':(r&&r.last_error)?'Not sent: '+r.last_error:'Still sending. Check the inbox in a minute.';
     p2.querySelectorAll('[data-send]').forEach(x=>x.disabled=false);apRecent(p2);
