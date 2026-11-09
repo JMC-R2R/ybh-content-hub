@@ -199,6 +199,45 @@ section{padding:42px 0}
 .badge{font-family:var(--head);font-weight:800;font-size:10px;letter-spacing:.5px;text-transform:uppercase;padding:3px 11px;border-radius:20px}
 .badge.pub{background:#e4f5f3;color:#2c8077} .badge.plan{background:var(--lilac);color:var(--purple)} .badge.up{background:#f0eef1;color:var(--ink-soft)}
 .badge.review{background:#faedd4;color:#8a5a12} .badge.sched{background:#e2edf7;color:#2f5f8a}
+/* YBH-APPROVALS: clickable status, approvals, Send notice panel, deep-link highlight */
+.badge.approved,.st.approved{background:#dff3e4;color:#1f7a3a} .badge.approved_changes,.st.approved_changes{background:#d9f0ed;color:#226b63}
+.tl.approved{border-left-color:#3aa35b} .tl.approved_changes{border-left-color:#62c4bb}
+.card.approved .bar{background:#3aa35b} .card.approved_changes .bar{background:#62c4bb}
+.mline{position:relative}
+button.badge.ap-set{border:0;cursor:pointer;display:inline-flex;align-items:center;gap:5px;box-shadow:0 0 0 1.5px currentColor inset}
+button.badge.ap-set:hover{filter:brightness(.95)}
+.ap-caret{font-size:8px}
+.ap-by{font-size:11px;color:var(--ink-soft);margin:-4px 0 8px;text-align:right}
+.ap-menu{position:absolute;right:0;top:calc(100% + 6px);z-index:30;width:270px;max-width:86vw;background:#fff;border:1px solid #ebe3ea;border-radius:14px;box-shadow:0 10px 30px rgba(108,39,102,.18);padding:10px;text-transform:none;letter-spacing:0}
+.ap-h{font-family:var(--head);font-weight:800;font-size:13px;color:var(--purple-deep);margin:2px 4px 8px}
+.ap-opt{display:flex;align-items:center;gap:8px;width:100%;text-align:left;background:#f6f4f3;border:2px solid transparent;border-radius:10px;padding:9px 10px;margin:0 0 6px;font-family:var(--head);font-weight:800;font-size:13px;color:var(--ink);cursor:pointer}
+.ap-opt.sel{border-color:var(--purple);background:#fff}
+.ap-dot{flex:none;width:10px;height:10px;border-radius:50%;background:#c9c2cd}
+.ap-dot.approved{background:#3aa35b} .ap-dot.approved_changes{background:#62c4bb} .ap-dot.review{background:#e0a32e}
+.ap-dot.plan{background:var(--purple)} .ap-dot.sched{background:#4a7fb5} .ap-dot.pub{background:var(--teal)}
+.ap-note textarea{width:100%;min-height:84px;border:1px solid #d9cfd8;border-radius:10px;padding:8px;font:inherit;font-size:13px;box-sizing:border-box}
+.ap-act{display:flex;align-items:center;gap:8px;margin-top:6px}
+.ap-go{flex:1;background:var(--purple);color:#fff;border:0;border-radius:10px;padding:10px;font-family:var(--head);font-weight:800;font-size:13px;cursor:pointer}
+.ap-go:disabled{opacity:.6;cursor:default}
+.ap-cancel{background:none;border:0;color:var(--ink-soft);cursor:pointer;font-weight:700;font-size:13px}
+.ap-err{font-size:12px;line-height:1.4;color:#8a5a12;margin:6px 2px 0}
+.card.ap-hl{box-shadow:0 0 0 3px #e0a32e,0 12px 30px rgba(224,163,46,.35);transition:box-shadow .4s}
+.ap-nocomment .cm-form{display:none!important}
+.ap-panel{border:1.5px dashed #c9b6c7;border-radius:16px;padding:14px 16px;margin:0 0 18px;background:#fff}
+.ap-ph{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;font-family:var(--head)}
+.ap-ph b{font-size:15px;color:var(--purple-deep)}
+.ap-only{font-size:11px;color:var(--ink-soft)}
+.ap-lock{font-size:11px;font-weight:800;padding:3px 10px;border-radius:20px;background:#faedd4;color:#8a5a12}
+.ap-lock.live{background:#dff3e4;color:#1f7a3a}
+.ap-list{display:flex;flex-wrap:wrap;gap:6px 16px;margin:12px 0}
+.ap-list label{font-size:13px;display:flex;gap:6px;align-items:center;cursor:pointer}
+.ap-btns{display:flex;flex-wrap:wrap;gap:8px}
+.ap-btns button{border:0;border-radius:24px;padding:9px 16px;font-family:var(--head);font-weight:800;font-size:13px;cursor:pointer}
+.ap-btns button:disabled{opacity:.6;cursor:default}
+.ap-btns .t{background:#f3e9f3;color:var(--purple)} .ap-btns .r{background:var(--purple);color:#fff}
+.ap-msg{font-size:12px;color:var(--ink-soft);margin-top:8px;min-height:1em}
+.ap-recent{font-size:11px;color:var(--ink-soft);margin-top:4px}
+.ap-none{font-size:13px;color:var(--ink-soft);margin-top:8px}
 .card h3{font-family:var(--head);font-weight:900;color:var(--purple);font-size:22px;margin:8px 0 2px;line-height:1.1}
 .card .disc{font-size:12px;color:var(--slate);font-weight:700;margin-bottom:9px}
 .card .brief{font-size:13.5px;color:var(--ink-soft);flex:1}
@@ -1300,7 +1339,7 @@ function renderTimeline(){
   });
   wireDnD();
 }
-function stLabel(s){return {pub:'Published',plan:'Planned',review:'For Approval',sched:'Scheduled',up:'Upcoming'}[s]||'Upcoming';}
+function stLabel(s){return {pub:'Published',plan:'Planned',review:'For Approval',sched:'Scheduled',up:'Upcoming',approved:'Approved',approved_changes:'Approved with changes'}[s]||'Upcoming';} /* YBH-APPROVALS: two new labels */
 
 function renderCards(){
   const c=document.getElementById('cards');c.innerHTML='';
@@ -1315,13 +1354,121 @@ function renderCards(){
     const el=document.createElement('div');
     el.className='card '+d.status;el.id='card-'+id;
     el.innerHTML=`<div class="bar"></div><div class="body">
-      <div class="mline"><span class="mlabel">Month ${i+1} · ${dateLabel(i)}</span><span class="badge ${d.status}">${stLabel(d.status)}</span></div>
+      <div class="mline"><span class="mlabel">Month ${i+1} · ${dateLabel(i)}</span>${badgeHtml(id,d)}</div>${apBy(d)}
       <h3>${d.name}</h3><div class="disc">${d.sub}</div>
       <p class="brief">${d.brief}</p>${inner}${commentsHtml(id)}</div>`;
     c.appendChild(el);
   });
 }
 function renderAll(){renderTimeline();renderCards();}
+/* YBH-APPROVALS (Jhen, 9 Nov 2026): the status badge is the control, plus Send notice and deep links.
+   Status changes go through ybh_set_month_status, which checks permissions on the server. */
+const AP_ALL=['up','plan','review','approved','approved_changes','sched','pub'];
+let AP_OPEN=(()=>{try{const m=location.hash.match(/^#content~([A-Za-z0-9_-]+)$/);if(m){history.replaceState(null,'',location.pathname+location.search+'#content');return m[1];}}catch(e){}return null;})();
+let AP_SET={batch:10,live:null,test:''};
+function apOpts(d){if(!d)return [];if(ME.admin)return AP_ALL.filter(s=>s!==d.status);if(ME.approve&&d.status==='review')return ['approved','approved_changes'];return [];}
+function badgeHtml(id,d){const o=apOpts(d),t=stLabel(d.status);return o.length?`<button type="button" class="badge ${d.status} ap-set" data-ap="${id}" title="Change status">${t}<span class="ap-caret">&#9662;</span></button>`:`<span class="badge ${d.status}">${t}</span>`;}
+function apBy(d){if(!d||!d.by||!d.at)return '';const w=new Date(d.at);if(isNaN(w))return '';return `<div class="ap-by">${esc(stLabel(d.status))} by ${esc(d.by)}, ${w.toLocaleDateString('en-AU',{day:'numeric',month:'short'})}</div>`;}
+function apMonth(id){const i=order.indexOf(id);return i<0?'':dateLabel(i);}
+function apCloseMenus(){document.querySelectorAll('.ap-menu').forEach(m=>m.remove());}
+function apMenu(btn){
+  apCloseMenus();const id=btn.dataset.ap,d=DATA[id],o=apOpts(d);if(!o.length)return;
+  const clinic=!ME.admin;
+  const m=document.createElement('div');m.className='ap-menu';
+  m.innerHTML=`<div class="ap-h">${clinic?esc(apMonth(id))+' is ready for your approval':'Set the status for '+esc(apMonth(id))}</div>`
+    +o.map(s=>`<button type="button" class="ap-opt" data-s="${s}"><span class="ap-dot ${s}"></span>${clinic&&s==='approved'?'Approve':clinic&&s==='approved_changes'?'Approve with changes':stLabel(s)}</button>`).join('')
+    +`<div class="ap-note" hidden><textarea maxlength="2000" placeholder="What would you like changed? Mention the week and the piece if you can."></textarea></div>`
+    +`<div class="ap-act" hidden><button type="button" class="ap-go">Confirm</button><button type="button" class="ap-cancel">Cancel</button></div><div class="ap-err"></div>`;
+  btn.closest('.mline').appendChild(m);
+  let pick=null;
+  m.addEventListener('click',async e=>{
+    e.stopPropagation();
+    const err=m.querySelector('.ap-err'),go=m.querySelector('.ap-go');
+    const op=e.target.closest('.ap-opt');
+    if(op){
+      pick=op.dataset.s;
+      m.querySelectorAll('.ap-opt').forEach(b=>b.classList.toggle('sel',b===op));
+      m.querySelector('.ap-note').hidden=pick!=='approved_changes';
+      m.querySelector('.ap-act').hidden=false;
+      go.textContent=pick==='approved'?'Confirm approval':pick==='approved_changes'?'Approve with these changes':'Set to '+stLabel(pick);
+      err.textContent=(pick==='review'&&ME.admin&&!d.notified)?'This queues the branded notice to the clinic. It goes out '+(AP_SET.batch||10)+' minutes after the last month you release'+(AP_SET.live===false?' (safety lock on: to you only).':'.'):'';
+      if(pick==='approved_changes')m.querySelector('textarea').focus();
+      return;
+    }
+    if(e.target.closest('.ap-cancel')){m.remove();return;}
+    if(e.target.closest('.ap-go')&&pick){
+      const note=pick==='approved_changes'?m.querySelector('textarea').value.trim():null;
+      if(pick==='approved_changes'&&!note){err.textContent='Please add a note about the changes.';return;}
+      go.disabled=true;go.textContent='Saving…';
+      const {data,error}=await sb.rpc('ybh_set_month_status',{p_month:id,p_status:pick,p_note:note});
+      if(error){err.textContent=error.message||'Sorry, that did not save. Please try again.';go.disabled=false;go.textContent='Try again';return;}
+      d.status=pick;d.by=(data&&data.by)||ME.name;d.at=new Date().toISOString();
+      m.remove();
+      if(pick==='approved_changes')await loadComments();else renderAll();
+    }
+  });
+}
+document.getElementById('cards').addEventListener('click',e=>{const b=e.target.closest('.ap-set');if(!b)return;e.stopPropagation();if(b.parentElement.querySelector('.ap-menu'))apCloseMenus();else apMenu(b);});
+document.addEventListener('click',e=>{if(!e.target.closest('.ap-menu')&&!e.target.closest('.ap-set'))apCloseMenus();});
+
+async function apRecent(p){
+  try{
+    const {data}=await sb.from('ybh_notice_outbox').select('id,months,test,status,sent_at,sent_to,created_by,due_at').order('id',{ascending:false}).limit(3);
+    const el=p.querySelector('.ap-recent');if(!el)return;
+    el.innerHTML=(data||[]).map(r=>{const w=r.sent_at?new Date(r.sent_at).toLocaleString('en-AU',{day:'numeric',month:'short',hour:'numeric',minute:'2-digit'}):'';
+      return esc((r.status==='sent'?(r.test?'Test sent':'Sent')+' '+w+' to '+(r.sent_to||[]).join(', '):r.status==='pending'?(r.months||[]).length+' month(s) queued to go '+new Date(r.due_at).toLocaleTimeString('en-AU',{hour:'numeric',minute:'2-digit'}):r.status)+' · '+(r.months||[]).map(apMonth).join(', '));}).join('<br>');
+  }catch(e){}
+}
+async function apPanel(){
+  const c=document.getElementById('cards');if(!c)return;
+  let p=document.getElementById('ap-panel'),first=false;
+  if(!p){
+    first=true;p=document.createElement('div');p.id='ap-panel';p.className='ap-panel';c.parentNode.insertBefore(p,c);
+    p.addEventListener('click',apSend);
+  }
+  const due=order.filter(k=>DATA[k]&&DATA[k].status==='review'&&!DATA[k].notified);
+  const lock=AP_SET.live===null?'':AP_SET.live?`<span class="ap-lock live">Live: sends go to Tara, CC Jose</span>`:`<span class="ap-lock">Safety lock on: every send goes to ${esc(AP_SET.test)} only</span>`;
+  p.innerHTML=`<div class="ap-ph"><b>📨 Send notice</b><span class="ap-only">Only Jose and Jhen see this</span>${lock}</div>`
+    +(due.length?`<div class="ap-list">${due.map(k=>`<label><input type="checkbox" name="apm" value="${k}" checked> ${esc(apMonth(k))} · ${DATA[k].name}</label>`).join('')}</div>
+      <div class="ap-btns"><button type="button" class="t" data-send="test">Send test to me</button><button type="button" class="r" data-send="real">Send to Tara (CC Jose)</button></div>`
+      :`<div class="ap-none">Every month at For Approval has been announced. Moving a month to For Approval queues its notice automatically.</div>`)
+    +`<div class="ap-msg"></div><div class="ap-recent"></div>`;
+  if(first){
+    try{const {data}=await sb.from('ybh_notice_settings').select('live,batch_minutes,test_email').eq('id',1).maybeSingle();
+      if(data){AP_SET={batch:data.batch_minutes,live:data.live,test:data.test_email};return apPanel();}}catch(e){}
+  }
+  apRecent(p);
+}
+async function apSend(e){
+  const b=e.target.closest('[data-send]');if(!b)return;
+  const p=document.getElementById('ap-panel'),msg=p.querySelector('.ap-msg'),test=b.dataset.send==='test';
+  const ids=[...p.querySelectorAll('input[name=apm]:checked')].map(x=>x.value);
+  if(!ids.length){msg.textContent='Tick at least one month.';return;}
+  if(!test&&!confirm('Send the branded notice for '+ids.map(apMonth).join(', ')+' to '+(AP_SET.live===false?AP_SET.test+' (the safety lock is on)':'Tara, CC Jose')+'?'))return;
+  p.querySelectorAll('[data-send]').forEach(x=>x.disabled=true);msg.textContent='Sending…';
+  const {data:qid,error}=await sb.rpc('ybh_send_release',{p_months:ids,p_test:test});
+  if(error){msg.textContent=error.message;p.querySelectorAll('[data-send]').forEach(x=>x.disabled=false);return;}
+  setTimeout(async()=>{
+    let r=null;try{({data:r}=await sb.from('ybh_notice_outbox').select('status,sent_to,last_error').eq('id',qid).maybeSingle());}catch(x){}
+    const ok=r&&r.status==='sent';
+    if(ok&&!test&&AP_SET.live)ids.forEach(k=>{if(DATA[k])DATA[k].notified=new Date().toISOString();});
+    if(ok&&!test&&AP_SET.live)renderAll();
+    const p2=document.getElementById('ap-panel');if(!p2)return;
+    p2.querySelector('.ap-msg').textContent=ok?'Sent to '+(r.sent_to||[]).join(', ')+'.':(r&&r.last_error)?'Not sent: '+r.last_error:'Still sending. Check the inbox in a minute.';
+    p2.querySelectorAll('[data-send]').forEach(x=>x.disabled=false);apRecent(p2);
+  },6000);
+}
+function apDeep(){
+  if(!AP_OPEN||!Object.keys(DATA).length)return;
+  let id=AP_OPEN;if(id==='new')id=order.find(k=>DATA[k]&&DATA[k].status==='review')||null;
+  AP_OPEN=null;
+  const el=id&&document.getElementById('card-'+id);if(!el)return;
+  setTimeout(()=>{el.scrollIntoView({behavior:'smooth',block:'center'});el.classList.add('ap-hl');setTimeout(()=>el.classList.remove('ap-hl'),5000);},400);
+}
+const _apRenderCards=renderCards;
+renderCards=function(){_apRenderCards();document.body.classList.toggle('ap-nocomment',ME.comment===false);if(ME.admin)apPanel();};
+const _apLoadComments=loadComments;
+loadComments=async function(){await _apLoadComments();apDeep();};
 
 // drag & drop
 let dragId=null;
@@ -1872,7 +2019,7 @@ async function loadContent(){
   DATA={};DEFAULT_ORDER=[];
   data.forEach(r=>{
     DATA[r.id]={name:r.name,sub:r.sub,short:r.short,vol:r.vol,status:r.status,
-                brief:r.brief,pills:r.pills,themes:r.themes,note:r.note,downloads:r.downloads};
+                brief:r.brief,pills:r.pills,themes:r.themes,note:r.note,downloads:r.downloads,by:r.status_by,at:r.status_at,notified:r.notified_at}; /* YBH-APPROVALS */
     DEFAULT_ORDER.push(r.id);
   });
   order=load();
@@ -1965,9 +2112,9 @@ async function whoAmI(){
   if(!session||!session.user)return null;
   const email=session.user.email;
   const {data}=await sb.from('ybh_users')
-    .select('name,org,can_view_content,can_view_reports,active').ilike('email',email).maybeSingle();
+    .select('name,org,can_view_content,can_view_reports,active,can_author,can_approve,can_comment').ilike('email',email).maybeSingle();
   if(!data||!data.active)return {email,name:null,content:false,reports:false,staff:false};
-  return {email,name:data.name,content:!!data.can_view_content,reports:!!data.can_view_reports,staff:data.org==='Ready to Rank'};
+  return {email,name:data.name,content:!!data.can_view_content,reports:!!data.can_view_reports,staff:data.org==='Ready to Rank',admin:!!data.can_author,approve:!!data.can_approve,comment:data.can_comment!==false}; /* YBH-APPROVALS */
 }
 async function boot(){
   applyAccess();
