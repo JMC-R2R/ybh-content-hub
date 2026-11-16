@@ -2780,6 +2780,112 @@ document.getElementById('posts-body').addEventListener('click',async e=>{
 });
 tabs.posts.addEventListener('click',()=>{if(!POSTS.loaded)loadPosts();});
 
+/* ==== WG-REVIEW BEGIN ==== */
+/* Approve, Not approved and Comment on every Warragul social post and story (R2R, 16/11/2026).
+   Same buttons as the Warragul GBP posts. Saved by ybh_post_review_act, which checks the login's
+   ybh_users rights on the server and lets the team know in Slack. */
+(function(){
+  const css=document.createElement('style');
+  css.textContent=`
+  .wgr{padding:0 14px 14px;margin-top:auto}
+  .wgr-st{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12.5px;color:var(--ink-soft)}
+  .wgr .gp-acts{margin-top:10px}
+  .wgr .gp-fb,.wgr .wgr-cm{margin-top:10px}
+  .wgr-cm{background:#f3e9f3;border-radius:10px;padding:9px 12px;font-size:13.5px;color:var(--ink)}
+  .wgr-cm b,.wgr .gp-fb b{display:block;font-family:var(--head);font-size:12px;margin-bottom:2px}
+  .wgr textarea{width:100%;box-sizing:border-box;border:2px solid var(--lilac-2);border-radius:10px;padding:8px 10px;font:inherit;font-size:14px;resize:vertical}
+  .sp-card.wgr-ok{border-color:#1c9b5e;box-shadow:inset 0 4px 0 #1c9b5e}
+  .sp-card.wgr-chg{border-color:#d92d20;box-shadow:inset 0 4px 0 #d92d20}`;
+  document.head.appendChild(css);
+})();
+const WGR={rows:{},loaded:false,bound:false};
+function wgrKey(c){
+  const m=c.querySelector('img[src*="assets/warragul-social/"],video[src*="assets/warragul-social/"]');
+  if(!m)return null;
+  const k=(m.getAttribute('src')||'').split('#')[0].split('assets/warragul-social/')[1]||'';
+  return /^[0-9]{4}-[0-9]{2}\/[A-Za-z0-9._-]+$/.test(k)&&k.length<=200?k:null;
+}
+function wgrKind(c){return c.querySelector('.sp-phone')?'story':'post';}
+function wgrLabel(c){
+  const d=(c.querySelector('.sp-date')||{}).textContent||'';
+  let t=((c.querySelector('.sp-cap')||{}).textContent||'').trim().split('\n')[0];
+  if(t.length>70)t=t.slice(0,67).replace(/\s+\S*$/,'')+'…';
+  return (d?d+': ':'')+t;
+}
+function wgrCanApprove(){return !!(ME.approve||ME.admin);}
+function wgrCanComment(){return ME.comment!==false||!!ME.admin;}
+function wgrHtml(k,kind){
+  const r=WGR.rows[k]||{}, done=r.status==='approved', chg=r.status==='changes', K=kind==='story'?'story':'post';
+  const when=r.status_at?fmtWhen(r.status_at):'';
+  let h=`<div class="wgr-st">${done?'<span class="pill done">Approved</span>':chg?'<span class="pill open">Changes requested</span>':'<span class="pill">Waiting on you</span>'}`
+    +(done&&r.status_by?`<span>by ${esc(r.status_by)}${when?', '+esc(when):''}</span>`:'')+`</div>`;
+  if(chg&&r.feedback)h+=`<div class="gp-fb"><b>${ME.staff?'Client feedback':'Your feedback'}${r.status_by?' ('+esc(r.status_by)+')':''}</b>${esc(r.feedback)}</div>`;
+  if(r.comment)h+=`<div class="wgr-cm"><b>Comment${r.comment_by?' from '+esc(r.comment_by):''}</b>${esc(r.comment)}</div>`;
+  h+='<div class="gp-acts">';
+  if(wgrCanApprove()){
+    h+=done?`<button type="button" class="btn2 ghost" data-wgr="undo">Undo approval</button>`
+           :`<button type="button" class="btn2 pri" data-wgr="approve">Approve ${K}</button><button type="button" class="btn2" data-wgr="chg">${chg?'Update feedback':'Not approved'}</button>`;
+    if(chg)h+=`<button type="button" class="btn2 ghost" data-wgr="undo">Withdraw feedback</button>`;
+  }
+  if(wgrCanComment())h+=`<button type="button" class="btn2 ghost" data-wgr="cm">${r.comment?'Edit comment':'Comment'}</button>`;
+  h+='</div>';
+  h+=`<div class="gp-rej" data-wgrbox="chg" hidden><label>What would you like us to change?</label>
+      <textarea rows="3" placeholder="For example: can we use a different photo?">${esc(chg?r.feedback||'':'')}</textarea>
+      <div class="gp-acts"><button type="button" class="btn2 pri" data-wgr="sendchg">Send feedback</button><button type="button" class="btn2 ghost" data-wgr="cancel">Cancel</button></div></div>`;
+  h+=`<div class="gp-rej" data-wgrbox="cm" hidden><label>Your comment</label>
+      <textarea rows="3" placeholder="Anything you'd like us to know about this ${K}">${esc(r.comment||'')}</textarea>
+      <div class="gp-acts"><button type="button" class="btn2 pri" data-wgr="sendcm">Save comment</button>${r.comment?'<button type="button" class="btn2 ghost" data-wgr="delcm">Remove comment</button>':''}<button type="button" class="btn2 ghost" data-wgr="cancel">Cancel</button></div></div>`;
+  return h;
+}
+function wgrPaint(c){
+  const k=c.dataset.wgrKey; if(!k)return;
+  const r=WGR.rows[k]||{};
+  c.classList.toggle('wgr-ok',r.status==='approved');c.classList.toggle('wgr-chg',r.status==='changes');
+  let box=c.querySelector(':scope > .wgr');
+  if(!box){box=document.createElement('div');box.className='wgr';c.appendChild(box);}
+  box.innerHTML=wgrHtml(k,c.dataset.wgrKind);
+}
+function wgrPaintAll(){
+  document.querySelectorAll('#view-socialplan .sp-card').forEach(c=>{
+    if(!c.dataset.wgrKey){const k=wgrKey(c);if(!k)return;c.dataset.wgrKey=k;c.dataset.wgrKind=wgrKind(c);}
+    wgrPaint(c);
+  });
+}
+async function wgrLoad(){
+  if(!ME||!(ME.content||ME.admin))return;
+  const v=document.getElementById('view-socialplan'); if(!v)return;
+  const {data,error}=await sb.rpc('ybh_post_reviews_list',{p_location:'warragul'});
+  if(error){console.warn('WG-REVIEW load',error);return;}
+  WGR.rows={};(data||[]).forEach(r=>{WGR.rows[r.post_key]=r;});
+  WGR.loaded=true;wgrPaintAll();
+  if(!WGR.bound){WGR.bound=true;v.addEventListener('click',wgrClick);}
+}
+async function wgrAct(c,action,note){
+  const {data,error}=await sb.rpc('ybh_post_review_act',{p_key:c.dataset.wgrKey,p_action:action,p_note:note??null,
+    p_label:wgrLabel(c),p_kind:c.dataset.wgrKind,p_location:'warragul'});
+  if(error){const m=error.message||'';toast(m.includes('Tell us')?'Tell us what to change first':m.includes('comment but not approve')?'Your login can comment but not approve':'Couldn’t save that. Try again.');return false;}
+  if(data)WGR.rows[data.post_key]=data;
+  wgrPaint(c);
+  const K=c.dataset.wgrKind==='story'?'Story':'Post';
+  toast(action==='approve'?K+' approved':action==='changes'?'Thanks, we have your feedback':action==='comment'?(note?'Comment saved':'Comment removed'):'Updated');
+  return true;
+}
+async function wgrClick(e){
+  const t=e.target.closest('[data-wgr]'); if(!t)return;
+  const c=t.closest('.sp-card'); if(!c||!c.dataset.wgrKey)return;
+  const a=t.dataset.wgr, box=n=>c.querySelector(`[data-wgrbox="${n}"]`);
+  if(a==='chg'||a==='cm'){c.querySelectorAll('[data-wgrbox]').forEach(b=>b.hidden=true);const b=box(a);b.hidden=false;b.querySelector('textarea').focus();return;}
+  if(a==='cancel'){t.closest('[data-wgrbox]').hidden=true;return;}
+  t.disabled=true;
+  if(a==='approve')await wgrAct(c,'approve');
+  else if(a==='undo')await wgrAct(c,'undo');
+  else if(a==='sendchg'){const v=box('chg').querySelector('textarea').value.trim();if(v.length<3){toast('Tell us what to change first');t.disabled=false;return;}await wgrAct(c,'changes',v);}
+  else if(a==='sendcm'){const v=box('cm').querySelector('textarea').value.trim();if(!v){toast('Write a comment first');t.disabled=false;return;}await wgrAct(c,'comment',v);}
+  else if(a==='delcm')await wgrAct(c,'comment','');
+  if(document.body.contains(t))t.disabled=false;
+}
+{const _wgrBoot=boot;boot=async function(){await _wgrBoot();wgrLoad();};}
+/* ==== WG-REVIEW END ==== */
 start();
 </script>
 </body>
