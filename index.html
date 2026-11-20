@@ -2795,7 +2795,8 @@ tabs.posts.addEventListener('click',()=>{if(!POSTS.loaded)loadPosts();});
   .wgr-cm b,.wgr .gp-fb b{display:block;font-family:var(--head);font-size:12px;margin-bottom:2px}
   .wgr textarea{width:100%;box-sizing:border-box;border:2px solid var(--lilac-2);border-radius:10px;padding:8px 10px;font:inherit;font-size:14px;resize:vertical}
   .sp-card.wgr-ok{border-color:#1c9b5e;box-shadow:inset 0 4px 0 #1c9b5e}
-  .sp-card.wgr-chg{border-color:#d92d20;box-shadow:inset 0 4px 0 #d92d20}`;
+  .sp-card.wgr-chg{border-color:#d92d20;box-shadow:inset 0 4px 0 #d92d20}
+  .wgr a.wgr-dl{text-decoration:none;display:inline-flex;align-items:center;justify-content:center}`;
   document.head.appendChild(css);
 })();
 const WGR={rows:{},loaded:false,bound:false};
@@ -2822,6 +2823,10 @@ function wgrHtml(k,kind){
   if(chg&&r.feedback)h+=`<div class="gp-fb"><b>${ME.staff?'Client feedback':'Your feedback'}${r.status_by?' ('+esc(r.status_by)+')':''}</b>${esc(r.feedback)}</div>`;
   if(r.comment)h+=`<div class="wgr-cm"><b>Comment${r.comment_by?' from '+esc(r.comment_by):''}</b>${esc(r.comment)}</div>`;
   h+='<div class="gp-acts">';
+  /* WG-DOWNLOAD: team only Download for the post or story image, so whoever uploads it to Instagram and
+     Facebook saves the exact file shown on the card (Jhen 20/11/2026, same idea as the hub's GBP Download).
+     The key is already checked by wgrKey, and the file keeps its own name. */
+  if(ME.staff)h+=`<a class="btn2 wgr-dl" href="assets/warragul-social/${esc(k)}" download="${esc(k.split('/').pop())}" title="Download the ${K} image to upload to Instagram and Facebook">Download ${K}</a>`;
   if(wgrCanApprove()){
     h+=done?`<button type="button" class="btn2 ghost" data-wgr="undo">Undo approval</button>`
            :`<button type="button" class="btn2 pri" data-wgr="approve">Approve ${K}</button><button type="button" class="btn2" data-wgr="chg">${chg?'Update feedback':'Not approved'}</button>`;
