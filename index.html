@@ -741,6 +741,26 @@ body.embed #gate .gate-embed{font-size:15px;line-height:1.5;color:var(--slate)}
 .slider .track{position:relative;height:8px;border-radius:4px;background:#e6e6e6}
 .slider .fill{position:absolute;left:0;top:0;bottom:0;width:62%;border-radius:4px;background:linear-gradient(90deg,#62c4bb,#90278e)}
 .slider .emo{position:absolute;left:62%;top:50%;transform:translate(-50%,-50%);font-size:24px}
+/* WG-MONTHS: month cards on the Warragul Social posts tab, like the standard Social posts tab (Jhen 27/11/2026). */
+.wgm-strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px;margin:20px 0 0}
+.wgm-card{appearance:none;text-align:left;font:inherit;border:1px solid var(--lilac-2);border-radius:12px;background:#fff;color:var(--ink);padding:12px 13px;cursor:pointer;display:flex;flex-direction:column;gap:3px;transition:border-color .15s,box-shadow .15s,transform .15s}
+.wgm-card:hover{border-color:var(--purple);transform:translateY(-1px)}
+.wgm-card:focus-visible{outline:3px solid var(--purple);outline-offset:2px}
+.wgm-card.on{border-color:var(--purple);background:var(--purple);color:#fff}
+.wgm-card .mn{font-family:var(--head);font-size:10.5px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;opacity:.75}
+.wgm-card .mm{font-family:var(--head);font-size:18px;font-weight:900;line-height:1.2}
+.wgm-card .mp{font-size:12.5px;opacity:.9}
+.wgm-card .mbar{height:5px;border-radius:5px;background:var(--lilac-2);overflow:hidden;margin-top:6px}
+.wgm-card .mbar i{display:block;height:100%;width:0;background:#1c9b5e;border-radius:5px;transition:width .3s}
+.wgm-card.on .mbar{background:rgba(255,255,255,.3)}.wgm-card.on .mbar i{background:#fff}
+.wgm-card .mtag{align-self:flex-start;margin-top:6px;font-family:var(--head);font-size:10px;font-weight:900;letter-spacing:.06em;text-transform:uppercase;border-radius:99px;padding:2px 8px;background:#e4f5ec;color:#1c7c54}
+.wgm-card.on .mtag{background:rgba(255,255,255,.2);color:#fff}
+.wgm-card.locked{cursor:default;color:var(--ink-soft);background:repeating-linear-gradient(135deg,#faf7fa,#faf7fa 8px,#fff 8px,#fff 16px)}
+.wgm-card.locked:hover{transform:none;border-color:var(--lilac-2)}
+.wgm-card .lockrow{font-size:12.5px;font-weight:700}
+#view-socialplan .sp-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:860px){#view-socialplan .sp-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:540px){#view-socialplan .sp-grid{grid-template-columns:minmax(0,1fr)}}
 </style>
 </head>
 <body class="locked">
@@ -1142,10 +1162,14 @@ body.embed #gate .gate-embed{font-size:15px;line-height:1.5;color:var(--slate)}
 <main id="view-socialplan" class="view" role="tabpanel" aria-labelledby="tab-socialplan" hidden>
   <div class="wg-top"><div class="wrap">
     <div class="kick">Instagram &amp; Facebook · Warragul</div>
-    <h1>November social posts, <span class="t">13 posts and 8 stories.</span></h1>
-    <p>The first monthly social plan for Warragul. Three posts a week (Monday, Wednesday, Friday) and two stories a week, following on from the launch posts and the three pinned posts.</p>
+    <h1>Social posts, <span class="t">one month at a time.</span></h1>
+    <p>Pick a month to see its posts and stories. Approve each one, or tell us what to change.</p>
+    <div class="wgm-strip" id="wgmStrip" role="tablist" aria-label="Months"></div><!-- WG-MONTHS -->
   </div></div>
-  <section class="wg-sec"><div class="wrap">
+  <section class="wg-sec" data-wgmonth="2026-11"><div class="wrap"><!-- WG-MONTHS: November plan -->
+<h2 style="font-family:var(--head);font-weight:900;color:var(--purple);font-size:26px;margin:30px 0 12px">November 2026, <span style="color:var(--ink)">13 posts and 8 stories</span></h2>
+  <p style="color:var(--ink-soft);max-width:760px;margin:0 0 6px">The first monthly social plan for Warragul. Three posts a week (Monday, Wednesday, Friday) and two stories a week, following on from the launch posts and the three pinned posts.</p>
+
   <h2 style="font-family:var(--head);font-weight:900;color:var(--purple);font-size:26px;margin:30px 0 12px">The plan at a glance</h2>
   <div class="wg-card"><div class="wg-tblw"><table class="wg-tbl"><tbody>
    <tr><td><b>Goal</b></td><td>Let Warragul know a new allied health clinic has opened inside Universal Athlete Centre, and turn that into first bookings.</td></tr>
@@ -1269,6 +1293,131 @@ Want nutrition support that fits real life? Book Dietetics with Shannon at Your 
    <li>The meet-the-team videos from the filming brief on the Launch plan tab.</li>
    <li>The original Universal Athlete Centre photo (the one we have is too small for a full post).</li>
   </ul><p class="wg-note">Upload them on the What we need from you tab.</p></div>
+  </div></section>
+<section class="wg-sec" data-wgmonth="2026-12" hidden><div class="wrap"><!-- WG-MONTHS: December plan -->
+<h2 style="font-family:var(--head);font-weight:900;color:var(--purple);font-size:26px;margin:30px 0 12px">December 2026, <span style="color:var(--ink)">13 posts and 9 stories</span></h2>
+  <p style="color:var(--ink-soft);max-width:760px;margin:0 0 6px">Three posts a week (Monday, Wednesday, Friday) and two stories a week. One service each week, Christmas hours and the health fund extras last call.</p>
+<h2 style="font-family:var(--head);font-weight:900;color:var(--purple);font-size:26px;margin:30px 0 12px">The plan at a glance</h2>
+  <div class="wg-card"><div class="wg-tblw"><table class="wg-tbl"><tbody>
+   <tr><td><b>Goal</b></td><td>Turn November’s introductions into bookings, one service at a time, and catch the health fund extras deadline on 31 December.</td></tr>
+   <tr><td><b>Weekly focus</b></td><td>One service per week: Physiotherapy, then Exercise Physiology, then Myotherapy and Remedial Massage, then Dietetics, then Christmas and the new year.</td></tr>
+   <tr><td><b>Timely hooks</b></td><td>Summer sport, training in the heat, the Christmas rush, health fund extras ending 31 December, school holidays and the long drive home.</td></tr>
+   <tr><td><b>Stories</b></td><td>Two a week, all interactive: polls, emoji sliders and questions. Every post is also shared to stories, so the stories cover new topics.</td></tr>
+   <tr><td><b>Your team</b></td><td>Natasha (Physiotherapy), James and Alana (Exercise Physiology), Christine (Myotherapy and Remedial Massage) and Shannon (Dietetics). Each has their own post.</td></tr>
+  </tbody></table></div></div>
+<h2 style="font-family:var(--head);font-weight:900;color:var(--purple);font-size:26px;margin:30px 0 12px">Posts</h2>
+  <div class="sp-grid"><div class="sp-card"><img src="assets/warragul-social/2026-12/YBH-Warragul-Dec-02-meet-natasha.jpg" alt="" loading="lazy"><div class="sp-meta"><span class="sp-date">Wed 2 Dec</span><span class="sp-tags"><span class="sp-svc">Physiotherapy</span><span class="sp-pill sp-Local">Local</span></span></div><div class="sp-cap">Weekend in the garden, then a back that won&#x27;t let you stand up straight? 🌿
+
+Summer jobs like weeding, mowing and lifting bags of mulch can leave your back stiff and sore. A Physiotherapy assessment looks at how you move, what&#x27;s driving the pain and what you can do at home to settle it.
+
+Book with Natasha at Your Body Hub Warragul, inside Universal Athlete Centre. No referral needed. Book via the link in our bio or call (03) 8578 6544.
+
+#Warragul #Physiotherapy #BackPain #YourBodyHub</div></div><div class="sp-card"><img src="assets/warragul-social/2026-12/YBH-Warragul-Dec-04-rolled-your-ankle.jpg" alt="" loading="lazy"><div class="sp-meta"><span class="sp-date">Fri 4 Dec</span><span class="sp-tags"><span class="sp-svc">Physiotherapy</span><span class="sp-pill sp-Act">Act</span></span></div><div class="sp-cap">Rolled your ankle? 🦶
+
+Ankle sprains are one of the most common summer sport injuries, and they can happen again if the ankle isn&#x27;t rehabbed properly.
+
+A Physiotherapy assessment checks how bad the sprain is, what to do in the first few days, and the strength and balance work that helps you get back to sport with confidence.
+
+Book with Natasha at Your Body Hub Warragul. Link in bio or call (03) 8578 6544.
+
+#Warragul #AnkleSprain #Physiotherapy #SummerSport</div></div><div class="sp-card"><img src="assets/warragul-social/2026-12/YBH-Warragul-Dec-07-training-in-the-heat.jpg" alt="" loading="lazy"><div class="sp-meta"><span class="sp-date">Mon 7 Dec</span><span class="sp-tags"><span class="sp-svc">Exercise Physiology</span><span class="sp-pill sp-Help">Help</span></span></div><div class="sp-cap">Training through a Gippsland summer? ☀️ James, our Exercise Physiologist, has four tips:
+
+1. Train early or late, out of the hottest part of the day
+2. Drink water before, during and after you train
+3. Ease in as the weather warms up, rather than going full intensity on the first hot day
+4. Stop if you feel dizzy or sick, or get a headache. Cool down, and get help if it doesn&#x27;t settle
+
+Living with a heart condition or diabetes, or on medication? Check with your GP, or book in with James or Alana for a program that suits you.
+
+#Warragul #ExercisePhysiology #SummerTraining #YourBodyHub</div></div><div class="sp-card"><img src="assets/warragul-social/2026-12/YBH-Warragul-Dec-09-meet-alana-and-james.jpg" alt="" loading="lazy"><div class="sp-meta"><span class="sp-date">Wed 9 Dec</span><span class="sp-tags"><span class="sp-svc">Exercise Physiology</span><span class="sp-pill sp-Local">Local</span></span></div><div class="sp-cap">Living with diabetes, arthritis or a heart condition, and not sure where to start with exercise? 💪
+
+Alana and James are the Exercise Physiologists at Your Body Hub Warragul. They&#x27;re university qualified to build exercise programs for people managing health conditions, recovering from injury or wanting to stay strong as they get older.
+
+Sessions run inside Universal Athlete Centre, 7 Neilson Court, so you train with real equipment and real support.
+
+Book via the link in our bio.
+
+#Warragul #ExercisePhysiology #YourBodyHub</div></div><div class="sp-card"><img src="assets/warragul-social/2026-12/YBH-Warragul-Dec-11-gp-care-plan.jpg" alt="" loading="lazy"><div class="sp-meta"><span class="sp-date">Fri 11 Dec</span><span class="sp-tags"><span class="sp-svc">Exercise Physiology</span><span class="sp-pill sp-Act">Act</span></span></div><div class="sp-cap">Has your GP given you a care plan for a chronic condition? 📋
+
+You may be able to use it for Exercise Physiology sessions with a Medicare rebate. Ask your GP whether you&#x27;re eligible, then book in with James or Alana at Your Body Hub Warragul and bring your plan to your first visit.
+
+We also accept WorkSafe, TAC, DVA and NDIS referrals. Questions about what&#x27;s covered? Call us on (03) 8578 6544.
+
+#Warragul #ExercisePhysiology #Medicare #YourBodyHub</div><div class="sp-note">Please check: can patients use a GP care plan for Exercise Physiology with a Medicare rebate at Warragul?</div></div><div class="sp-card"><img src="assets/warragul-social/2026-12/YBH-Warragul-Dec-14-tight-shoulders-christmas-rush.jpg" alt="" loading="lazy"><div class="sp-meta"><span class="sp-date">Mon 14 Dec</span><span class="sp-tags"><span class="sp-svc">Myotherapy</span><span class="sp-pill sp-Help">Help</span></span></div><div class="sp-cap">Shopping, wrapping, long drives, late nights. December can land right in your neck and shoulders 😣
+
+Christine&#x27;s three quick resets:
+
+1. Carry bags in both hands, not all on one side
+2. On long drives, stop every couple of hours and roll your shoulders back
+3. Every hour at the desk, stand up and gently turn your head side to side
+
+If the tightness hangs around for more than a week, or you&#x27;re getting headaches that start in your neck, Myotherapy may help. Book with Christine via the link in our bio.
+
+#Warragul #Myotherapy #NeckPain #YourBodyHub</div></div><div class="sp-card"><img src="assets/warragul-social/2026-12/YBH-Warragul-Dec-16-myotherapy-or-remedial-massage.jpg" alt="" loading="lazy"><div class="sp-meta"><span class="sp-date">Wed 16 Dec</span><span class="sp-tags"><span class="sp-svc">Myotherapy and Remedial Massage</span><span class="sp-pill sp-Local">Local</span></span></div><div class="sp-cap">Myotherapy or Remedial Massage? Which one should I book? 🤔
+
+Myotherapy: an assessment plus hands-on treatment for muscle and joint pain that keeps coming back.
+
+Remedial Massage: targeted massage for tight, sore muscles and everyday aches.
+
+At Your Body Hub Warragul, Christine does both. Not sure which suits you? Book in and she&#x27;ll point you in the right direction.
+
+Find us inside Universal Athlete Centre, 7 Neilson Court. Link in bio.
+
+#Warragul #Myotherapy #RemedialMassage #YourBodyHub</div><div class="sp-note">Please check: what is Christine&#x27;s job title? We&#x27;ve left it out until you confirm.</div></div><div class="sp-card"><img src="assets/warragul-social/2026-12/YBH-Warragul-Dec-18-thirteen-days-left.jpg" alt="" loading="lazy"><div class="sp-meta"><span class="sp-date">Fri 18 Dec</span><span class="sp-tags"><span class="sp-svc">All services</span><span class="sp-pill sp-Act">Act</span></span></div><div class="sp-cap">13 days left to use this year&#x27;s health fund extras 💜
+
+Many extras limits reset on 1 January, so anything you haven&#x27;t used may be gone. Check what you have left with your fund, then book in before 31 December.
+
+At Your Body Hub Warragul: Physiotherapy, Exercise Physiology, Myotherapy, Remedial Massage and Dietetics.
+
+Book via the link in our bio or call (03) 8578 6544.
+
+#Warragul #HealthFund #YourBodyHub</div></div><div class="sp-card"><img src="assets/warragul-social/2026-12/YBH-Warragul-Dec-21-school-holiday-snacks.jpg" alt="" loading="lazy"><div class="sp-meta"><span class="sp-date">Mon 21 Dec</span><span class="sp-tags"><span class="sp-svc">Dietetics</span><span class="sp-pill sp-Help">Help</span></span></div><div class="sp-cap">School holidays are here, and so are the &quot;I&#x27;m hungry&quot; calls every half hour 😅
+
+Shannon, our Accredited Practising Dietitian, has three easy snack ideas:
+
+1. Frozen fruit: grapes, banana or watermelon, straight from the freezer
+2. Cheese and crackers with cucumber or capsicum sticks
+3. Yoghurt with a sprinkle of muesli or fruit
+
+No rules, no guilt. Just a few go-tos to keep everyone going between meals.
+
+Want support with picky eating or family nutrition? Book with Shannon via the link in our bio.
+
+#Warragul #Dietitian #KidsNutrition #YourBodyHub</div></div><div class="sp-card"><img src="assets/warragul-social/2026-12/YBH-Warragul-Dec-23-christmas-hours.jpg" alt="" loading="lazy"><div class="sp-meta"><span class="sp-date">Wed 23 Dec</span><span class="sp-tags"><span class="sp-svc">All services</span><span class="sp-pill sp-Local">Local</span></span></div><div class="sp-cap">Here are our Christmas hours at Your Body Hub Warragul 🎄
+
+Thu 24 Dec (Christmas Eve): 9am to 4pm
+Fri 25 to Mon 28 Dec: Closed
+Tue 29 and Wed 30 Dec: 9am to 8pm
+Thu 31 Dec (New Year&#x27;s Eve): 9am to 5:30pm
+Fri 1 Jan: Closed
+
+We&#x27;re back to our usual hours from Saturday 2 January. Need to see us before Christmas Day? Book via the link in our bio and choose Warragul.
+
+Merry Christmas from the team!
+
+#Warragul #ChristmasHours #YourBodyHub</div><div class="sp-note">Please check: do these Christmas hours apply at Warragul as well as Officer?</div></div><div class="sp-card"><img src="assets/warragul-social/2026-12/YBH-Warragul-Dec-25-merry-christmas.jpg" alt="" loading="lazy"><div class="sp-meta"><span class="sp-date">Fri 25 Dec</span><span class="sp-tags"><span class="sp-svc">All five</span><span class="sp-pill sp-Local">Local</span></span></div><div class="sp-cap">Merry Christmas from Natasha, James, Alana, Shannon and Christine 🎄
+
+Thank you, Warragul, for such a warm welcome in our first few months at Universal Athlete Centre. We hope you have a safe and happy break with the people you love.
+
+#Warragul #YourBodyHub #MerryChristmas</div></div><div class="sp-card"><img src="assets/warragul-social/2026-12/YBH-Warragul-Dec-28-long-drive-home.jpg" alt="" loading="lazy"><div class="sp-meta"><span class="sp-date">Mon 28 Dec</span><span class="sp-tags"><span class="sp-svc">Physiotherapy</span><span class="sp-pill sp-Help">Help</span></span></div><div class="sp-cap">Heading home after Christmas? Hours in the car can leave your back and hips stiff 🚗
+
+Natasha&#x27;s three stretches for the first stop:
+
+1. Stand tall, hands on your lower back, and gently lean back
+2. Hold the car for balance and pull one heel towards your bum to stretch the front of your thigh
+3. Walk for two minutes before you get back in
+
+If back pain is still hanging around after the holidays, book with Natasha via the link in our bio.
+
+#Warragul #BackPain #Physiotherapy #YourBodyHub</div></div><div class="sp-card"><img src="assets/warragul-social/2026-12/YBH-Warragul-Dec-30-new-year-goals.jpg" alt="" loading="lazy"><div class="sp-meta"><span class="sp-date">Wed 30 Dec</span><span class="sp-tags"><span class="sp-svc">All services</span><span class="sp-pill sp-Act">Act</span></span></div><div class="sp-cap">Thinking about getting fitter, stronger or back into sport in 2027? 🎯
+
+The best start is a plan that suits your body. Whether it&#x27;s an injury that&#x27;s been hanging around, a health condition you want to manage, or a goal you want to train for, the Your Body Hub Warragul team can help you start the year right.
+
+Health fund extras limits often reset in the new year, too. Book now for January via the link in our bio or call (03) 8578 6544.
+
+#Warragul #NewYear #YourBodyHub</div></div></div>
+<h2 style="font-family:var(--head);font-weight:900;color:var(--purple);font-size:26px;margin:30px 0 12px">Stories</h2>
+  <div class="sp-grid"><div class="sp-card"><div class="sp-phone"><img src="assets/warragul-social/2026-12/YBH-Warragul-Dec-story-01-sleep-position-poll.jpg" alt="" loading="lazy"><div class="ig-top"><div class="ig-bars"><i class="on"></i><i></i></div><div class="ig-who"><div class="ig-av"></div>yourbodyhubwarragul <span>2h</span></div></div><div class="stk poll" style="top:30%"><div class="q">How do you sleep?</div><div class="o"><div>On my back</div><div>On my side</div><div>On my stomach</div></div></div></div><div class="sp-meta"><span class="sp-date">Tue 1 Dec</span><span class="sp-tags"><span class="sp-svc">Physiotherapy</span><span class="sp-pill sp-Story">Poll</span></span></div><div class="sp-cap">Poll sticker. Light and fun, and the top answer can become a Physiotherapy tip in January.</div></div><div class="sp-card"><div class="sp-phone"><img src="assets/warragul-social/2026-12/YBH-Warragul-Dec-story-03-running-shoes-poll.jpg" alt="" loading="lazy"><div class="ig-top"><div class="ig-bars"><i class="on"></i><i></i></div><div class="ig-who"><div class="ig-av"></div>yourbodyhubwarragul <span>2h</span></div></div><div class="stk poll" style="top:50%;width:56%"><div class="q">Last new running shoes?</div><div class="o"><div>This year</div><div>Can&#x27;t remember</div></div></div></div><div class="sp-meta"><span class="sp-date">Thu 3 Dec</span><span class="sp-tags"><span class="sp-svc">Physiotherapy</span><span class="sp-pill sp-Story">Poll</span></span></div><div class="sp-cap">Poll sticker over the photo, for the summer running season.</div></div><div class="sp-card"><div class="sp-phone"><img src="assets/warragul-social/2026-12/YBH-Warragul-Dec-story-08-favourite-way-to-move.jpg" alt="" loading="lazy"><div class="ig-top"><div class="ig-bars"><i class="on"></i><i></i></div><div class="ig-who"><div class="ig-av"></div>yourbodyhubwarragul <span>2h</span></div></div><div class="stk qst" style="top:58%"><div class="t">What&#x27;s your favourite way to move?</div><div class="a">Type something...</div></div></div><div class="sp-meta"><span class="sp-date">Tue 8 Dec</span><span class="sp-tags"><span class="sp-svc">Exercise Physiology</span><span class="sp-pill sp-Story">Question</span></span></div><div class="sp-cap">Question sticker. The answers can become story content in January.</div></div><div class="sp-card"><div class="sp-phone"><img src="assets/warragul-social/2026-12/YBH-Warragul-Dec-story-10-holiday-motivation-slider.jpg" alt="" loading="lazy"><div class="ig-top"><div class="ig-bars"><i class="on"></i><i></i></div><div class="ig-who"><div class="ig-av"></div>yourbodyhubwarragul <span>2h</span></div></div><div class="stk slider" style="top:81%"><div class="t">Holiday motivation</div><div class="track"><div class="fill"></div><div class="emo">💪</div></div></div></div><div class="sp-meta"><span class="sp-date">Thu 10 Dec</span><span class="sp-tags"><span class="sp-svc">Exercise Physiology</span><span class="sp-pill sp-Story">Emoji slider</span></span></div><div class="sp-cap">Emoji slider with Alana and James.</div></div><div class="sp-card"><div class="sp-phone"><img src="assets/warragul-social/2026-12/YBH-Warragul-Dec-story-15-massage-pressure-poll.jpg" alt="" loading="lazy"><div class="ig-top"><div class="ig-bars"><i class="on"></i><i></i></div><div class="ig-who"><div class="ig-av"></div>yourbodyhubwarragul <span>2h</span></div></div><div class="stk poll" style="top:60%"><div class="q">Massage pressure?</div><div class="o"><div>Firm</div><div>Gentle</div><div>Somewhere in between</div></div></div></div><div class="sp-meta"><span class="sp-date">Tue 15 Dec</span><span class="sp-tags"><span class="sp-svc">Remedial Massage</span><span class="sp-pill sp-Story">Poll</span></span></div><div class="sp-cap">Poll sticker with Christine.</div></div><div class="sp-card"><div class="sp-phone"><img src="assets/warragul-social/2026-12/YBH-Warragul-Dec-story-17-heat-or-ice-poll.jpg" alt="" loading="lazy"><div class="ig-top"><div class="ig-bars"><i class="on"></i><i></i></div><div class="ig-who"><div class="ig-av"></div>yourbodyhubwarragul <span>2h</span></div></div><div class="stk poll" style="top:77%;width:60%"><div class="q">Heat pack or ice pack?</div><div class="o"><div>Heat</div><div>Ice</div><div>Depends</div></div></div></div><div class="sp-meta"><span class="sp-date">Thu 17 Dec</span><span class="sp-tags"><span class="sp-svc">Myotherapy</span><span class="sp-pill sp-Story">Poll</span></span></div><div class="sp-cap">Poll sticker. A preference poll only, with no advice on which to use.</div></div><div class="sp-card"><div class="sp-phone"><img src="assets/warragul-social/2026-12/YBH-Warragul-Dec-story-22-christmas-lunch-poll.jpg" alt="" loading="lazy"><div class="ig-top"><div class="ig-bars"><i class="on"></i><i></i></div><div class="ig-who"><div class="ig-av"></div>yourbodyhubwarragul <span>2h</span></div></div><div class="stk poll" style="top:58%"><div class="q">Christmas lunch?</div><div class="o"><div>Prawns</div><div>Roast</div><div>Pav</div><div>The leftovers</div></div></div></div><div class="sp-meta"><span class="sp-date">Tue 22 Dec</span><span class="sp-tags"><span class="sp-svc">Dietetics</span><span class="sp-pill sp-Story">Poll</span></span></div><div class="sp-cap">Poll sticker. Just for fun before Christmas.</div></div><div class="sp-card"><div class="sp-phone"><img src="assets/warragul-social/2026-12/YBH-Warragul-Dec-story-24-ready-for-tomorrow-slider.jpg" alt="" loading="lazy"><div class="ig-top"><div class="ig-bars"><i class="on"></i><i></i></div><div class="ig-who"><div class="ig-av"></div>yourbodyhubwarragul <span>2h</span></div></div><div class="stk slider" style="top:79%"><div class="t">Christmas ready?</div><div class="track"><div class="fill"></div><div class="emo">🎄</div></div></div></div><div class="sp-meta"><span class="sp-date">Thu 24 Dec</span><span class="sp-tags"><span class="sp-svc">All services</span><span class="sp-pill sp-Story">Emoji slider</span></span></div><div class="sp-cap">Emoji slider on Christmas Eve. The Christmas hours go out by sharing the Wed 23 post to stories.</div></div><div class="sp-card"><div class="sp-phone"><img src="assets/warragul-social/2026-12/YBH-Warragul-Dec-story-29-best-thing-question.jpg" alt="" loading="lazy"><div class="ig-top"><div class="ig-bars"><i class="on"></i><i></i></div><div class="ig-who"><div class="ig-av"></div>yourbodyhubwarragul <span>2h</span></div></div><div class="stk qst" style="top:20%"><div class="t">Tell us!</div><div class="a">Type something...</div></div></div><div class="sp-meta"><span class="sp-date">Tue 29 Dec</span><span class="sp-tags"><span class="sp-svc">All services</span><span class="sp-pill sp-Story">Question</span></span></div><div class="sp-cap">Question sticker, looking back on the year.</div></div></div>
   </div></section>
 </main>
 
@@ -2891,6 +3040,32 @@ async function wgrClick(e){
 }
 {const _wgrBoot=boot;boot=async function(){await _wgrBoot();wgrLoad();};}
 /* ==== WG-REVIEW END ==== */
+/* ==== WG-MONTHS BEGIN ==== */
+/* Month cards on the Warragul Social posts tab (Jhen 27/11/2026). Each month is a section[data-wgmonth];
+   the cards count approvals from WG-REVIEW's rows, whose keys start with the month folder (2026-12/...). */
+const WGM={month:null,next:'January 2027'};
+function wgmMonths(){return [...document.querySelectorAll('#view-socialplan section[data-wgmonth]')].map(s=>s.dataset.wgmonth);}
+function wgmName(k){const [y,m]=k.split('-');return ['January','February','March','April','May','June','July','August','September','October','November','December'][+m-1]+' '+y;}
+function wgmStrip(){
+  const el=document.getElementById('wgmStrip'); if(!el)return;
+  const keys=wgmMonths(); if(!WGM.month||!keys.includes(WGM.month))WGM.month=keys[keys.length-1];
+  el.innerHTML=keys.map(k=>{
+    const sec=document.querySelector(`#view-socialplan section[data-wgmonth="${k}"]`);
+    const cards=[...sec.querySelectorAll('.sp-card')], all=cards.length;
+    const ok=cards.filter(c=>{const key=c.dataset.wgrKey||wgrKey(c);return key&&(WGR.rows[key]||{}).status==='approved';}).length;
+    const done=all&&ok===all, pct=all?Math.round(ok/all*100):0;
+    return `<button type="button" class="wgm-card${k===WGM.month?' on':''}" role="tab" aria-selected="${k===WGM.month}" data-wgm="${k}">
+      <span class="mn">${all} items</span><span class="mm">${wgmName(k)}</span><span class="mp">${ok} of ${all} approved</span>
+      <span class="mbar"><i style="width:${pct}%"></i></span>${done?'<span class="mtag">&#10003; All approved</span>':''}</button>`;
+  }).join('')+`<div class="wgm-card locked" aria-disabled="true"><span class="mn">Coming up</span><span class="mm">${WGM.next}</span><span class="lockrow">Opens when it is ready for you</span></div>`;
+  document.querySelectorAll('#view-socialplan section[data-wgmonth]').forEach(s=>{s.hidden=s.dataset.wgmonth!==WGM.month;});
+}
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('#wgmStrip [data-wgm]');if(!b)return;WGM.month=b.dataset.wgm;wgmStrip();});
+{const _wgmPaint=wgrPaint;wgrPaint=function(c){_wgmPaint(c);if(WGR.loaded)wgmStrip();};}
+{const _wgmLoad=wgrLoad;wgrLoad=async function(){await _wgmLoad();wgmStrip();};}
+wgmStrip();
+/* ==== WG-MONTHS END ==== */
+
 start();
 </script>
 </body>
